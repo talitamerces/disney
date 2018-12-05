@@ -1,0 +1,54 @@
+
+<ui:composition template="/resources/templates/loginTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="head">
+        <h:head>
+            <ui:insert name="head.meta">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            </ui:insert>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+           
+            <ui:insert name="head.title">
+                <title>WebSinC - Sistema Web para buscas em Corpora anotados em XML </title>
+            </ui:insert>
+           
+        </h:head>
+    </ui:define>
+    
+    <ui:define name="body.content.center">
+       <h:form>
+        <div style="float: left; margin-left:20px; margin-right:20px;" >
+        
+        
+         <br/>
+            <p:fieldset id="fieldset" style="width: 800px;">
+                
+                <p style="font-size: 12px;"/>
+                <br/>
+                  <div class="apresentacao">             
+                <h1> A Linguística de Corpus</h1>
+                <P> A Linguística de Corpus tem sido compreendida como o 
+                    trabalho que possibilita o tratamento do dado de língua em meio eletrônico.</P> 
+                <P>Esse campo vem suprir a necessidade de ferramentas, métodos e tecnologias que possibilitam a
+                    transformação de meros aglomerados de textos (documentos guardados muitas vezes com pouca ou 
+                    nenhuma utilidade prática) em corpora manipuláveis, versáteis e com possibilidade de recuperação 
+                    automática de informações, graças ao desenvolvimento e utilização de tecnologias digitais que, além
+                    de fomentar investigações cientifícas em pesquisa básica – relativas à fronteira do conhecimento 
+                    linguístico, filológico, dialectológico, lexicográfico – também contribui para a preservação, divulgação
+                    e acesso ao patrimônio histórico, social e cultural pelo público em geral.  Deste modo, faz-se ciência e 
+                    possibilita-se a cidadania.</P>
+            </div>
+            </p:fieldset>
+           
+        </div>
+        </h:form>
+    </ui:define>
+   
+</ui:composition>
+

@@ -1,0 +1,63 @@
+
+<ui:composition template="/resources/templates/loginTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="head">
+        <h:head>
+            <ui:insert name="head.meta">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            </ui:insert>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+           
+            <ui:insert name="head.title">
+                <title>WebSinC - Sistema Web para buscas em Corpora anotados em XML </title>
+            </ui:insert>
+           
+        </h:head>
+    </ui:define>
+  
+    <ui:define name="body.content.center">
+       <h:form>
+        <div style="float: left; margin-left:20px; margin-right:20px;" >
+        
+        <br/>
+            <p:fieldset id="fieldset" style="width: 800px;">
+                
+                <p style="font-size: 12px;"/>
+                <br/>
+                 <div class="apresentacao">             
+                <h1> Sobre o trabalho de construção de Corpora</h1>
+                <P> O trabalho realizado pela equipe de pesquisadores do LAPELINC 
+                    consiste em localizar, fotografar, ler, transcrever e editar documentos históricos,
+                    planejar/realizar coleta de dados de fala, transcrever, anotar, pesquisar e disponibilizar
+                    os corpora. </P>
+                <P>A filosofia utilizada no trabalho de implementação dos corpora por nós criados e 
+                    implementados baseia-se no projeto Memórias do Texto (Paixão de Sousa, 2004-2006), 
+                    largamente expressa no sistema de edições eletrônicas do  
+                    <h:outputLink value="http://www.tycho.iel.unicamp.br/~tycho/corpus/manual"> Corpus Tycho Brahe  </h:outputLink>  </P>
+                <h2>                        Para a formação de corpora de textos escritos</h2>
+                <b>(i)</b>	Localizar, organizar e catalogar documentos históricos.
+                <br/> <b>(ii)</b>	Desenvolver metologias de coleta e captura.
+                <br/><b>(iii)</b>	Digitalizar os documentos físicos através de métodos cientificamente controlados, formando nosso banco de documentos originais; 
+                <br/><b>(iv)</b>	Transcrever os textos dos documentos originais;
+                <br/><b>(v)</b>	editar e anotar morfologicamente os documentos transcritos utilizando a ferramenta <h:outputLink value="URL: http://humanidadesdigitais.org/edictor/"> E-DICTOR </h:outputLink> .
+                <br/><b>(vi)</b>	Criar banco de dados capaz de recuperar as informações sobre a referência física do documento, suas características tipológicas, os dados fundamentais identificadores do conteúdo e os dados sobre os processamentos sofridos no âmbito da construção do corpus digital e sobre os atores deste processamento. 
+                <br/><b>(vii)</b>	Submeter os textos editados ao Corpus Tycho-Brahe para análise automática da sintaxe dos textos.
+                <br/><b>(viii)</b>	Conferir/Corrigir manualmente a anotação automática fazendo uso das ferramentas de<h:outputLink value="URL: http://www.ling.upenn.edu/~beatrice/corpus-ling/"> Auxílio de Corpus Draw </h:outputLink>  
+                <br/><b>(ix)</b>	Desenvolver ferramentas para busca automática de dados e criar interface online para os usuários dos corpora
+                <h2>            Para a formação de corpora orais</h2>
+                <P>Em breve...</P>
+            </div>
+            </p:fieldset>
+           
+        </div>
+        </h:form>
+    </ui:define>
+   
+</ui:composition>
+

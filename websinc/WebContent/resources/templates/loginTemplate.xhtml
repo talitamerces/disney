@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:insert name="head">
+        <h:head>
+            <ui:insert name="head.meta">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            </ui:insert>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+           
+            <ui:insert name="head.title">
+                <title>WebSinC</title>
+            </ui:insert>
+        </h:head>
+    </ui:insert>
+
+  
+         
+    <h:body id="body">
+        <ui:insert name="body.content">
+            <div id="page">
+                <div id="header">
+                    <ui:insert name="body.content.header">
+                    <p:fieldset>
+            			<h:graphicImage url="/resources/images/topouesb-corpora.png"  
+            			style="border:0px;  height:110px ;width:660px" alt="LAPELINC"/>
+        			</p:fieldset>
+                        <ui:include src="/resources/templates/menulogin.xhtml"/>
+                    </ui:insert>
+                </div>
+                <div id="content">
+                	<div align="center" id="tableContent">
+	                    
+	                    <div style="float: left">
+	                     	<div id="center">
+	                       		<ui:insert name="body.content.center" />
+	                      	</div>
+	                  	</div>
+                    	<div style="float: left">
+                    		<ui:insert name="body.content.right" />
+                    	</div>    
+                 	</div>
+				</div>
+                <div id="footer">
+                    <ui:insert name="body.content.footer" >
+                        <p:fieldset>
+                        <h:outputText value="Institucional:          "/>
+                        <h:outputText value="Fomento: "  style="margin-left:30px"/><br/>
+                        <p:graphicImage style=" height:48px; width:43px; margin: 0 auto" value="/resources/images/uesb.jpg" />
+                        <p:graphicImage style=" height:48px; width:55px; margin: 0 auto" value="/resources/images/lapelinc.jpg" />
+                        <p:graphicImage style=" height:54px; width:89px; margin: 0 auto" value="/resources/images/fapesb.jpg" />
+                        <p:graphicImage style=" height:52px; width:100px; margin: 0 auto" value="/resources/images/cnpq.jpg" />
+                        
+                        <HR/>
+                            <h:outputText value="© 2015 Laboratório de Pesquisa em Linguística de Corpus- LAPELINC/UESB. "/>
+                            
+                        </p:fieldset>
+                    </ui:insert>
+                </div><!--fim da div footer-->
+            </div><!--fim da div page-->
+        </ui:insert>
+    </h:body>
+</html>

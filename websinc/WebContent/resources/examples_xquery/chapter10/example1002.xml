@@ -1,0 +1,11 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 10-2. Alternate prefixes -->
+<foo:catalog xmlns:foo="http://datypic.com/cat"
+           xmlns:bar="http://datypic.com/prod">
+  <foo:number>1446</foo:number>
+  <bar:product>
+    <bar:number>563</bar:number>
+    <bar:name bar:language="en">Floppy Sun Hat</bar:name>
+  </bar:product>
+</foo:catalog>
+

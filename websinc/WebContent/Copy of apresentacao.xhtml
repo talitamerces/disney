@@ -1,0 +1,71 @@
+
+<ui:composition template="/resources/templates/loginTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="head">
+		<h:head>
+			<ui:insert name="head.meta">
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			</ui:insert>
+			<h:outputStylesheet name="default.css" library="css" />
+			<h:outputStylesheet name="cssLayout.css" library="css" />
+
+			<ui:insert name="head.title">
+				<title>WebSinC - Sistema Web para buscas em Corpora anotados
+					em XML</title>
+			</ui:insert>
+
+		</h:head>
+	</ui:define>
+
+	<ui:define name="body.content.center">
+		<h:form>
+			<div style="float: left; margin-left: 20px; margin-right: 20px;">
+
+
+				<br />
+				<p:fieldset id="fieldset" style="max-width: 700px;">
+
+					<p style="font-size: 12px;" />
+					<br />
+					<div class="apresentacao">
+						<h1>Apresentação</h1>
+						<p>Este espaço virtual destina-se a divulgar o trabalho com
+							corpora desenvolvido pelo Grupo de pesquisadores do Laboratório
+							de Pesquisa em Linguística de Corpus (LAPELINC) da Universidade
+							Estadual do Sudoeste da Bahia (UESB), campus de Vitória da
+							Conquista, bem como disponibilizar produtos frutos dos projetos
+							desenvolvidos e em desenvolvimento nesse laboratório.</p>
+						<p>O LAPELINC conta com uma equipe de pesquisadores inter e multi
+						disciplinar que tem como objetivo colaborar em projetos parceiros
+						que visam a construção e/ou implementação de corpora para estudo
+						da língua portuguesa no Brasil, mais especificamente, na região
+						Sudoeste da Bahia.</p> 
+						<p>Os objetivos centrais dos projetos
+						desenvolvidos no LAPELINC contemplam, através da publicação e
+						disponibilização dos corpora gerados para fomentar a pesquisa
+						lingüística, a recuperação da memória e preservação do nosso
+						patrimônio histórico e lingüístico, servindo também de objeto para
+						consultas várias. 
+						</p>
+						<b>Grupos de Pesquisa Envolvidos: </b><br/>
+						<div style="font-size:11px; color:blue">Grupo de Pesquisa
+						em Linguística de Corpus (GPELINC/CNPq)<br/> 
+						
+						Padrões Rítmicos Fixação
+						de Parâmetros e Mudança Linguística (PRFPML/CPQq)
+</div>
+
+					</div>
+				</p:fieldset>
+
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+

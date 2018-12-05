@@ -1,0 +1,177 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+
+
+		<h:form id="mainForm">
+
+			<p:panel header="Cidades" styleClass="panelContent">
+				<h:panelGrid columns="2">
+					<p:commandButton id="novoButton" value="Novo"
+						update=":mainForm:edit-container" process="@this"
+						icon="ui-icon-plus" action="#{controleCidade.novo()}" />
+<!-- 					<p:commandButton type="button" value="Ajuda" -->
+<!-- 						style="margin-left: 575px;" icon="ui-icon-help" /> -->
+				</h:panelGrid>
+				<br />
+				<p:outputPanel id="list-container" layout="block">
+					<p:dataTable id="cidadeTable" rows="15" var="cidade"
+						value="#{controleCidade.dao.listarTodos()}" paginator="true"
+						paginatorPosition="bottom"
+						emptyMessage="Nenhuma cidade cadastrada.">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Nome da cidade" />
+							</f:facet>
+							<h:outputText value="#{cidade.nomeCidade}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Nome do estado" />
+							</f:facet>
+							<h:outputText value="#{cidade.estado.nomeEstado}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Nome do país" />
+							</f:facet>
+							<h:outputText value="#{cidade.estado.pais.nomePais}" />
+						</p:column>
+
+						<p:column style="width:60px">
+							<f:facet name="header">
+								<h:outputText value="Ações" />
+							</f:facet>
+							<p:commandLink process="@this"
+								update=":mainForm:edit-container"
+								action="#{controleCidade.alterar(cidade)}">
+								<p:graphicImage value="/resources/images/editar.png" id="imagemAlterar"/>
+								<p:tooltip id="toolTipAlterar" for="imagemAlterar" value="Editar" />
+								<f:setPropertyActionListener
+									target="#{controleCidade.objeto}"
+									value="#{cidade}" />
+							</p:commandLink>
+							<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+							<p:commandLink process="@this"
+								onclick="PF('confirmDeleteDialog').show();">
+								<p:graphicImage value="/resources/images/apagar.png" id="imagemExcluir"/>
+								<p:tooltip id="toolTipExcluir" for="imagemExcluir" value="Excluir" />
+ 								<f:setPropertyActionListener
+									target="#{controleCidade.objeto}"
+									value="#{cidade}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+
+				<p:outputPanel id="edit-container" layout="block">
+					<p:dialog id="modalNovo" header="Cadastro de Cidades"
+						widgetVar="modalNovoTipo" modal="true" height="200" width="670"
+						style="background-color: white" resizable="false"
+						visible="#{controleCidade.edicao}">
+						<p:hotkey bind="esc" handler="modalNovoTipo.hide()" />
+						<p:outputPanel id="formDataWrapper" layout="block">
+
+							<h:panelGrid columns="2">
+
+
+								<h:panelGroup>
+									<p:outputLabel style="display: block"
+										value="* Selecione o País:" for="pais" />
+
+									<p:selectOneMenu id="pais" style="width: 175px;"
+										value="#{controleCidade.selectedPais}">
+
+										<f:selectItem itemValue="null" itemLabel="Selecione:" />
+										<f:selectItems value="#{controleCidade.listaPaises}"
+											var="paises" itemLabel="#{paises.nomePais}"
+											itemValue="#{paises}" />
+										<p:ajax listener="#{controleCidade.atualizaEstados()}"
+											event="change" update="estado" process="pais" global="true" />
+									</p:selectOneMenu>
+
+								</h:panelGroup>
+								<p:ajaxStatus style="width=16px; height=16px;" id="statusAjax">
+									<f:facet name="start">
+										<p:graphicImage value="/resources/images/loading.gif"></p:graphicImage>
+									</f:facet>
+									<f:facet name="complete">
+										<h:outputText value="" />
+									</f:facet>
+								</p:ajaxStatus>
+								<h:panelGroup>
+									<p:outputLabel style="display: block"
+										value="* Selecione o Estado:" for="estado" />
+
+									<p:selectOneMenu id="estado" style="width: 175px;"
+										value="#{controleCidade.selectedEstado}">
+										<f:selectItem itemValue="null" itemLabel="Selecione:" />
+										<f:selectItems value="#{controleCidade.listaEstados}"
+											var="estados" itemLabel="#{estados.nomeEstado}"
+											itemValue="#{estados}" />
+									</p:selectOneMenu>
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel value="* Nome da cidade:" for="descricao"
+										style="display: block" />
+									<p:inputText id="descricao"
+										value="#{controleCidade.objeto.nomeCidade}" size="50" />
+								</h:panelGroup>
+
+							</h:panelGrid>
+
+
+
+
+							<h:outputText value="* Campos obrigatórios"
+								style="position: relative; left: 315px;" />
+							<br />
+							<br />
+							<h:panelGrid columns="2" style="position: relative; left: 280px;">
+								<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+									action="#{controleCidade.cancelar()}"
+									onclick="PF('modalNovoTipo').hide()" />
+								<p:commandButton value="Salvar"
+									process=":mainForm:edit-container"
+									action="#{controleCidade.gravar()}"
+									update=":mainForm:list-container"
+									onclick="PF('modalNovoTipo').hide()" icon="ui-icon-disk" />
+								
+							</h:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+					<p:messages severity="info" escape="false" showDetail="true"
+						autoUpdate="true" closable="true"  />   
+
+				</p:outputPanel>
+
+
+
+
+
+				<p:dialog id="confirmacao" header="Exclusão de cidade"
+					widgetVar="confirmDeleteDialog" modal="true">
+					<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+					<p:outputLabel
+						value="Tem certeza de que deseja excluir este Cidade?" />
+					<br />
+					<br />
+					<br />
+					<p:commandButton value="Sim" action="#{controleCidade.excluir()}"
+						process="@this" onclick="PF('confirmDeleteDialog').hide();"
+						update=":mainForm:list-container" />
+					<p:commandButton value="Não" action="#{controleCidade.cancelar()}"
+						onclick="PF('confirmDeleteDialog').hide();" />
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

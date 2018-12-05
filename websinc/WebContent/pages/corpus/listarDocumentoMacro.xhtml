@@ -1,0 +1,62 @@
+
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+
+
+		<h:form id="mainForm" enctype="multipart/form-data">
+			<p:growl showDetail="true" sticky="true"></p:growl>
+			<p:panel header="Catálogo Corpus DoVic"
+				styleClass="panelContent">
+			
+				<br />
+				<p:outputPanel id="list-container" layout="block">
+					<p:dataTable id="documentoMacroTable" rows="10" paginator="true"
+						paginatorPosition="bottom" var="documentoMacro"
+						value="#{controleDocumentoMacro.dao.listarTodos()}"
+						emptyMessage="Nenhum documento macro inserido.">
+						<p:column style="width:70px">
+							<f:facet name="header">
+								<h:outputText value="Número" />
+							</f:facet>
+							 <p:commandLink action="#{controleDocumentoMacro.select()}" >
+							
+                                <f:setPropertyActionListener 
+                                target="#{controleDocumentoMacro.objeto}" value="#{documentoMacro}" />   
+                                    
+                              <h:outputText value="#{documentoMacro.idDocumentoFisico}" />           
+                               </p:commandLink>
+						</p:column>
+						<p:column style="width:70px">
+							<f:facet name="header">
+								<h:outputText value="Ano" />
+							</f:facet>
+							<h:outputText value="#{documentoMacro.anoInicioDocumento}" />
+						</p:column>
+						<p:column style="width:200px">
+							<f:facet name="header">
+								<h:outputText value="Título" />
+							</f:facet>
+							<h:outputText value="#{documentoMacro.titulo}" />
+						</p:column>
+						<p:column  style="width:80px">
+							<f:facet name="header">
+								<h:outputText value="Tipo de documento" />
+							</f:facet>
+							<h:outputText
+								value="#{documentoMacro.tipoMacro.descricaoTipoMacro}" />
+						</p:column>
+															
+				
+						
+					</p:dataTable>
+				</p:outputPanel>
+				</p:panel>
+				</h:form></ui:define></ui:composition>
+				

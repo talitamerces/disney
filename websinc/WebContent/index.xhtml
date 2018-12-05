@@ -1,0 +1,28 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="body.content.center">
+
+
+	<h:form>
+	<h:panelGroup rendered="#{controleLogin.usuarioLogado!=null}">
+		<h:panelGrid columns="1">
+		<h:outputLabel style="font-size:16px;" value="Usuário logado: #{controleLogin.usuarioLogado.nomeUsuario}"/>
+		
+		<p:graphicImage style="margin: 20% auto; margin-left: 50%;" value="/resources/images/websinc.png" />
+
+		</h:panelGrid>
+	</h:panelGroup>
+	
+		
+
+	</h:form>
+
+</ui:define>
+</ui:composition>
+

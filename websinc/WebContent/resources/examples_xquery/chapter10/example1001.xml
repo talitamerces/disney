@@ -1,0 +1,10 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 10-1. Namespace declarations -->
+<cat:catalog xmlns:cat="http://datypic.com/cat"
+             xmlns:prod="http://datypic.com/prod">
+  <cat:number>1446</cat:number>
+  <prod:product>
+    <prod:number>563</prod:number>
+    <prod:name prod:language="en">Floppy Sun Hat</prod:name>
+  </prod:product>
+</cat:catalog>

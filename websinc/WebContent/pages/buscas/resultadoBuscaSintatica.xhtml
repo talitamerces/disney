@@ -1,0 +1,93 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+
+		<h:form id="mainForm">
+
+			<br />
+			<br />
+<p:panel id="saida" toggleable="true" header="RESULTADO DA BUSCA SINTÁTICA">  
+                    <div align="left">
+                        <br/>
+                        <h:outputText class="negrito" value="  Texto: "/><h:outputText value="História da Província de Santa Cruz" /><br/>
+                        <h:outputText class="negrito" value="  Autor/ano: "/><h:outputText value="Pero Magalhães de Gandavo/(1502)" /> <br/>
+                        <br/>
+                        <h:outputText class="negrito" value="  Consulta para busca:"/>
+                        
+                       <h:outputLabel id="consulta" escape="false"
+							styleClass="ui-inputtextarea 
+					 ui-corner-all"
+							style="width:300px !important;font-size: 11px !important; white-space:normal"
+							value="   #{controleBuscasSintaticas.consulta}" />
+                        <br/>
+                        
+                        <h:outputText class="negrito" value="  Quantidade de ocorrências: "/><h:outputText value="#{controleBuscasSintaticas.totalOcorrenciasBusca}" /> <br/>
+                        <br/>
+                        
+                        <h:panelGrid columns="2">
+					<p:commandButton id="novoButton" value="Nova Busca" onclick="history.back();"
+						process="@this" actionListener="#{controleBuscasSintaticas.novaBuscaSintatica()}"
+						icon="ui-icon-document-b"  />
+					<p:commandButton type="button" value="Voltar" onclick="history.back();"
+						style="float: right;" icon="ui-icon-arrowreturnthick-1-w" />
+				</h:panelGrid>
+				<br />
+                    </div>
+                    
+    
+
+
+<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+					style="vertical-align:text-top;">
+					
+					
+	<p:dataTable var="out" value="#{controleBuscasSintaticas.resultadoBusca}">
+	
+	<p:column headerText="Id" style="width:18px">
+        <h:outputText value="#{out.id}" />
+    </p:column>
+    <p:column headerText="Sentença">
+        <h:outputText value="#{out.sentenca}" />
+    </p:column>
+
+ 
+    <p:column style="width:30px"> 
+       <p:commandLink process="@this" ajax="true" 
+			
+	 action="#{controleBuscasSintaticas.converteJSON(out.arvore)}">
+			<p:graphicImage value="/resources/images/Genealogy.png" id="imagemArvore"/>
+			<p:tooltip id="toolTipArvore" for="imagemArvore" value="Visualizar árvore" />
+				
+			</p:commandLink>
+    </p:column>
+ 
+    
+</p:dataTable>		
+
+	
+	</h:panelGrid>
+	
+	
+</p:panel>
+<p:panel>
+  <p:dialog id="verArvore" header="Árvore sintática" widgetVar="arvoreDialog" modal="true" width="1000"
+   height="600" resizable="false">
+                        <p:hotkey bind="esc" handler="arvoreDialog.hide();" />
+
+                       
+                       <iframe  height="585"  width="99%"  
+   src="arvore.xhtml" name="iFrameMain" id="iFrameMain" seamless="seamless" style="border: 0;">    
+                     </iframe>
+                        
+                         
+                    </p:dialog> 
+</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

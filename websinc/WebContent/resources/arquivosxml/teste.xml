@@ -1,0 +1,26 @@
+ <AAA> 
+          <BBB> 
+               <CCC/> 
+             <INTER><DDD>TESTE CCOMMANDO</DDD> </INTER> 
+          </BBB> 
+          <XXX> 
+               <DDD> 
+                    <EEE>EEE</EEE> 
+                    <DDD>DDD</DDD> 
+                    <CCC>CCC</CCC> 
+                    <FFF>FFF</FFF> 
+                    <FFF> 
+                         <GGG>GGG</GGG> 
+<ZZZ>ZZZ</ZZZ>
+<TTT><GGG>DE NOVO</GGG></TTT>
+
+                    </FFF> 
+               </DDD> 
+
+          </XXX> 
+          <CCC> 
+               <DDD><ALINE/></DDD> 
+          </CCC>
+         <RRR><BRUNO/></RRR> 
+
+     </AAA>

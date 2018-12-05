@@ -1,0 +1,67 @@
+
+<ui:composition template="/resources/templates/loginTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="head">
+        <h:head>
+            <ui:insert name="head.meta">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            </ui:insert>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+           
+            <ui:insert name="head.title">
+                <title>WebSinC - Sistema Web para buscas em Corpora anotados em XML </title>
+            </ui:insert>
+           
+        </h:head>
+    </ui:define>
+    
+    <ui:define name="body.content.center">
+       <h:form>
+        <div style="float: left; margin-left:20px; margin-right:20px;" >
+        
+        
+         <br/>
+            <p:fieldset id="fieldset" style="max-width: 700px;">
+                
+                <p style="font-size: 12px;"/>
+                <br/>
+                <div class="apresentacao">             
+                <h1> Parceiros</h1>
+                <h2> Colaboradores Externos</h2>
+                <br/>
+                <P> Contamos com a colaboração da Profa. Dra. Charlotte Galves (UNICAMP), e da Profa. Dra. Maria Clara 
+                    Paixão de Sousa (USP), idealizadoras da metodologia e filosofia do corpus Tycho Brahe; do Professor
+                    Dr. Pablo Faria (PD UNICAMP), pesquisador com formação e larga experiência na área da Linguística 
+                    Computacional, com ênfase no desenvolvimento de softwares para edição e manipulação de textos; 
+                    da Profa. Dra. Zenaide de Oliveira Novais Carneiro (UEFS), Profa. Dra. Tânia Lobo e do Prof. Dr. 
+                    Klebson Oliveira (UFBA), pesquisadores membros do PHPB (Projeto Para a História do Português Brasileiro), 
+                    experientes no tratamento filológico e localização de documentos.</P>
+                <br/>
+                <h2>Sites relacionados</h2>
+                <br/>
+                <div align="center">
+                    <h:outputLink value="http://www.tycho.iel.unicamp.br/~tycho/corpus/en/index.html"> Tycho Brahe Parsed Corpus of Historical Portuguese  </h:outputLink>  <br/>
+                    <h:outputLink value="http://www2.uefs.br/cedohs/"> Corpus Eletrônico de Documentos Históricos do Sertão   </h:outputLink>  <br/>
+                    <h:outputLink value="http://ahdig.org/"> Associação das Humanidades Digitais </h:outputLink>  <br/>
+                </div>
+                
+                <h2>Universidades Parceiras</h2>
+                <br/>
+                       <p:graphicImage style=" height:56px; width:123px; margin: 0 auto" value="/images/unicamp.jpg" /><br/><br/>
+                      <p:graphicImage style=" height:78px; width:99px; margin: 0 auto" value="/images/uefsufba.jpg" />
+                      <br/>
+            </div>
+            </p:fieldset>
+           
+        </div>
+        </h:form>
+    </ui:define>
+   
+</ui:composition>
+

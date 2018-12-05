@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:insert name="head">
+        <h:head>
+            <ui:insert name="head.meta">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            </ui:insert>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+<!--             <h:outputScript name="locale-primefaces.js" library="scripts"/> -->
+            <ui:insert name="head.title">
+                <title>WebSinC</title>
+            </ui:insert>
+        </h:head>
+    </ui:insert>
+
+    <h:body id="body">
+        <ui:insert name="body.content">
+            <div id="page">
+                <div id="header">
+                    <ui:insert name="body.content.header">
+                        <ui:include src="/resources/templates/menu.xhtml"/>
+                    </ui:insert>
+                </div>
+                <div id="content">
+                    <table align="left" id="tableContent">
+                        <tr valign="top">
+                           <td><div id="center"><ui:insert name="body.content.center" /></div></td><td><ui:insert name="body.content.right" /></td>    
+                        </tr>
+                    </table>
+                    <div id="clear" style="clear:both"></div>
+                </div>
+                <div id="footer">
+                    <ui:insert name="body.content.footer" >
+                        <p:fieldset>
+                            © 2015 Laboratório de Pesquisa em Linguística de Corpus - LAPELINC/UESB.  
+                        </p:fieldset>
+                    </ui:insert>
+                </div><!--fim da div footer-->
+            </div><!--fim da div page-->
+        </ui:insert>
+
+    </h:body>
+</html>
+

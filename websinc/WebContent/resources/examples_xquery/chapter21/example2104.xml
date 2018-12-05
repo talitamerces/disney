@@ -1,0 +1,11 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 21-4. XML document with processing instructions (pi.xml) -->
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="formatter.xsl"?>
+<b:businessDocument xmlns:b="http://datypic.com/b">
+  <b:header>
+     <?doc-processor appl="BDS" version="4.3"?>
+     <b:date>2006-10-15</b:date>
+  </b:header>
+</b:businessDocument>
+

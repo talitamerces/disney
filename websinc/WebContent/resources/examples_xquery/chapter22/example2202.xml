@@ -1,0 +1,43 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 22-2. Partial XQueryX equivalent of Example 22-1 -->
+<?xml version="1.0"?>
+<xqx:module xmlns:xqx="http://www.w3.org/2005/XQueryX"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.w3.org/2005/XQueryX
+                                http://www.w3.org/2005/XQueryX/xqueryx.xsd">
+  <xqx:mainModule>
+    <xqx:queryBody>
+      <xqx:flworExpr>
+        <xqx:forClause>
+          <xqx:forClauseItem>
+            <xqx:typedVariableBinding>
+              <xqx:varName>product</xqx:varName>
+            </xqx:typedVariableBinding>
+            <xqx:forExpr>
+              <xqx:pathExpr>
+                <xqx:argExpr>
+                  <xqx:functionCallExpr>
+                    <xqx:functionName>doc</xqx:functionName>
+                    <xqx:arguments>
+                      <xqx:stringConstantExpr>
+                        <xqx:value>catalog.xml</xqx:value>
+                      </xqx:stringConstantExpr>
+                    </xqx:arguments>
+                  </xqx:functionCallExpr>
+                </xqx:argExpr>
+                <xqx:stepExpr>
+                  <xqx:xpathAxis>descendant-or-self</xqx:xpathAxis>
+                  <xqx:anyKindTest/>
+                </xqx:stepExpr>
+                <xqx:stepExpr>
+                  <xqx:xpathAxis>child</xqx:xpathAxis>
+                  <xqx:nameTest>product</xqx:nameTest>
+                </xqx:stepExpr>
+              </xqx:pathExpr>
+            </xqx:forExpr>
+          </xqx:forClauseItem>
+        </xqx:forClause>  <!-- ... -->
+      </xqx:flworExpr>
+    </xqx:queryBody>
+  </xqx:mainModule>
+</xqx:module>

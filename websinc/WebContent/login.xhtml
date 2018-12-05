@@ -1,0 +1,112 @@
+
+<ui:composition template="/resources/templates/loginTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="head">
+        <h:head>
+            <ui:insert name="head.meta">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            </ui:insert>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+           
+            <ui:insert name="head.title">
+                <title>WebSinC - Sistema Web para buscas em Corpora anotados em XML </title>
+            </ui:insert>
+           
+        </h:head>
+    </ui:define>
+  
+    <ui:define name="body.content.center">
+       <h:form>
+        <div style="float: left; margin-left:20px; margin-right:20px;" >
+       
+    
+         <br/>
+				<p:fieldset id="fieldset" style="max-width: 800px;">
+					<h:graphicImage url="/resources/images/websinc.png" alt="WebSinC" />
+					<p style="font-size: 12px;" />
+					<div class="apresentacao">
+					<p> O <b>WebSinC </b>é um software Web desenvolvido para o trabalho de
+						disponibilização, visão e busca de dados em corpora
+						cientificamente controlados e anotados em diversos níveis.</p>
+
+					<p>O software é produto da pesquisa desenvolvida durante o
+						mestrado de Aline Silva Costa (Programa de Pós-Graduação em
+						Linguística da Universidade Estadual do Sudoeste da Bahia)
+						orientada pela Profª Drª Cristiane Namiuti-Temponi e co-orientada
+						pelo Profº Drº Jorge Viana Santos.</p>
+					
+					<p style="font-size: 11px;">
+						<b>Como citar os conteúdos desse ambiente web:</b><br /> 
+						
+
+						Santos, Jorge Viana; Namiuti-Temponi, Cristiane. Memória Conquistense. UESB/LAPELINC, Vitória da Conquista-Bahia/Brasil, 2016. 
+						URL: http://memoriaconquistense.uesb.br/websinc.
+
+					</p>
+					<p style="font-size: 11px;"> <b>Como citar o corpus DOViC:</b><br/> Santos, Jorge Viana; Namiuti-Temponi, Cristiane. 2016. Documentos Oitocentistas de Vitória da Conquista. Memória Conquistense. UESB/LAPELINC, Vitória da Conquista-Bahia/Brasil. 
+					URL: http://memoriaconquistense.uesb.br/websinc.</p>
+					</div>
+				</p:fieldset>
+
+			</div>
+        </h:form>
+    </ui:define>
+    <ui:define name="body.content.right">
+<!--         <f:phaseListener type="br.uesb.lib.technology.jsf.v21.phaseListeners.LoginErrorPhaseListener" /> -->
+        <div style="float: right;">
+            <h:form>
+                <p:messages />
+                <p:panel id="loginPanel" header="Login">
+                    <p:focus context="loginPanel"/> 
+                    <h:panelGrid columns="1">
+                        <h:panelGroup>
+                            <h:outputLabel value="Nome de usuário:" for="username" />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:inputText id="username" value="#{controleLogin.usuario}" required="#{true}" label="Nome de Usuário"/>
+                            <p:message for="username" />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputLabel value="Senha:" for="password" />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:password id="password" value="#{controleLogin.senha}" required="#{true}"
+                                        feedback="#{false}" label="Senha" />
+                            <p:message for="password" />
+                        </h:panelGroup>
+                        <br/>
+                        <p:commandButton id="login" value="Entrar" action="#{controleLogin.autenticar}" ajax="#{false}" 
+                                       />
+                    </h:panelGrid>
+                </p:panel>
+                <br/>
+                <p:panel style="background-color: white; border: none;">
+                   <br/>                                   
+                     <p:commandLink value="Fazer meu cadastro" disabled="true"
+                     action="#{controleUsuario.cadastrar()}" partialSubmit="true" process="@this"/>
+                     <br/><br/>
+                      <p:commandLink value="Esqueci a senha" onclick="problemasLogin.show()" disabled="true"/>
+                    <br/><br/>
+                     <p:commandLink value="Não consegue acessar o sistema?" onclick="problemasLogin.show()" disabled="true" />
+                    <br/>
+                </p:panel>
+                <p:dialog modal="true" width="415" height="140" id="problemasLogin" widgetVar="problemasLogin" resizable="false" style="background-color: white;" header="Ajuda para o login">
+                    <p:hotkey bind="esc" handler="problemasLogin.hide()"/>
+                    <h:panelGrid columns="2"><p:graphicImage value="../../resources/images/locked.png"/>
+                        <h:panelGroup><p>Caso não esteja conseguindo realizar o login, entre em contato com o suporte da <a href="http://www2.uesb.br/uinfor" target="_blank">LAPELINC</a> 
+                                através do <b><a href="http://chamados.uesb.br" target="_blank">email</a></b>, ou através dos telefones:
+                                <b>(77) 3424- 8625</b> (Vitória da Conquista),
+                                informando a mensagem de erro do sistema e o seu nome de usuário.</p></h:panelGroup>
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:insert name="body.content.header">
+		<h:form>
+			<style>
+.ui-menu .ui-menu-parent .ui-menu-child {
+	width: 235px; /* soh funciona se for definido aqui. :( !! */
+}
+</style>
+			<p:menubar autoDisplay="false">
+				<p:menuitem value="Início" action="/index?faces-redirect=true"
+					icon="ui-icon-home" ajax="false" />
+				<p:submenu label="Cadastros" icon="ui-icon-contact"
+					rendered="#{controleLogin.nivelColaborador()}">
+
+					<p:submenu label="Administração do Corpus">
+
+						<p:menuitem value="Tipos de Documento Macro"
+							action="#{controleTipoMacro.listar()}" icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+						<p:menuitem value="Tipos de Documento Micro"
+							action="#{controleTipoMicro.listar()}" icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+						<p:menuitem value="Tipos de envolvidos"
+							action="#{controleTipoEnvolvido.listar()}"
+							icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+						<p:menuitem value="Colaboradores (créditos)"
+							action="#{controleColaborador.listar()}" icon="ui-icon-document"
+							ajax="false" />
+						<p:menuitem value="Materiais de capa e forro"
+							action="#{controleMaterialCapaForro.listar()}"
+							icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+						<p:menuitem value="Cores" action="#{controleCor.listar()}"
+							icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+						<p:menuitem value="Locais de Depósito"
+							action="#{controleLocalDeposito.listar()}"
+							icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+
+						<p:menuitem value="Países" action="#{controlePais.listar()}"
+							icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+						<p:menuitem value="Estados" action="#{controleEstado.listar()}"
+							icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+						<p:menuitem value="Cidades" action="#{controleCidade.listar()}"
+							icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+
+					</p:submenu>
+					<p:submenu label="Administração do Portal">
+
+						<p:menuitem value="Menus de texto"
+							action="#{controlePortal.listar()}" icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+
+						<p:menuitem value="Usuários" action="#{controleUsuario.listar()}"
+							icon="ui-icon-document"
+							disabled="#{controleLogin.ehColaborador()}" ajax="false" />
+
+					</p:submenu>
+				</p:submenu>
+				<p:submenu label="Corpus"
+					rendered="#{controleLogin.nivelColaborador()}">
+					<p:menuitem value="Documentos"
+						action="#{controleDocumentoMacro.inserir()}"
+						icon="ui-icon-document" ajax="false" />
+					<p:menuitem value="Documentos TCC"
+						action="#{controleDocumentoMacro.inserirTcc()}"
+						icon="ui-icon-document" ajax="false" />
+					<p:menuitem value="Avulsos"
+						action="#{controleDocumentoMicro.listar()}"
+						icon="ui-icon-document" ajax="false" disabled="true" />
+
+				</p:submenu>
+
+				<p:submenu label="Catálogo" icon="ui-icon-gear">
+					<p:menuitem value="Catálogo de documentos"
+						action="#{controleDocumentoMacro.listar()}"
+						icon="ui-icon-document" ajax="false" />
+
+				</p:submenu>
+
+				<p:submenu label="Buscas" icon="ui-icon-gear">
+					<p:menuitem value="Buscas Morfossintáticas"
+						action="#{controleBuscasMorfologicas.listar()}"
+						icon="ui-icon-document" ajax="false" />
+					<p:menuitem value="Buscas Sintáticas"
+						action="#{controleBuscasSintaticas.listar()}"
+						icon="ui-icon-document" ajax="false" />
+				</p:submenu>
+
+				<p:submenu label="Relatórios" icon="ui-icon-document">
+					<p:menuitem value="Quantitativos"
+						action="#{controleRelatorios.listar()}" icon="ui-icon-document"
+						ajax="false" />
+
+				</p:submenu>
+				<p:submenu label="Configurações" icon="ui-icon-wrench">
+					<p:menuitem value="Alterar Senha" action="alteracaoSenha"
+						icon="ui-icon-key" ajax="false" disabled="true" />
+
+				</p:submenu>
+				<p:submenu label="Sobre" global="false">
+					<p:menuitem value="Sobre o WebSinc"
+						onclick="PF('sobreDialog').show()" icon="ui-icon-info"
+						ajax="false" />
+				</p:submenu>
+				<p:menuitem value="Sair" icon="ui-icon-close"
+					action="#{controleLogin.efetuarLogout()}" ajax="false" />
+			</p:menubar>
+			<p:outputPanel>
+
+				<p:dialog id="janelaSobre" header="Sobre" responsive="true"
+					widgetVar="sobreDialog" modal="true" max-widht="400px">
+					<p:hotkey bind="esc" handler="PF('sobreDialog').hide();" />
+					<p:outputLabel style="text-align:center; font-size:14px"
+						value="WebSinc 1.0" />
+					<br />
+					<p style="text-align: justify; font-size: 13px">
+						O <b>WebSinC </b>é um software Web desenvolvido para o trabalho de
+						disponibilização, visão e busca de dados em corpora
+						cientificamente controlados e anotados em diversos níveis.
+					</p>
+
+					<p style="text-align: justify; font-size: 13px">O software é
+						produto da pesquisa desenvolvida durante o mestrado de Aline Silva
+						Costa (Programa de Pós-Graduação em Linguística da Universidade
+						Estadual do Sudoeste da Bahia) orientada pela Profª Drª Cristiane
+						Namiuti-Temponi e co-orientada pelo Profº Drº Jorge Viana Santos.</p>
+					<br /> 
+                        Versão 1.0
+                        <br />
+					<p:commandButton value="Fechar" onclick="PF('sobreDialog').hide();" />
+
+				</p:dialog>
+			</p:outputPanel>
+		</h:form>
+	</ui:insert>
+
+</ui:composition>

@@ -1,0 +1,13 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 2-2. Small XML example-->
+<catalog xmlns="http://datypic.com/cat">
+  <product dept="MEN" xmlns="http://datypic.com/prod">
+    <number>784</number>
+    <name language="en">Cotton Dress Shirt</name>
+    <colorChoices>white gray</colorChoices>
+    <desc>Our <i>favorite</i> shirt!</desc>
+  </product>
+</catalog>
+
+
+

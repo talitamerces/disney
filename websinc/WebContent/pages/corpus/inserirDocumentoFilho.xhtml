@@ -1,0 +1,1014 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="body.content.center">
+
+		<h:form id="mainForm" enctype="multipart/form-data">
+			
+			<p:panel header="Inserção de Manuscritos" styleClass="panelContent">
+				<p:panel>
+					<h:outputText
+						value="Manuscritos do Documento #{controleDocumentoMicro.selectedMacro.titulo}" />
+					<h:outputText
+						value=" PARAMETRO #{controleDocumentoMicro.selectedMacroId}" />
+				</p:panel>
+				<br />
+				<h:panelGrid columns="2">
+					<p:commandButton id="novoButton" value="Novo" update="@form"
+						process="@this" icon="ui-icon-plus"
+						action="#{controleDocumentoMicro.novo(false)}"
+						disabled="#{controleDocumentoMicro.edicao}" />
+					<h:link rendered="#{!controleDocumentoMicro.edicao}"
+						outcome="/pages/corpus/inserirDocumentoMacro?faces-redirect=true"
+						styleClass="linkVoltar" value="Voltar">
+
+					</h:link>
+					<h:commandLink value="Cancelar" styleClass="linkVoltar"
+						rendered="#{controleDocumentoMicro.edicao}"
+						action="#{controleDocumentoMicro.cancelar()}" immediate="true"
+						update="@form">
+					</h:commandLink>
+				</h:panelGrid>
+				<br />
+				<p:outputPanel id="list-container" layout="block"
+					rendered="#{!controleDocumentoMicro.edicao}">
+					<p:dataTable id="documentoMicroTable" rows="15" paginator="true"
+						paginatorPosition="bottom" var="documentoMicro"
+						value="#{controleDocumentoMicro.documentosMicro}"
+						emptyMessage="Nenhum documento micro inserido.">
+						<p:column style="width:70px">
+							<f:facet name="header">
+								<h:outputText value="Código" />
+							</f:facet>
+							<h:outputText value="#{documentoMicro.idDocumentoOriginal}" />
+						</p:column>
+						<p:column style="width:200px">
+							<f:facet name="header">
+								<h:outputText value="Título do documento" />
+							</f:facet>
+							<h:outputText value="#{documentoMicro.titulo}" />
+						</p:column>
+						<p:column style="width:80px">
+							<f:facet name="header">
+								<h:outputText value="Tipo de documento" />
+							</f:facet>
+							<h:outputText
+								value="#{documentoMicro.tipoMicro.descricaoTipoMicro}" />
+						</p:column>
+
+
+						<p:column style="width:60px">
+							<f:facet name="header">
+								<h:outputText value="Ações" />
+							</f:facet>
+
+							<p:commandLink process="@this" update="@form"
+								action="#{controleDocumentoMicro.alterar(documentoMicro)}">
+								<p:graphicImage value="/resources/images/editar.png"
+									id="imagemAlterar" />
+
+								<f:setPropertyActionListener
+									target="#{controleDocumentoMicro.objeto}"
+									value="#{documentoMicro}" />
+							</p:commandLink>
+
+							<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+							<p:commandLink process="@this"
+								onclick="PF('confirmDeleteDialog').show();">
+								<p:graphicImage value="/resources/images/apagar.png"
+									id="imagemExcluir" />
+
+
+								<f:setPropertyActionListener
+									target="#{controleDocumentoMicro.objeto}"
+									value="#{documentoMicro}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+
+				<p:outputPanel id="edit-container" layout="block"
+					rendered="#{controleDocumentoMicro.edicao}">
+
+					<p:outputPanel id="formDataWrapper" layout="block">
+
+						<p:tabView orientation="left"
+							activeIndex="#{controleDocumentoMicro.tabAtiva}">
+							<p:tab title="Dados Gerais">
+
+								<em>Dados Gerais do Documento</em>
+								<h:panelGrid columns="3" cellpading="5">
+									<h:panelGroup>
+
+										<p:outputLabel style="display: block" value="Código:"
+											for="codigo" />
+										<p:inputText id="codigo" size="12"
+											value="#{controleDocumentoMicro.objeto.idDocumentoOriginal}" />
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block" value="*Título:"
+											for="titulo" />
+										<p:inputText id="titulo"
+											value="#{controleDocumentoMicro.objeto.titulo}" size="45" />
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block"
+											value="* Tipo de Documento:" for="tipo" />
+
+										<p:selectOneMenu id="tipo" style="width: 145px;"
+											value="#{controleDocumentoMicro.selectedTipoMicro}">
+											<f:selectItem itemValue="null" itemLabel="Sel. tipo" />
+											<f:selectItems value="#{controleDocumentoMicro.listaTipos}"
+												var="tipos" itemLabel="#{tipos.descricaoTipoMicro}"
+												itemValue="#{tipos}" />
+										</p:selectOneMenu>
+									</h:panelGroup>
+
+								</h:panelGrid>
+
+
+								<h:panelGrid columns="4">
+
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="dataDocumento"
+											value="Data do documento" />
+										<p:calendar id="dataDocumento" size="15"
+											value="#{controleDocumentoMicro.objeto.dataDocumentoCompleta}"
+											pattern="dd/MM/yyyy" mask="true">
+											<p:ajax
+												listener="#{controleDocumentoMicro.ajaxAnoDocumento()}"
+												update="anoDocumento" event="dateSelect" />
+										</p:calendar>
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="dataPublicacao"
+											value="Data de publicação" />
+										<p:calendar id="dataPublicacao" size="15"
+											value="#{controleDocumentoMicro.objeto.dataPublicacaoCompleta}"
+											pattern="dd/MM/yyyy" mask="true">
+											<p:ajax
+												listener="#{controleDocumentoMicro.ajaxAnoPublicacao()}"
+												update="anoPublicacao" event="dateSelect" />
+										</p:calendar>
+
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="anoDocumento"
+											value="Ano do documento" />
+										<p:inputText id="anoDocumento" size="8"
+											value="#{controleDocumentoMicro.anoDocumento}" />
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="anoPublicacao"
+											value="Ano de publicação" />
+										<p:inputText id="anoPublicacao" size="8"
+											value="#{controleDocumentoMicro.anoPublicacao}" />
+									</h:panelGroup>
+
+
+								</h:panelGrid>
+
+								<em>Observações</em>
+								<h:panelGrid columns="1">
+									<h:panelGroup>
+
+										<p:inputTextarea id="observacoes" rows="3" cols="80"
+											value="#{controleDocumentoMicro.objeto.observacoes}" />
+									</h:panelGroup>
+
+								</h:panelGrid>
+							</p:tab>
+
+
+							<p:tab title="Arquivos Vinculados">
+								<h:panelGrid columns="1">
+
+									<p:panel style="cellpading: 10px;">
+										<em>Arquivos anotados</em>
+										<h:panelGrid columns="1">
+											<h:panelGroup>
+												<p:outputLabel value="Arquivo XML - Anotação POS"
+													style="display: block" />
+												<p:outputLabel
+													value="Válido apenas arquivo com extensão .xml):"
+													style="display: block; font-size:9px;" />
+												<p:fileUpload id="arquivoXML" showButtons="false"
+													style="width: 180px;"
+													fileUploadListener="#{controleDocumentoMicro.uploadArquivoXML}"
+													allowTypes="/(\.|\/)(xml|XML)$/" label="Selecionar"
+													auto="true" mode="advanced" update="caminhoXML" />
+												<h:outputText id="caminhoXML"
+													value="Arquivo no servidor: #{controleDocumentoMicro.caminhoArquivoXML}" />
+											</h:panelGroup>
+											<br />
+											<br />
+											<h:panelGroup>
+												<p:outputLabel style="display: block"
+													value="Arquivo PSD - Anotação sintática" />
+												<p:outputLabel
+													value="Válido apenas arquivo com extensão .txt):"
+													style="display: block; font-size:9px;" />
+												<p:fileUpload id="arquivoPSD" style="width: 180px;"
+													fileUploadListener="#{controleDocumentoMicro.uploadArquivoPSD}"
+													allowTypes="/(\.|\/)(txt|TXT)$/" label="Selecionar"
+													auto="true" mode="advanced" update="caminhoPSD" />
+												<h:outputText id="caminhoPSD"
+													value="Arquivo no servidor:#{controleDocumentoMicro.caminhoArquivoPSD}" />
+
+
+											</h:panelGroup>
+											<h:panelGroup>
+												<p:selectBooleanCheckbox id="gerarXML"
+													itemLabel="Gerar Arquivo com anotação sintática XML "
+													value="#{controleDocumentoMicro.checkGerarXML}">
+
+												</p:selectBooleanCheckbox>
+
+												<p:outputLabel style="display: block; font-weight:bold;"
+													id="arquivoXMLSin"
+													header="Arquivo XML de Anotação sintática gerado:" />
+												<h:outputText id="caminhoXMLSintatico"
+													value="#{controleDocumentoMicro.caminhoArquivoPSD}" />
+											</h:panelGroup>
+
+										</h:panelGrid>
+									</p:panel>
+								</h:panelGrid>
+
+
+							</p:tab>
+
+							<p:tab title="Imagens do Documento">
+								<em>Imagens do Documento</em>
+								<p:dataTable id="imagemTable" rows="10"
+									binding="#{imagensComponente}" var="imagem"
+									value="#{controleDocumentoMicro.imagens}"
+									emptyMessage="Nenhuma imagem inserida.">
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Imagem" />
+										</f:facet>
+										<p:graphicImage id="img"
+											value="#{controleDocumentoMicro.getEnderecoImagem(imagem)}"
+											width="35" height="35" />
+									</p:column>
+									<p:column style="width:40px" sortBy="#{imagem.numeroSequencia}">
+										<f:facet name="header">
+											<h:outputText value="Nº" />
+										</f:facet>
+										<h:outputText value="#{imagem.numeroSequencia}" />
+									</p:column>
+									<p:column style="width:70px">
+										<f:facet name="header">
+											<h:outputText value="Código" />
+										</f:facet>
+										<h:outputText value="#{imagem.codigoImagem}" />
+									</p:column>
+
+									<p:column style="width:80px">
+										<f:facet name="header">
+											<h:outputText value="Tipo" />
+										</f:facet>
+										<h:outputText value="#{imagem.tipoImagem.toString()}" />
+									</p:column>
+									<p:column style="width:80px">
+										<f:facet name="header">
+											<h:outputText value="Numeração" />
+										</f:facet>
+										<br />
+										<h:outputText value="Número Folha:#{imagem.numeroFolha}" />
+										<br />
+										<h:outputText value="Número Página:#{imagem.numeroPagina} " />
+									</p:column>
+
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Ações" />
+										</f:facet>
+
+										<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+										<p:commandLink process="@this"
+											actionListener="#{controleDocumentoMicro.removerImagem(imagem)}"
+											update="imagemTable">
+											<p:graphicImage value="/resources/images/apagar.png"
+												id="imagemExcluir" />
+
+
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
+								<BR />
+								<p:commandButton value="Adicionar Imagens" process="@this"
+									update=":mainForm:ImagemTableMacro" 
+									onclick="PF('selecaoImagemDialog').show()" icon="ui-icon-plus" />
+							</p:tab>
+							<p:tab title="Créditos - Transcrição">
+								<em>Créditos da Transcrição do documento</em>
+								<h:panelGrid columns="2">
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="inicioTranscricao"
+											value="Data inicial" />
+										<p:calendar id="inicioTranscricao" size="10"
+											value="#{controleDocumentoMicro.inicioTranscricao}" 
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="fimTranscricao" 
+											value="Data final" />
+										<p:calendar id="fimTranscricao" size="10"
+											value="#{controleDocumentoMicro.fimTranscricao}" 
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+								</h:panelGrid>
+								<p:dataTable id="transcricaoTable" scrollable="true"
+									scrollHeight="172" binding="#{transcricaoComponente}"
+									var="colaborador"
+									value="#{controleDocumentoMicro.colaboradoresTranscricao}"
+									emptyMessage="Nenhum colaborador inserido.">
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Nome do Colaborador" />
+										</f:facet>
+										<h:outputText value="#{colaborador.nomeColaborador}" />
+									</p:column>
+									<p:column style="width:40px">
+										<f:facet name="header">
+											<h:outputText value="Perfil" />
+										</f:facet>
+										<h:outputText
+											value="#{colaborador.categoriaColaborador.toString()}" />
+									</p:column>
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Ações" />
+										</f:facet>
+
+										<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+										<p:commandLink process="@this"
+											actionListener="#{controleDocumentoMicro.removerTranscricao(colaborador)}"
+											update="transcricaoTable">
+											<p:graphicImage value="/resources/images/apagar.png"
+												id="imagemExcluirColaborador2" />
+
+
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
+								<BR />
+								<p:commandButton value="Adicionar Colaborador" process="@this"
+									update=":mainForm:colaboradorTranscricaoTable"
+									onclick="PF('selecaoColaboradorTranscricaoDialog').show()"
+									icon="ui-icon-plus">
+								</p:commandButton>
+
+							</p:tab>
+
+							<p:tab title="Créditos - Edição">
+								<em>Créditos da Edição do documento</em>
+								<h:panelGrid columns="2">
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="inicioEdicao"
+											value="Data inicial" />
+										<p:calendar id="inicioEdicao" size="10"
+											value="#{controleDocumentoMicro.inicioEdicao}"
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="fimEdicao"
+											value="Data final" />
+										<p:calendar id="fimEdicao" size="10"
+											value="#{controleDocumentoMicro.fimEdicao}"
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+								</h:panelGrid>
+								<p:dataTable id="edicaoTable" scrollable="true"
+									scrollHeight="172" binding="#{edicaoComponente}"
+									var="colaborador"
+									value="#{controleDocumentoMicro.colaboradoresEdicao}"
+									emptyMessage="Nenhum colaborador inserido.">
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Nome do Colaborador" />
+										</f:facet>
+										<h:outputText value="#{colaborador.nomeColaborador}" />
+									</p:column>
+									<p:column style="width:40px">
+										<f:facet name="header">
+											<h:outputText value="Perfil" />
+										</f:facet>
+										<h:outputText
+											value="#{colaborador.categoriaColaborador.toString()}" />
+									</p:column>
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Ações" />
+										</f:facet>
+
+										<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+										<p:commandLink process="@this"
+											actionListener="#{controleDocumentoMicro.removerEdicao(colaborador)}"
+											update="edicaoTable">
+											<p:graphicImage value="/resources/images/apagar.png"
+												id="imagemExcluirColaborador" />
+
+
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
+								<BR />
+								<p:commandButton value="Adicionar Colaborador" process="@this"
+									update=":mainForm:colaboradorEdicaoTable"
+									onclick="PF('selecaoColaboradorEdicaoDialog').show()"
+									icon="ui-icon-plus" />
+
+
+							</p:tab>
+							<p:tab title="Créditos - Morfologia">
+								<em>Créditos da Revisão da anotação morfológica do
+									documento</em>
+								<h:panelGrid columns="2">
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="inicioRevisaoM"
+											value="Data inicial" />
+										<p:calendar id="inicioRevisaoM" size="10"
+											value="#{controleDocumentoMicro.inicioRevisaoM}"
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="fimRevisaoM"
+											value="Data final" />
+										<p:calendar id="fimRevisaoM" size="10"
+											value="#{controleDocumentoMicro.fimRevisaoM}"
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+								</h:panelGrid>
+								<p:dataTable id="revisaoMTable" scrollable="true"
+									scrollHeight="172" binding="#{revisaoMComponente}"
+									var="colaborador"
+									value="#{controleDocumentoMicro.colaboradoresRevisaoM}"
+									emptyMessage="Nenhum colaborador inserido.">
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Nome do Colaborador" />
+										</f:facet>
+										<h:outputText value="#{colaborador.nomeColaborador}" />
+									</p:column>
+									<p:column style="width:40px">
+										<f:facet name="header">
+											<h:outputText value="Perfil" />
+										</f:facet>
+										<h:outputText
+											value="#{colaborador.categoriaColaborador.toString()}" />
+									</p:column>
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Ações" />
+										</f:facet>
+
+										<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+										<p:commandLink process="@this"
+											actionListener="#{controleDocumentoMicro.removerRevisaoM(colaborador)}"
+											update="revisaoMTable">
+											<p:graphicImage value="/resources/images/apagar.png"
+												id="imagemExcluirColaborador3" />
+
+
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
+								<BR />
+								<p:commandButton value="Adicionar Colaborador" process="@this"
+									update=":mainForm:colaboradorRevisaoMTable"
+									onclick="PF('selecaoColaboradorRevisaoMDialog').show()"
+									icon="ui-icon-plus" />
+
+							</p:tab>
+							<p:tab title="Créditos - Sintaxe">
+								<em>Créditos da Revisão da anotação sintática do documento</em>
+								<h:panelGrid columns="2">
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="inicioRevisaoS"
+											value="Data inicial" />
+										<p:calendar id="inicioRevisaoS" size="10"
+											value="#{controleDocumentoMicro.inicioRevisaoS}"
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="fimRevisaoS"
+											value="Data final" />
+										<p:calendar id="fimRevisaoS" size="10"
+											value="#{controleDocumentoMicro.fimRevisaoS}"
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+								</h:panelGrid>
+								<p:dataTable id="revisaoSTable" scrollable="true"
+									scrollHeight="172" binding="#{revisaoSComponente}"
+									var="colaborador"
+									value="#{controleDocumentoMicro.colaboradoresRevisaoS}"
+									emptyMessage="Nenhum colaborador inserido.">
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Nome do Colaborador" />
+										</f:facet>
+										<h:outputText value="#{colaborador.nomeColaborador}" />
+									</p:column>
+									<p:column style="width:40px">
+										<f:facet name="header">
+											<h:outputText value="Perfil" />
+										</f:facet>
+										<h:outputText
+											value="#{colaborador.categoriaColaborador.toString()}" />
+									</p:column>
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Ações" />
+										</f:facet>
+
+										<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+										<p:commandLink process="@this"
+											actionListener="#{controleDocumentoMicro.removerRevisaoS(colaborador)}"
+											update="revisaoSTable">
+											<p:graphicImage value="/resources/images/apagar.png"
+												id="imagemExcluirColaborador4" />
+
+
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
+								<BR />
+								<p:commandButton value="Adicionar Colaborador" process="@this"
+									update=":mainForm:colaboradorRevisaoSTable"
+									onclick="PF('selecaoColaboradorRevisaoSDialog').show()"
+									icon="ui-icon-plus" />
+
+							</p:tab>
+							<p:tab title="Créditos-Cadastro">
+								<em>Créditos do Cadastro do documento no WebSinc</em>
+								<h:panelGrid columns="2">
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="inicioCadastroW"
+											value="Data inicial" />
+										<p:calendar id="inicioCadastroW" size="10"
+											value="#{controleDocumentoMicro.inicioCadastroW}"
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="fimCadastroW"
+											value="Data final" />
+										<p:calendar id="fimCadastroW" size="10"
+											value="#{controleDocumentoMicro.fimCadastroW}"
+											pattern="dd/MM/yyyy" mask="true">
+										</p:calendar>
+									</h:panelGroup>
+								</h:panelGrid>
+								<p:dataTable id="cadastroWTable" scrollable="true"
+									scrollHeight="172" binding="#{cadastroWComponente}"
+									var="colaborador"
+									value="#{controleDocumentoMicro.colaboradoresCadastroW}"
+									emptyMessage="Nenhum colaborador inserido.">
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Nome do Colaborador" />
+										</f:facet>
+										<h:outputText value="#{colaborador.nomeColaborador}" />
+									</p:column>
+									<p:column style="width:40px">
+										<f:facet name="header">
+											<h:outputText value="Perfil" />
+										</f:facet>
+										<h:outputText
+											value="#{colaborador.categoriaColaborador.toString()}" />
+									</p:column>
+									<p:column style="width:30px">
+										<f:facet name="header">
+											<h:outputText value="Ações" />
+										</f:facet>
+
+										<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+										<p:commandLink process="@this"
+											actionListener="#{controleDocumentoMicro.removerCadastroW(colaborador)}"
+											update="cadastroWTable">
+											<p:graphicImage value="/resources/images/apagar.png"
+												id="imagemExcluirColaborador5" />
+
+
+										</p:commandLink>
+									</p:column>
+								</p:dataTable>
+								<BR />
+								<p:commandButton value="Adicionar Colaborador" process="@this"
+									update=":mainForm:colaboradorCadastroWTable"
+									onclick="PF('selecaoColaboradorCadastroWDialog').show()"
+									icon="ui-icon-plus" />
+
+							</p:tab>
+						</p:tabView>
+
+						<h:outputText value="* Campos obrigatórios"
+							style="position: relative; left: 215px;" />
+						<br />
+						<br />
+						<h:panelGrid columns="2" style="position: relative; left: 280px;">
+							<h:commandButton value="Salvar"
+								actionListener="#{controleDocumentoMicro.gravar}"
+								icon="ui-icon-disk">
+								<f:ajax execute="@form" render="@form" />
+							</h:commandButton>
+							<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+								process="@this" action="#{controleDocumentoMicro.cancelar()}"
+								update="@form" immediate="true" />
+						</h:panelGrid>
+						<br />
+						<br />
+					</p:outputPanel>
+
+
+				</p:outputPanel>
+
+				<p:dialog id="confirmacao" header="Exclusão de documento"
+					widgetVar="confirmDeleteDialog" modal="true">
+					<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+					<p:outputLabel
+						value="Tem certeza de que deseja excluir este documento?" />
+					<br />
+					<br />
+					<br />
+					<p:commandButton value="Sim"
+						action="#{controleDocumentoMicro.excluir()}" process="@this"
+						onclick="PF('confirmDeleteDialog').hide();" update="@form" />
+					<p:commandButton value="Não"
+						action="#{controleDocumentoMicro.cancelar()}" update="@form"
+						immediate="true" />
+					<br />
+				</p:dialog>
+
+				<p:dialog id="selecaoImagem" header="Selecionar arquivo de imagem"
+					widgetVar="selecaoImagemDialog" modal="true" width="800">
+					<p:hotkey bind="esc" handler="selecaoImagemDialog.hide();" />
+					<p:panel styleClass="panelContent">
+						<br />
+
+						<br />
+						<p:dataTable id="ImagemTableMacro" rows="10" paginator="true"
+							var="imagem"
+							value="#{controleDocumentoMicro.getImagensSelecao()}"
+							emptyMessage="Nenhuma imagem do documento macro.">
+							<p:column style="width:10px">
+								<f:facet name="header">
+									<h:outputText value="Nº" />
+								</f:facet>
+								<h:outputText value="#{imagem.numeroSequencia}" />
+							</p:column>
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Código" />
+								</f:facet>
+								<h:outputText value="#{imagem.codigoImagem}" />
+							</p:column>
+
+							<p:column style="width:40px">
+								<f:facet name="header">
+									<h:outputText value="Tipo" />
+								</f:facet>
+								<h:outputText value="#{imagem.tipoImagem.toString()}" />
+							</p:column>
+							<p:column style="width:15px">
+								<f:facet name="header">
+									<h:outputText value="Nr Folha" />
+								</f:facet>
+
+								<h:outputText value="#{imagem.numeroFolha}" />
+
+							</p:column>
+							<p:column style="width:15px">
+								<f:facet name="header">
+									<h:outputText value="Nr Página" />
+								</f:facet>
+
+								<h:outputText value="#{imagem.numeroPagina}" />
+
+							</p:column>
+
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Selecionar" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{imagem.selecionada}" />
+
+							</p:column>
+						</p:dataTable>
+						<BR />
+						<h:panelGrid columns="2" style="position: relative; left: 500px;">
+							<h:commandButton value="Adicionar"
+								actionListener="#{controleDocumentoMicro.adicionarImagens}"
+								onclick="PF('selecaoImagemDialog').hide()" icon="ui-icon-plus">
+
+								<f:ajax execute=":mainForm:ImagemTableMacro"
+									render=":#{imagensComponente.clientId}" />
+							</h:commandButton>
+
+							<p:commandButton value="Cancelar" type="button"
+								onclick="PF('selecaoImagemDialog').hide()" icon="ui-icon-cancel" />
+						</h:panelGrid>
+					</p:panel>
+				</p:dialog>
+
+				<p:dialog id="selecaoColaboradorTranscricao"
+					header="Selecionar colaborador para a transcrição"
+					widgetVar="selecaoColaboradorTranscricaoDialog" modal="true"
+					width="800">
+					<p:hotkey bind="esc"
+						handler="selecaoColaboradorTranscricaoDialog.hide();" />
+					<p:panel styleClass="panelContent">
+						<br />
+						<br />
+						<p:dataTable id="colaboradorTranscricaoTable" scrollable="true"
+							scrollHeight="300" var="colaborador"
+							value="#{controleDocumentoMicro.getTableTranscricao()}"
+							emptyMessage="Nenhum colaborador cadastrado.">
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Nome" />
+								</f:facet>
+								<h:outputText value="#{colaborador.nomeColaborador}" />
+							</p:column>
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Perfil" />
+								</f:facet>
+								<h:outputText
+									value="#{colaborador.categoriaColaborador.toString()}" />
+							</p:column>
+
+							<p:column style="width:10px">
+								<f:facet name="header">
+									<h:outputText value="Selecionar" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{colaborador.selecionado}" />
+
+							</p:column>
+						</p:dataTable>
+						<BR />
+						<h:panelGrid columns="2" style="position: relative; left: 500px;">
+							<h:commandButton value="Adicionar"
+								actionListener="#{controleDocumentoMicro.adicionarColaboradoresTranscricao()}"
+								onclick="PF('selecaoColaboradorTranscricaoDialog').hide()"
+								icon="ui-icon-plus">
+								<f:ajax execute=":mainForm:colaboradorTranscricaoTable"
+									render=":#{transcricaoComponente.clientId}" />
+							</h:commandButton>
+
+							<p:commandButton value="Cancelar" type="button"
+								onclick="PF('selecaoColaboradorTranscricaoDialog').hide()"
+								icon="ui-icon-cancel" />
+						</h:panelGrid>
+					</p:panel>
+				</p:dialog>
+
+
+
+
+
+
+
+
+
+				<p:dialog id="selecaoColaboradorEdicao"
+					header="Selecionar colaborador para a edição"
+					widgetVar="selecaoColaboradorEdicaoDialog" modal="true" width="800">
+					<p:hotkey bind="esc"
+						handler="selecaoColaboradorEdicaoDialog.hide();" />
+					<p:panel styleClass="panelContent">
+						<br />
+
+						<br />
+						<p:dataTable id="colaboradorEdicaoTable" scrollable="true"
+							scrollHeight="300" var="colaborador"
+							value="#{controleDocumentoMicro.getTableEdicao()}"
+							emptyMessage="Nenhum colaborador cadastrado.">
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Nome" />
+								</f:facet>
+								<h:outputText value="#{colaborador.nomeColaborador}" />
+							</p:column>
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Perfil" />
+								</f:facet>
+								<h:outputText
+									value="#{colaborador.categoriaColaborador.toString()}" />
+							</p:column>
+
+							<p:column style="width:10px">
+								<f:facet name="header">
+									<h:outputText value="Selecionar" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{colaborador.selecionado}" />
+
+							</p:column>
+						</p:dataTable>
+						<BR />
+						<h:panelGrid columns="2" style="position: relative; left: 500px;">
+							<h:commandButton value="Adicionar"
+								actionListener="#{controleDocumentoMicro.adicionarColaboradoresEdicao()}"
+								onclick="PF('selecaoColaboradorEdicaoDialog').hide()"
+								icon="ui-icon-plus">
+								<f:ajax execute=":mainForm:colaboradorEdicaoTable"
+									render=":#{edicaoComponente.clientId}" />
+							</h:commandButton>
+
+							<p:commandButton value="Cancelar" type="button"
+								onclick="PF('selecaoColaboradorEdicaoDialog').hide()"
+								icon="ui-icon-cancel" />
+						</h:panelGrid>
+					</p:panel>
+				</p:dialog>
+
+
+
+
+
+
+				<p:dialog id="selecaoColaboradorRevisaoM"
+					header="Selecionar colaborador para a revisão da morfoogia"
+					widgetVar="selecaoColaboradorRevisaoMDialog" modal="true"
+					width="800">
+					<p:hotkey bind="esc"
+						handler="selecaoColaboradorRevisaoMDialog.hide();" />
+					<p:panel styleClass="panelContent">
+						<br />
+
+						<br />
+						<p:dataTable id="colaboradorRevisaoMTable" scrollable="true"
+							scrollHeight="300" var="colaborador"
+							value="#{controleDocumentoMicro.getTableRevisaoM()}"
+							emptyMessage="Nenhum colaborador cadastrado.">
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Nome" />
+								</f:facet>
+								<h:outputText value="#{colaborador.nomeColaborador}" />
+							</p:column>
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Perfil" />
+								</f:facet>
+								<h:outputText
+									value="#{colaborador.categoriaColaborador.toString()}" />
+							</p:column>
+
+							<p:column style="width:10px">
+								<f:facet name="header">
+									<h:outputText value="Selecionar" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{colaborador.selecionado}" />
+
+							</p:column>
+						</p:dataTable>
+						<BR />
+						<h:panelGrid columns="2" style="position: relative; left: 500px;">
+							<h:commandButton value="Adicionar"
+								actionListener="#{controleDocumentoMicro.adicionarColaboradoresRevisaoM()}"
+								onclick="PF('selecaoColaboradorRevisaoMDialog').hide()"
+								icon="ui-icon-plus">
+								<f:ajax execute=":mainForm:colaboradorRevisaoMTable"
+									render=":#{revisaoMComponente.clientId}" />
+							</h:commandButton>
+
+							<p:commandButton value="Cancelar" type="button"
+								onclick="PF('selecaoColaboradorRevisaoMDialog').hide()"
+								icon="ui-icon-cancel" />
+						</h:panelGrid>
+					</p:panel>
+				</p:dialog>
+
+
+
+
+
+				<p:dialog id="selecaoColaboradorRevisaoS"
+					header="Selecionar colaborador para a revisão da sintaxe"
+					widgetVar="selecaoColaboradorRevisaoSDialog" modal="true"
+					width="800">
+					<p:hotkey bind="esc"
+						handler="selecaoColaboradorRevisaoSDialog.hide();" />
+					<p:panel styleClass="panelContent">
+						<br />
+
+						<br />
+						<p:dataTable id="colaboradorRevisaoSTable" scrollable="true"
+							scrollHeight="300" var="colaborador"
+							value="#{controleDocumentoMicro.getTableRevisaoS()}"
+							emptyMessage="Nenhum colaborador cadastrado.">
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Nome" />
+								</f:facet>
+								<h:outputText value="#{colaborador.nomeColaborador}" />
+							</p:column>
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Perfil" />
+								</f:facet>
+								<h:outputText
+									value="#{colaborador.categoriaColaborador.toString()}" />
+							</p:column>
+
+							<p:column style="width:10px">
+								<f:facet name="header">
+									<h:outputText value="Selecionar" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{colaborador.selecionado}" />
+
+							</p:column>
+						</p:dataTable>
+						<BR />
+						<h:panelGrid columns="2" style="position: relative; left: 500px;">
+							<h:commandButton value="Adicionar"
+								actionListener="#{controleDocumentoMicro.adicionarColaboradoresRevisaoS()}"
+								onclick="PF('selecaoColaboradorRevisaoSDialog').hide()"
+								icon="ui-icon-plus">
+								<f:ajax execute=":mainForm:colaboradorRevisaoSTable"
+									render=":#{revisaoSComponente.clientId}" />
+							</h:commandButton>
+
+							<p:commandButton value="Cancelar" type="button"
+								onclick="PF('selecaoColaboradorRevisaoSDialog').hide()"
+								icon="ui-icon-cancel" />
+						</h:panelGrid>
+					</p:panel>
+				</p:dialog>
+
+
+
+				<p:dialog id="selecaoColaboradorCadastroW"
+					header="Selecionar colaborador para o cadastro no WebSinc"
+					widgetVar="selecaoColaboradorCadastroWDialog" modal="true"
+					width="800">
+					<p:hotkey bind="esc"
+						handler="selecaoColaboradorCadastroWDialog.hide();" />
+					<p:panel styleClass="panelContent">
+						<br />
+
+						<br />
+						<p:dataTable id="colaboradorCadastroWTable" scrollable="true"
+							scrollHeight="300" var="colaborador"
+							value="#{controleDocumentoMicro.getTableCadastroW()}"
+							emptyMessage="Nenhum colaborador cadastrado.">
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Nome" />
+								</f:facet>
+								<h:outputText value="#{colaborador.nomeColaborador}" />
+							</p:column>
+							<p:column style="width:20px">
+								<f:facet name="header">
+									<h:outputText value="Perfil" />
+								</f:facet>
+								<h:outputText
+									value="#{colaborador.categoriaColaborador.toString()}" />
+							</p:column>
+
+							<p:column style="width:10px">
+								<f:facet name="header">
+									<h:outputText value="Selecionar" />
+								</f:facet>
+								<p:selectBooleanCheckbox value="#{colaborador.selecionado}" />
+
+							</p:column>
+						</p:dataTable>
+						<BR />
+						<h:panelGrid columns="2" style="position: relative; left: 500px;">
+							<h:commandButton value="Adicionar"
+								actionListener="#{controleDocumentoMicro.adicionarColaboradoresCadastroW()}"
+								onclick="PF('selecaoColaboradorCadastroWDialog').hide()"
+								icon="ui-icon-plus">
+								<f:ajax execute=":mainForm:colaboradorCadastroWTable"
+									render=":#{cadastroWComponente.clientId}" />
+							</h:commandButton>
+
+							<p:commandButton value="Cancelar" type="button"
+								onclick="PF('selecaoColaboradorCadastroWDialog').hide()"
+								icon="ui-icon-cancel" />
+						</h:panelGrid>
+					</p:panel>
+				</p:dialog>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

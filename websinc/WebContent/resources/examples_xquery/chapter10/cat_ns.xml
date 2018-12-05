@@ -1,0 +1,11 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Namespace declarations and scope (cat_ns.xml) -->
+<catalog xmlns="http://datypic.com/cat">
+  <number>1446</number>
+  <prod:product xmlns:prod="http://datypic.com/prod">
+    <prod:number>563</prod:number>
+    <prod:name language="en">Floppy Sun Hat</prod:name>
+  </prod:product>
+</catalog>
+
+

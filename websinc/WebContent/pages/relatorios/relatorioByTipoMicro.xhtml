@@ -1,0 +1,76 @@
+
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+
+
+		<h:form id="mainForm" enctype="multipart/form-data">
+			<p:growl showDetail="true" sticky="true"></p:growl>
+			<p:panel header="Relatórios Corpus DoVic"
+				styleClass="panelContent">
+				
+				<br />
+				<p:outputPanel id="list-container" layout="block">
+				<em>Quantitativo Geral</em>	
+					<p:dataTable id="relatorioTable" rows="10" 
+						paginatorPosition="bottom" var="relatorio"
+						value="#{controleRelatorios.groupByTipoMicro()}"
+						emptyMessage="Nenhum documento macro inserido.">
+				
+						<p:column style="width:70px">
+							<f:facet name="header">
+								<h:outputText value="Tipo de Documento" />
+							</f:facet>
+							    
+                              <h:outputText value="#{relatorio.nomeTipoMicro}" />           
+                           
+						</p:column>
+						<p:column style="width:70px">
+							<f:facet name="header">
+								<h:outputText value="Quantidade de documentos" />
+							</f:facet>
+							<h:outputText value="#{relatorio.total}" />
+						</p:column>
+																		
+				
+						
+					</p:dataTable>
+				</p:outputPanel>
+		<br/><br/><br/>	
+		<em>Quantitativo Detalhado</em>	
+		<p:dataTable var="macro" value="#{controleRelatorios.groupByTipoMicroDetalhado()}">
+       
+ 
+        <p:columnGroup type="header">
+           
+            <p:row>
+                <p:column headerText="Tipo de documento" />
+                <p:column headerText="Quantidade de documentos" />
+            </p:row>
+        </p:columnGroup>
+ 
+        <p:subTable var="detalhes" value="#{macro.detalhes}">
+            <f:facet name="header">
+                <h:outputText value="#{macro.nomeMacro}" />
+            </f:facet>
+          
+            <p:column>
+                <h:outputText value="#{detalhes.nomeTipoMicro}" />
+            </p:column>
+            <p:column>
+                <h:outputText value="#{detalhes.total}" />
+            </p:column>
+           
+        </p:subTable>
+    </p:dataTable>
+				
+				
+				</p:panel>
+				</h:form></ui:define></ui:composition>
+				

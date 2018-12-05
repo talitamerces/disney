@@ -1,0 +1,12 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 13-2. Beginning of the catalog schema with target namespace -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://datypic.com/prod"
+           xmlns:prod="http://datypic.com/prod">
+  <xs:element name="catalog" type="prod:CatalogType"/>
+  <xs:complexType name="CatalogType">
+  <!-- ... -->
+
+</xs:schema>

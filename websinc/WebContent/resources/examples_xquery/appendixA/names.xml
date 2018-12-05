@@ -1,0 +1,9 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Namespaces in XML -->
+<noNamespace>
+  <pre:prefixed xmlns="http://datypic.com/unpre"
+           xmlns:pre="http://datypic.com/pre">
+    <unprefixed pre:prefAttr="a" noNSAttr="b">123</unprefixed>
+  </pre:prefixed>
+</noNamespace>
+

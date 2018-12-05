@@ -1,0 +1,431 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+​
+	<ui:define name="body.content.center">
+		<h:form id="mainForm" enctype="multipart/form-data">
+			<div class="ui-fluid">
+				<p:growl showDetail="true" sticky="true" id="messages"></p:growl>
+				<p:panel style="min-height: 500px">
+					<p:breadCrumb>
+						<p:menuitem value="Início" url="#" />
+						<p:menuitem value="Corpus" url="#" />
+						<p:menuitem value="Documentos" url="#" />
+						<p:menuitem value="Documentos Macro" url="#" />
+					</p:breadCrumb>
+					<br />
+
+					<br />
+<!-- 					<f:facet name="header"> -->
+<!-- 						<h:commandLink id="ajuda" -->
+<!-- 							styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"> -->
+<!-- 							<h:outputText styleClass="ui-icon ui-icon-help" /> -->
+<!-- 							<p:tooltip id="toolTHelp" for="ajuda" value="Ajuda" /> -->
+<!-- 						</h:commandLink> -->
+<!-- 					</f:facet> -->
+<!-- 					<br /> -->
+					<div style="max-height: 100%; max-width: 100%; text-align: center;">
+						<h:outputText style="font-size:21px;" value="OS DOCUMENTOS MACRO" />
+					</div>
+					<br />
+					<br />
+					<!-- botões voltar e novo -->
+					<p:commandButton id="voltarButton" value="Voltar" update="@form"
+						process="@this" icon="ui-icon-arrowreturnthick-1-w"
+						action="#{controleDocumentoMacro.cancelar()}"
+						style="float:left;;widht:300px" />
+					<p:commandButton id="novoButton" value="Novo"
+						style="float: right;widht:300px" label="Adicionar documento macro"
+						process="@this" update=":mainForm:edit-container"
+						icon="ui-icon-plus" action="#{controleDocumentoMacro.novoTcc()}" />
+					<!-- o grid principal   -->
+					<br />
+					<br />
+					<div class="ui-fluid">
+						<p:dataTable id="documentoMacroTable" paginator="true" rows="15"
+							var="documentoMacro" selectionMode="single"
+							rowKey="#{documentoMacro.idDocumentoFisico}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
+							value="#{controleDocumentoMacro.dao.listarTodos()}"
+							style="margin-top:5px"
+							emptyMessage="Nenhum documento macro inserido.">
+							<p:column style="width:10%; text-align:center">
+								<f:facet name="header">
+									<h:outputText class="titTabela" value=" Código" />
+								</f:facet>
+								<h:outputText class="contTab" style="text-align: center;"
+									value="#{documentoMacro.idDocumentoFisico}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText class="titTabela" value="Título do documento" />
+								</f:facet>
+								<h:outputText class="contTab" value="#{documentoMacro.titulo}" />
+							</p:column>
+							<p:column style="width:20%; text-align:center">
+								<f:facet name="header">
+									<h:outputText class="titTabela" value="Tipo de documento" />
+								</f:facet>
+								<h:outputText class="contTab"
+									value="#{documentoMacro.tipoMacro.descricaoTipoMacro}" />
+							</p:column>
+							<p:column style="width:10%; text-align:center">
+								<f:facet name="header">
+									<h:outputText class="titTabela" value="Vincular" />
+								</f:facet>
+								<!-- 								<p:commandLink process="@this" -->
+								<!-- 									title="Vincular imagem ou manuscrito ao documento macro" -->
+								<!-- 									onclick="PF('vinculadosDialog').show()"> -->
+								<!-- 									<p:graphicImage value="/resources/images/link.png" -->
+								<!-- 										id="imagemVincular" /> -->
+								<!-- 									<f:param id="idMacroSelected1" name="idMacroSelected" -->
+								<!-- 										value="#{documentoMacro.id}" /> -->
+								<!-- 								</p:commandLink> -->
+
+								<p:button title="Adicionar Imagem" value="Imagem"
+									style="font-size:9px;  text-align-last: center; width:55px"
+									outcome="#{controleDocumentoMacro.inserirImagemTcc()}">
+									<f:param id="idMacroSelected1" name="idMacroSelected"
+										value="#{documentoMacro.id}" />
+								</p:button>
+
+								<p:button title="Adicionar Manuscrito" value="Texto"
+									style="font-size:9px; text-align-last: center; width:55px "
+									outcome="#{controleDocumentoMacro.inserirFilhoTcc()}">
+									<f:param id="idMacroSelected2" name="idMacroSelected"
+										value="#{documentoMacro.id}" />
+								</p:button>
+							</p:column>
+							<p:column style="width:8%; text-align:center">
+								<f:facet name="header">
+									<h:outputText class="titTabela" value="Editar" />
+								</f:facet>
+								<p:commandLink process="@this" update=":mainForm:edit-container"
+									title="Editar"
+									action="#{controleDocumentoMacro.alterarTcc(documentoMacro)}">
+									<p:graphicImage value="/resources/images/editar.png"
+										id="imagemAlterar" />
+									<f:setPropertyActionListener
+										target="#{controleDocumentoMacro.objeto}"
+										value="#{documentoMacro}" />
+								</p:commandLink>
+							</p:column>
+							<p:column style="width:8%; text-align:center">
+								<f:facet name="header">
+									<h:outputText class="titTabela" value="Excluir" />
+								</f:facet>
+								<p:commandLink onclick="PF('confirmDeleteDialog').show();"
+									title="Excluir">
+									<p:graphicImage value="/resources/images/trash.gif"
+										id="imagemExcluir" />
+									<f:setPropertyActionListener
+										target="#{controleDocumentoMacro.objeto}"
+										value="#{documentoMacro}" />
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</div>
+
+					<p:messages id="msgs" />
+					<p:outputPanel id="edit-container" layout="block">
+						<p:dialog id="newDM" header="Documento macro"
+							widgetVar="novoDocMacroDialog" modal="true" resizable="false"
+							visible="#{controleDocumentoMacro.edicao}"
+							style="overflow-y:auto;max-height:85%; min-width:75%; max-width:90%">
+							<p:ajax event="close" resetValues="true" update="newDM" />
+							<br />
+							<!-- 							<p:panel header="Sobre" style="display: block;" styleClass="font"> -->
+							<em tabindex="1">Sobre</em>
+							<br />
+							<h:panelGroup style="display: block; margin-left:25px;">
+								<p:outputLabel style="display: block;" for="codigo"
+									value="Código" />
+								<p:inputText id="codigo" style="cols:50"
+									value="#{controleDocumentoMacro.objeto.idDocumentoFisico}" />
+							</h:panelGroup>
+							<br />
+							<br />
+							<h:panelGroup>
+								<p:outputLabel style="margin-left:25px;display: block"
+									for="titulo" value="Título" />
+								<p:inputTextarea id="titulo" required="true"
+									requiredMessage="* Campo obrigatório! *"
+									style="overflow-y: auto; resize:false; height:30px;margin-left:25px; width:90%"
+									value="#{controleDocumentoMacro.objeto.titulo}">
+									<!-- 											<f:validateLength minimum="1" for="titulo" /> -->
+								</p:inputTextarea>
+								<!-- <p:message for="titulo" display="icon" /> -->
+							</h:panelGroup>
+							<br />
+							<br />
+							<h:panelGroup>
+								<p:outputLabel style="margin-left:25px;display: block"
+									for="descricao" value="Descrição do Documento" />
+								<p:inputTextarea id="descricao"
+									style="overflow-y:auto; resize:false; height: 51px; margin-left:25px; width:90%"
+									value="#{controleDocumentoMacro.objeto.descricaoVolume}" />
+							</h:panelGroup>
+							<br />
+							<br />
+							<h:panelGroup>
+								<p:outputLabel style="margin-left:25px;display: block;"
+									value="Local de Depósito" for="localDocumento" />
+								<p:selectOneMenu appendTo="@this" id="localDocumento"
+									style=" width:90%; margin-left:25px;" layout="responsive"
+									height="80" labelTemplate="ocalDocumento"
+									value="#{controleDocumentoMacro.selectedLocalDeposito}">
+									<f:selectItem itemValue="null"
+										itemLabel="Sel. um local de depósito" />
+									<f:selectItems
+										value="#{controleDocumentoMacro.listaLocaisDeposito}"
+										var="locais" itemLabel="#{locais}" itemValue="#{locais}" />
+								</p:selectOneMenu>
+							</h:panelGroup>
+							<br />
+							<br />
+							<h:panelGroup>
+								<p:outputLabel style=" margin-left:25px;display: block"
+									value="Tipo de Documento" for="tipo" />
+								<p:selectOneMenu appendTo="@this" id="tipo" required="true"
+									style=" margin-left:25px;" height="80"
+									value="#{controleDocumentoMacro.selectedTipoMacro}">
+									<f:selectItem itemValue="null" itemLabel="Sel. um tipo" />
+									<f:selectItems value="#{controleDocumentoMacro.listaTipos}"
+										var="tipos" itemLabel="#{tipos.descricaoTipoMacro}"
+										itemValue="#{tipos}" />
+								</p:selectOneMenu>
+							</h:panelGroup>
+							<!-- 							</p:panel> -->
+							<br />
+							<br />
+							<br />
+							<em tabindex="2">Período</em>
+							<!-- 							<p:panel header="Período" style="overflow:auto;"> -->
+							<h:panelGrid columns="5" layout="grid" width="60%"
+								style=" margin-left:25px;"
+								columnClasses="ui-grid-col-4,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+								styleClass="ui-panelgrid-blank">
+								<p:outputLabel value="Tipo de Data" for="tipoData" />
+								<p:outputLabel for="dataInicio" value="Data Inicial" />
+								<p:outputLabel for="dataFim" value="Data Final" />
+								<p:outputLabel for="anoInicio" value="Ano Inicial" />
+								<p:outputLabel for="anoFim" value="Ano Final" />
+
+								<p:selectOneMenu appendTo="@this" id="tipoData" height="80"
+									effect="fade"
+									value="#{controleDocumentoMacro.selectedTipoData}">
+									<f:selectItems value="#{controleDocumentoMacro.listaTipoData}"
+										itemDescription="true" var="tiposData"
+										itemLabel="#{tiposData.label}" itemValue="#{tiposData}" />
+								</p:selectOneMenu>
+
+								<p:calendar appendTo="@this" id="dataInicio" size="9"
+									style="text-align:center"
+									value="#{controleDocumentoMacro.objeto.dataInicioDocumento}"
+									pattern="dd/MM/yyyy" mask="true">
+									<p:ajax listener="#{controleDocumentoMacro.ajaxAnoInicio()}"
+										update="anoInicio" event="dateSelect" />
+								</p:calendar>
+
+								<p:calendar appendTo="@this" id="dataFim" size="9"
+									style="text-align:center"
+									value="#{controleDocumentoMacro.objeto.dataFimDocumento}"
+									pattern="dd/MM/yyyy" mask="true">
+									<p:ajax listener="#{controleDocumentoMacro.ajaxAnoFim()}"
+										update="anoFim" event="dateSelect" />
+								</p:calendar>
+
+								<p:inputText id="anoInicio" size="9" style="text-align:center"
+									value="#{controleDocumentoMacro.anoInicio}" />
+
+								<p:inputText style="text-align:center" id="anoFim" size="9"
+									value="#{controleDocumentoMacro.anoFim}" />
+							</h:panelGrid>
+							<!-- 							</p:panel> -->
+							<br />
+							<br />
+							<br />
+							<em tabindex="3">Dimensões</em>
+							<!-- 							<p:panel header="Dimensões" style="overflow:auto;"> -->
+							<h:panelGrid layout="grid" columns="3" width="40%"
+								style=" margin-left:25px;"
+								columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4">
+								<p:outputLabel for="altura" value="Altura(cm)" />
+								<p:outputLabel for="largura" value="Largura(cm)" />
+								<p:outputLabel for="profundidade" value="Profundidade(cm)" />
+
+								<p:inputText id="altura" size="10" style="text-align:center"
+									value="#{controleDocumentoMacro.objeto.alturaDocumento}"
+									label="alt" />
+								<p:inputText id="largura" size="10" style="text-align:center"
+									value="#{controleDocumentoMacro.objeto.larguraDocumento}"
+									label="larg" />
+								<p:inputText id="profundidade" size="10"
+									style="text-align:center"
+									value="#{controleDocumentoMacro.objeto.profundidadeDocumento}" />
+							</h:panelGrid>
+							<!-- 							</p:panel> -->
+							<br />
+							<br />
+							<br />
+							<em tabindex="4">Materiais</em>
+							<!-- 							<p:panel header="Materiais" style="overflow:auto;"> -->
+							<h:panelGrid id="dadosCapa" columns="4" width="60%"
+								style=" margin-left:25px;"
+								columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3">
+								<h:panelGroup>
+									<p:outputLabel for="comCapa" value="Com capa " />
+									<p:selectBooleanCheckbox id="comCapa"
+										value="#{controleDocumentoMacro.comCapa}">
+										<p:ajax event="change"
+											update="materialCapa corCapa comCapaOriginal" />
+									</p:selectBooleanCheckbox>
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel for="comCapaOriginal" value="Capa original " />
+									<p:selectBooleanCheckbox id="comCapaOriginal" appendTo="@this"
+										disabled="#{!controleDocumentoMacro.comCapa}"
+										value="#{controleDocumentoMacro.objeto.capaOriginal}">
+									</p:selectBooleanCheckbox>
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Material da capa"
+										for="materialCapa" />
+									<p:selectOneMenu appendTo="@this" id="materialCapa" height="80"
+										disabled="#{!controleDocumentoMacro.comCapa}"
+										value="#{controleDocumentoMacro.selectedMaterialCapa}">
+										<f:selectItem itemValue="null" itemLabel="Sel. material" />
+										<f:selectItems
+											value="#{controleDocumentoMacro.listaMateriais}"
+											var="material" itemLabel="#{material.nomeMaterialCapa}"
+											itemValue="#{material}" />
+									</p:selectOneMenu>
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Cor da capa"
+										for="corCapa" />
+									<p:selectOneMenu appendTo="@this" id="corCapa" height="80"
+										disabled="#{!controleDocumentoMacro.comCapa}"
+										value="#{controleDocumentoMacro.selectedCorCapa}">
+										<f:selectItem itemValue="null" itemLabel="Sel. cor" />
+										<f:selectItems value="#{controleDocumentoMacro.listaCores}"
+											var="cor" itemLabel="#{cor.nomeCor}" itemValue="#{cor}" />
+									</p:selectOneMenu>
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel for="comForro" value="Com forro " />
+									<p:selectBooleanCheckbox id="comForro"
+										value="#{controleDocumentoMacro.comForro}">
+										<p:ajax event="change" update="materialForro" />
+									</p:selectBooleanCheckbox>
+								</h:panelGroup>
+								<h:panelGroup>
+									<br />
+									<br />
+									<p:outputLabel for="materialForro" value="Material do Forro" />
+									<p:dataList id="materialForro" type="unordered" itemType="none"
+										value="#{controleDocumentoMacro.forroList}" var="material"
+										style="padding: 0px !important;">
+										<p:selectBooleanCheckbox value="#{material.selecionado}"
+											disabled="#{!controleDocumentoMacro.comForro}" />
+										<h:outputText value="#{material.nomeMaterialCapa}" />
+									</p:dataList>
+								</h:panelGroup>
+							</h:panelGrid>
+							<!-- 							</p:panel> -->
+							<br />
+							<br />
+							<br />
+							<em tabindex="5">Informações adicionais</em>
+							<h:panelGroup>
+								<p:outputLabel style=" margin-left:25px;display: block"
+									value="Observações" />
+								<p:inputTextarea id="observacoes"
+									style=" margin-left:25px;overflow-y:auto; resize:false; height: 32px;
+											width:85%"
+									value="#{controleDocumentoMacro.objeto.observacoes}" />
+							</h:panelGroup>
+							<br />
+							<br />
+							<br />
+							<div style="max-width: 100%; margin: auto; text-align: center;">
+								<p:commandButton style="margin:left-center; width:80px"
+									value="Cancelar" icon="ui-icon-cancel" resetValues="true"
+									update="newDM" onclick="PF('novoDocMacroDialog').hide()" />
+								<p:commandButton value="Salvar"
+									style="text-align:center; horizontal-align:center;width:80px"
+									process=":mainForm:edit-container"
+									action="#{controleDocumentoMacro.gravar()}" update="@form"
+									icon="ui-icon-disk" />
+							</div>
+						</p:dialog>
+					</p:outputPanel>
+
+					<!-- janela de confirmação de exclusão -->
+					<p:dialog id="confirmacao" header="Exclusão de documento macro"
+						widgetVar="confirmDeleteDialog" modal="true" showEffect="fade"
+						hideEffect="fade" resizable="false" responsive="true">
+						<p:outputLabel style="font-size:13px; text-align:center"
+							value="Tem certeza de que deseja excluir este documento macro?" />
+						<br />
+						<br />
+						<f:facet name="footer">
+							<div style="max-width: 100%; margin: auto; text-align: center;">
+								<p:commandButton value="NÃO" icon="ui-icon-circle-close"
+									action="#{controleDocumentoMacro.cancelar()}"
+									onclick="PF('confirmDeleteDialog').hide();" immediate="true"
+									style="margin:left-center; width:80px" />
+								<p:commandButton value="SIM" icon="ui-icon-circle-check"
+									action="#{controleDocumentoMacro.excluir()}" process="@this"
+									onclick="PF('confirmDeleteDialog').hide();" update="@form"
+									style="text-align:center; horizontal-align:center;width:80px" />
+							</div>
+						</f:facet>
+						<br />
+					</p:dialog>
+					<p:dialog id="vinculados" header="Vincular"
+						widgetVar="vinculadosDialog" modal="true" showEffect="fade"
+						hideEffect="fade" resizable="false" responsive="true">
+						<p:hotkey bind="esc" handler="PF('vinculadosDialog').hide();" />
+						<br />
+						<f:param id="idMacroSelected1" name="idMacroSelected"
+							value="#{documentoMacro.id}" />
+						<h:outputText style="font-size:13px; text-align:center"
+							value="Clique em um dos ícones para vincular uma imagem ou manuscrito ao documento macro" />
+						<br />
+						<!-- 												<p:column style="align-content:center"> -->
+						<!-- 													<p:button title="Adicionar Imagem" image="btnVincImage" -->
+						<!-- 														outcome="#{controleDocumentoMacro.inserirImagemTcc()}"> -->
+						<!-- 														<f:param id="idMacroSelected1" name="idMacroSelected" -->
+						<!-- 															value="#{documentoMacro.id}" /> -->
+						<!-- 													</p:button> -->
+						<!-- 													<h:link value="Imagens" -->
+						<!-- 														outcome="#{controleDocumentoMacro.inserirImagemTcc()}"> -->
+						<!-- 														<p:graphicImage value="/resources/images/addimagem.png" -->
+						<!-- 															id="addImagem" /> -->
+						<!-- 														<f:param id="idMacroSelected1" name="idMacroSelected" -->
+						<!-- 															value="#{documentoMacro.id}" /> -->
+						<!-- 																						<f:setPropertyActionListener id="idMacroSelected1" -->
+						<!-- 																							name="idMacroSelected" value="#{documentoMacro.id}" /> -->
+						<!-- 													</h:link> -->
+						<!-- 												</p:column> -->
+						<p:column style="align-itens:center">
+							<p:commandLink process="@this" title="Adicionar manuscrito"
+								action="#{controleDocumentoMacro.inserirFilhoTcc()}">
+								<p:graphicImage value="/resources/images/addmanuscrito.png"
+									id="addManuscrito" />
+								<f:setPropertyActionListener
+									value="#{controleDocumentoMacro.objeto}"
+									target="#{documentoMacro.id}" />
+							</p:commandLink>
+						</p:column>
+					</p:dialog>
+				</p:panel>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,161 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="body.content.center">
+
+
+<h:form id="mainForm">
+ <p:panel header="Autores" styleClass="panelContent"> 
+                <h:panelGrid columns="2">
+                    <p:commandButton id="novoButton" value="Novo" update=":mainForm:edit-container" process="@this" icon="ui-icon-plus" action="#{controleAutor.novo()}"/> 
+<!--                     <p:commandButton type="button" value="Ajuda" style="margin-left: 575px;" icon="ui-icon-help" /> -->
+                </h:panelGrid>
+                <br />
+                <p:outputPanel id="list-container" layout="block">
+                    <p:dataTable id="autorTable" rows="15" var="autor" value="#{controleAutor.dao.listarTodos()}" 
+                                 paginator="false" paginatorPosition="bottom" emptyMessage="Nenhum autor cadastrado.">
+                        <p:column style="width:350px">  
+                            <f:facet name="header">  
+                                <h:outputText value="Nome do autor" />  
+                            </f:facet>  
+                            <h:outputText value="#{autor.nomeAutor}" />  
+                        </p:column>
+                        <p:column>  
+                            <f:facet name="header">  
+                                <h:outputText value="Ano nascimento" />  
+                            </f:facet>  
+                            <h:outputText value="#{autor.anoNascimento}" />  
+                        </p:column>
+                        <p:column>  
+                            <f:facet name="header">  
+                                <h:outputText value="Ano morte" />  
+                            </f:facet>  
+                            <h:outputText value="#{autor.anoMorte}" />  
+                        </p:column>
+                        
+                        
+						<p:column style="width:60px">
+							<f:facet name="header">
+								<h:outputText value="Ações" />
+							</f:facet>
+					
+						 
+							<p:commandLink process="@this"
+								update=":mainForm:edit-container"
+								action="#{controleAutor.alterar(autor)}">
+								<p:graphicImage value="/resources/images/editar.png" id="imagemAlterar"/>
+								<p:tooltip id="toolTipAlterar" for="imagemAlterar" value="Editar" />
+								<f:setPropertyActionListener
+									target="#{controleAutor.objeto}"
+									value="#{autor}" />
+							</p:commandLink>
+							 <h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+							<p:commandLink process="@this"
+								onclick="PF('confirmDeleteDialog').show();">
+								<p:graphicImage value="/resources/images/apagar.png" id="imagemExcluir"/>
+								<p:tooltip id="toolTipExcluir" for="imagemExcluir" value="Excluir" />
+ 
+								<f:setPropertyActionListener
+									target="#{controleAutor.objeto}"
+									value="#{autor}" />
+							</p:commandLink>
+						</p:column>
+						
+                    </p:dataTable>
+                
+                </p:outputPanel>
+                <p:outputPanel id="edit-container" layout="block">
+                    <p:dialog id="modalNovo" header="Autor" widgetVar="modalNovoTipo" 
+                              modal="true" height="500" width="800" style="background-color: white" resizable="false"
+                              visible="#{controleAutor.edicao}">
+                        <p:hotkey bind="esc" handler="modalNovoTipo.hide()"/>
+                        <p:outputPanel id="formDataWrapper" layout="block">
+                           
+                                  <h:panelGrid columns="1">
+                                  <h:outputLabel value="* Nome do autor:" for="nome"/> 
+                                  <p:inputText id="nome" value="#{controleAutor.objeto.nomeAutor}" size="80" /> 
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                <h:panelGroup>
+												<p:outputLabel style="display: block" for="dataNascimento"
+													value="Data de Nascimento" />
+												<p:calendar id="dataNascimento"
+													value="#{controleAutor.objeto.dataNascimentoCompleta}"
+													pattern="dd/MM/yyyy" mask="true" >
+													<p:ajax listener="#{controleAutor.ajaxAnoNascimento()}" update="anoNascimento"
+													event="dateSelect"/>
+													</p:calendar>
+													
+											</h:panelGroup>
+											<h:panelGroup>
+												<p:outputLabel style="display: block" for="dataMorte"
+													value="Data da morte" />
+												<p:calendar id="dataMorte"
+													value="#{controleAutor.objeto.dataMorteCompleta}"
+													pattern="dd/MM/yyyy" mask="true" >
+													<p:ajax listener="#{controleAutor.ajaxAnoMorte()}" update="anoMorte"
+													event="dateSelect"/>
+													</p:calendar>
+											</h:panelGroup>
+											<h:panelGroup>
+												<p:outputLabel style="display: block" for="anoNascimento"
+													value="Ano do Nascimento" />
+												<p:inputText id="anoNascimento" size="10"
+													value="#{controleAutor.anoNascimento}" />
+											</h:panelGroup>
+											<h:panelGroup>
+												<p:outputLabel style="display: block" for="anoMorte"
+													value="Ano da morte" />
+												<p:inputText id="anoMorte" size="10"
+													value="#{controleAutor.anoMorte}" />
+											</h:panelGroup>
+                                
+                            </h:panelGrid>
+                       
+                        <em>Outras informações</em>
+										<h:panelGrid columns="1">
+											<h:panelGroup>
+												<p:outputLabel style="display: block" for="observacoes"
+													value="Observações:" />
+												<p:inputTextarea id="observacoes" rows="3" cols="75"
+													value="#{controleAutor.objeto.observacaoAutor}" />
+											</h:panelGroup>
+
+											
+
+										</h:panelGrid>
+                  
+                  <h:outputText value="* Campos obrigatórios" style="position: relative; left: 315px;"/>
+                        <br /><br />
+                        <h:panelGrid columns="2" style="position: relative; left: 280px;" >
+                        	 <p:commandButton value="Cancelar" icon="ui-icon-cancel" action="#{controleAutor.cancelar()}" onclick="PF('modalNovoTipo').hide()"/>
+                            <p:commandButton value="Salvar" process=":mainForm:edit-container" action="#{controleAutor.gravar()}"
+                                             update=":mainForm:list-container" onclick="PF('modalNovoTipo').hide()" 
+                                             icon="ui-icon-disk" />
+                           
+                        </h:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                    
+                  
+</p:outputPanel>          
+ 
+ <p:dialog id="confirmacao" header="Exclusão de autor" widgetVar="confirmDeleteDialog" modal="true">
+                        <p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+                          <p:outputLabel value="Tem certeza de que deseja excluir este autor?"/>
+                        <br/> 
+                        <br/> 
+                        <br/> 
+                        <p:commandButton value="Sim" action="#{controleAutor.excluir()}" process="@this" onclick="PF('confirmDeleteDialog').hide();"
+                                         update=":mainForm:list-container"/>
+                        <p:commandButton value="Não" action="#{controleAutor.cancelar()}" onclick="PF('confirmDeleteDialog').hide();"/>  
+                    </p:dialog> 
+                     </p:panel>
+                      </h:form>
+</ui:define>
+</ui:composition>

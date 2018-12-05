@@ -1,0 +1,22 @@
+// XQuery by Priscilla Walmsley (c) O'Reilly Media 2007
+// Example 22-4. XQJ example
+
+// connect to the data source
+XQConnection conn = xqds.getConnection();
+
+// create a new expression object
+XQExpression expr = conn.createExpression();
+
+// execute the query
+XQResultSequence result = expr.executeQuery(
+    "for $prod in doc('catalog.xml')//product" +
+    "order by $prod/number" +
+    "return $prod/name");
+
+// iterate through the result sequence
+while (result.next()) {
+
+    // retrieve the atomic value of the current item
+    String prodName = result.getAtomicValue();
+    System.out.println("Product name: " + prodName);
+}

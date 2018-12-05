@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:insert name="body.content.header">
+		<h:form>
+			<style>
+.ui-menu .ui-menu-parent .ui-menu-child {
+	width: 235px; /* soh funciona se for definido aqui. :( !! */
+}
+</style>
+			<p:menubar autoDisplay="false">
+				<p:menuitem value="Início" action="/login?faces-redirect=true"
+					icon="ui-icon-home" ajax="false" />
+				<p:menuitem value="Apresentação"
+					action="/apresentacao?faces-redirect=true"
+					icon="ui-icon-grip-diagonal-se" ajax="false" />
+				<p:menuitem value="Agradecimentos"
+					action="/agradecimentos?faces-redirect=true"
+					icon="ui-icon-grip-diagonal-se" ajax="false" />
+				<p:menuitem value="Projetos" action="/projetos?faces-redirect=true"
+					icon="ui-icon-grip-diagonal-se" ajax="false" />
+				
+				
+
+				
+			   <p:menuitem value="Lapelinc"
+					action="/lapelinc?faces-redirect=true" icon="ui-icon-grip-diagonal-se"
+					ajax="false" />
+					
+				<p:menuitem value="Pesquisadores"
+					action="/pesquisadores?faces-redirect=true" icon="ui-icon-person"
+					ajax="false" />
+				<p:menuitem value="Corpus Dovic"
+					action="/corpusdovic?faces-redirect=true" icon="ui-icon-script"
+					ajax="false" />
+	
+			</p:menubar>
+			<p:outputPanel>
+
+				<p:dialog id="janelaSobre" header="Sobre" widgetVar="sobreDialog"
+					modal="true">
+					<p:hotkey bind="esc" handler="PF('sobreDialog').hide();" />
+					<p:outputLabel value="WebSinc 1.0" />
+					<p> O <b>WebSinC </b>é um software Web desenvolvido para o trabalho de
+						disponibilização, visão e busca de dados em corpora
+						cientificamente controlados e anotados em diversos níveis.</p>
+
+					<p>O software é produto da pesquisa desenvolvida durante o
+						mestrado de Aline Silva Costa (Programa de Pós-Graduação em
+						Linguística da Universidade Estadual do Sudoeste da Bahia)
+						orientada pela Profª Drª Cristiane Namiuti-Temponi e co-orientada
+						pelo Profº Drº Jorge Viana Santos.</p>
+					<br />
+					<p:commandButton value="Fechar" onclick="PF('sobreDialog').hide();" />
+
+				</p:dialog>
+			</p:outputPanel>
+		</h:form>
+	</ui:insert>
+
+</ui:composition>

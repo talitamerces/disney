@@ -1,0 +1,8 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 10-3. Namespaces and attributes -->
+<product xmlns="http://datypic.com/prod"
+         xmlns:app="http://datypic.com/app"
+         app:id="P123" dept="ACC">
+...
+</product>
+

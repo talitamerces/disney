@@ -1,0 +1,363 @@
+
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="body.content.center">
+
+		<h:form id="mainForm" enctype="multipart/form-data">
+			<p:growl showDetail="true" sticky="true"></p:growl>
+			<p:panel header="Cadastro de Documento Macro"
+				styleClass="panelContent">
+				<h:panelGrid columns="2">
+					<p:commandButton id="novoButton" value="Novo" update="@form"
+						process="@this" icon="ui-icon-plus"
+						disabled="#{controleDocumentoMacro.edicao}"
+						action="#{controleDocumentoMacro.novo()}" />
+					<h:commandLink rendered="#{!controleDocumentoMacro.edicao}"
+						action="#{controleDocumentoMacro.inicio()}"
+						styleClass="linkVoltar" immediate="true">
+						<h:outputText value="Início" />
+					</h:commandLink>
+					<h:commandLink value="Cancelar" styleClass="linkVoltar"
+						rendered="#{controleDocumentoMacro.edicao}"
+						action="#{controleDocumentoMacro.cancelar()}" immediate="true"
+						update="@form">
+
+					</h:commandLink>
+
+				</h:panelGrid>
+				<br />
+				<p:outputPanel id="list-container" layout="block"
+					rendered="#{!controleDocumentoMacro.edicao}">
+					<p:dataTable id="documentoMacroTable" rows="15" paginator="true"
+						paginatorPosition="bottom" var="documentoMacro"
+						value="#{controleDocumentoMacro.dao.listarTodos()}"
+						emptyMessage="Nenhum documento macro inserido.">
+						<p:column style="width:70px">
+							<f:facet name="header">
+								<h:outputText value="Código" />
+							</f:facet>
+							<h:outputText value="#{documentoMacro.idDocumentoFisico}" />
+						</p:column>
+						<p:column style="width:200px">
+							<f:facet name="header">
+								<h:outputText value="Título do documento" />
+							</f:facet>
+							<h:outputText value="#{documentoMacro.titulo}" />
+						</p:column>
+						<p:column style="width:80px">
+							<f:facet name="header">
+								<h:outputText value="Tipo de documento" />
+							</f:facet>
+							<h:outputText
+								value="#{documentoMacro.tipoMacro.descricaoTipoMacro}" />
+						</p:column>
+
+
+						<p:column style="width:180px">
+							<f:facet name="header">
+								<h:outputText value="Vinculados ao documento" />
+							</f:facet>
+
+							<h:outputText
+								value="&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"
+								escape="false" />
+							<h:link styleClass="linkMacro" value="Imagens"
+								outcome="#{controleDocumentoMacro.inserirImagem()}">
+								<f:param id="idMacroSelected1" name="idMacroSelected"
+									value="#{documentoMacro.id}" />
+							</h:link>
+							<h:outputText value="&#160;&#160;&#160;&#160;&#160;&#160;"
+								escape="false" />
+							<h:link styleClass="linkMacro" value="Manuscritos"
+								outcome="#{controleDocumentoMacro.inserirFilho()}">
+								<f:param id="idMacroSelected2" name="idMacroSelected"
+									value="#{documentoMacro.id}" />
+
+							</h:link>
+
+						</p:column>
+
+						<p:column style="width:60px">
+							<f:facet name="header">
+								<h:outputText value="Ações" />
+							</f:facet>
+							<p:commandLink process="@this" update="@form"
+								action="#{controleDocumentoMacro.alterar(documentoMacro)}">
+								<p:graphicImage value="/resources/images/editar.png"
+									id="imagemAlterar" />
+								<p:tooltip id="toolTipAlterar" for="imagemAlterar"
+									value="Editar" />
+								<f:setPropertyActionListener
+									target="#{controleDocumentoMacro.objeto}"
+									value="#{documentoMacro}" />
+							</p:commandLink>
+
+
+							<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+							<p:commandLink onclick="PF('confirmDeleteDialog').show();">
+								<p:graphicImage value="/resources/images/apagar.png"
+									id="imagemExcluir" />
+								<p:tooltip id="toolTipExcluir" for="imagemExcluir"
+									value="Excluir" />
+
+								<f:setPropertyActionListener
+									target="#{controleDocumentoMacro.objeto}"
+									value="#{documentoMacro}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+
+				<p:outputPanel id="edit-container" layout="block"
+					rendered="#{controleDocumentoMacro.edicao}">
+
+					<p:outputPanel id="formDataWrapper" layout="block">
+						<h:panelGrid columns="3" cellpading="4">
+							<h:panelGroup>
+								<p:outputLabel style="display: block" value="Código:"
+									for="codigo" />
+								<p:inputText id="codigo" size="12"
+									value="#{controleDocumentoMacro.objeto.idDocumentoFisico}" />
+								<p:message for="codigo" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" value="*Título:"
+									for="titulo" />
+								<p:inputText id="titulo"
+									value="#{controleDocumentoMacro.objeto.titulo}" size="45" />
+								<p:message for="titulo" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block"
+									value="* Tipo de Documento:" for="tipo" />
+
+								<p:selectOneMenu id="tipo" style="width: 145px;"
+									value="#{controleDocumentoMacro.selectedTipoMacro}">
+									<f:selectItem itemValue="null" itemLabel="Sel. tipo" />
+									<f:selectItems value="#{controleDocumentoMacro.listaTipos}"
+										var="tipos" itemLabel="#{tipos.descricaoTipoMacro}"
+										itemValue="#{tipos}" />
+									<!-- 												<f:validator validatorId="tipoMacroValidator"/> -->
+								</p:selectOneMenu>
+								<p:message for="tipo" />
+							</h:panelGroup>
+
+						</h:panelGrid>
+						<h:panelGrid columns="1">
+							<h:panelGroup>
+								<p:outputLabel style="display: block" for="descricao"
+									value="Descrição do Documento:" />
+								<p:inputTextarea id="descricao" rows="3" cols="100"
+									value="#{controleDocumentoMacro.objeto.descricaoVolume}" />
+							</h:panelGroup>
+						</h:panelGrid>
+						<h:panelGrid columns="2">
+							<h:panelGroup>
+								<p:outputLabel style="display: block" value="Local de depósito:"
+									for="localDocumento" />
+								<p:selectOneMenu id="localDocumento" style="width: 350px;"
+									value="#{controleDocumentoMacro.selectedLocalDeposito}">
+									<f:selectItems
+										value="#{controleDocumentoMacro.listaLocaisDeposito}"
+										var="locais" itemLabel="#{locais}" itemValue="#{locais}" />
+								</p:selectOneMenu>
+							</h:panelGroup>
+
+						</h:panelGrid>
+
+						<h:panelGrid columns="5">
+							<h:panelGroup>
+								<p:outputLabel style="display: block" value="Tipo de data:"
+									for="tipoData" />
+
+								<p:selectOneMenu id="tipoData" style="width: 140px;"
+									value="#{controleDocumentoMacro.selectedTipoData}">
+									<f:selectItems value="#{controleDocumentoMacro.listaTipoData}"
+										var="tiposData" itemLabel="#{tiposData.label}"
+										itemValue="#{tiposData}" />
+								</p:selectOneMenu>
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel style="display: block" for="dataInicio"
+									value="Data de início" />
+								<p:calendar id="dataInicio" size="15"
+									value="#{controleDocumentoMacro.objeto.dataInicioDocumento}"
+									pattern="dd/MM/yyyy" mask="true">
+									<p:ajax listener="#{controleDocumentoMacro.ajaxAnoInicio()}"
+										update="anoInicio" event="dateSelect" />
+								</p:calendar>
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" for="dataFim"
+									value="Data de fim" />
+								<p:calendar id="dataFim" size="15"
+									value="#{controleDocumentoMacro.objeto.dataFimDocumento}"
+									pattern="dd/MM/yyyy" mask="true">
+									<p:ajax listener="#{controleDocumentoMacro.ajaxAnoFim()}"
+										update="anoFim" event="dateSelect" />
+								</p:calendar>
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" for="anoInicio"
+									value="Ano inicial" />
+								<p:inputText id="anoInicio" size="8"
+									value="#{controleDocumentoMacro.anoInicio}" />
+								<p:message for="anoInicio" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" for="anoFim"
+									value="Ano final" />
+								<p:inputText id="anoFim" size="8"
+									value="#{controleDocumentoMacro.anoFim}" />
+								<p:message for="anoFim" />
+							</h:panelGroup>
+
+
+						</h:panelGrid>
+
+						<h:panelGrid columns="4">
+							<h:panelGroup>
+								<p:outputLabel style="display: block" for="altura"
+									value="Altura (cm):" />
+								<p:inputText id="altura" size="10"
+									value="#{controleDocumentoMacro.objeto.alturaDocumento}" />
+								<p:message for="altura" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" for="largura"
+									value="Largura (cm):" />
+								<p:inputText id="largura" size="10"
+									value="#{controleDocumentoMacro.objeto.larguraDocumento}" />
+								<p:message for="largura" />
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" for="profundidade"
+									value="Profundidade (cm):" />
+								<p:inputText id="profundidade" size="10"
+									value="#{controleDocumentoMacro.objeto.profundidadeDocumento}" />
+								<p:message for="profundidade" />
+							</h:panelGroup>
+
+						</h:panelGrid>
+
+						<h:panelGrid id="dadosCapa" columns="4" style="width:450px;">
+
+							<h:panelGroup>
+								<p:outputLabel for="comCapa" value="Com capa" />
+								<p:selectBooleanCheckbox id="comCapa"
+									value="#{controleDocumentoMacro.comCapa}">
+									<p:ajax event="change"
+										update="materialCapa corCapa comCapaOriginal" />
+								</p:selectBooleanCheckbox>
+								<p:outputLabel for="comCapaOriginal"
+									value="&#160;&#160;&#160;Capa original" />
+								<p:selectBooleanCheckbox id="comCapaOriginal"
+									disabled="#{!controleDocumentoMacro.comCapa}"
+									value="#{controleDocumentoMacro.objeto.capaOriginal}">
+								</p:selectBooleanCheckbox>
+								<p:outputLabel style="display: block" value="Material da capa:"
+									for="materialCapa" />
+
+								<h:selectOneRadio id="materialCapa"
+									disabled="#{!controleDocumentoMacro.comCapa}"
+									layout="pageDirection"
+									value="#{controleDocumentoMacro.selectedMaterialCapa}">
+									<f:selectItems value="#{controleDocumentoMacro.listaMateriais}"
+										var="material" itemLabel="#{material.nomeMaterialCapa}"
+										itemValue="#{material}" />
+								</h:selectOneRadio>
+
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel style="display: block" value="Cor da capa:"
+									for="corCapa" />
+
+								<p:selectOneMenu id="corCapa" style="width: 150px;"
+									disabled="#{!controleDocumentoMacro.comCapa}"
+									value="#{controleDocumentoMacro.selectedCorCapa}">
+									<f:selectItem itemValue="null" itemLabel="Sel. cor" />
+									<f:selectItems value="#{controleDocumentoMacro.listaCores}"
+										var="cor" itemLabel="#{cor.nomeCor}" itemValue="#{cor}" />
+
+								</p:selectOneMenu>
+
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputLabel for="comForro"
+									value="&#160;&#160;&#160;&#160;Com forro" />
+								<p:selectBooleanCheckbox id="comForro"
+									value="#{controleDocumentoMacro.comForro}">
+									<p:ajax event="change" update="materialForro" />
+								</p:selectBooleanCheckbox>
+
+								<p:dataList id="materialForro" type="unordered" itemType="none"
+									value="#{controleDocumentoMacro.forroList}" var="material"
+									style="padding: 0px !important;">
+									<p:selectBooleanCheckbox value="#{material.selecionado}"
+										disabled="#{!controleDocumentoMacro.comForro}" />
+
+									<h:outputText value="#{material.nomeMaterialCapa}" />
+
+
+								</p:dataList>
+							</h:panelGroup>
+
+						</h:panelGrid>
+
+
+						<h:panelGroup>
+							<p:outputLabel style="display: block" value="Observações:" />
+							<p:inputTextarea id="observacoes" rows="2" cols="100"
+								value="#{controleDocumentoMacro.objeto.observacoes}" />
+						</h:panelGroup>
+						<br />
+						<br />
+
+						<h:panelGrid columns="2" style="position: relative; left: 540px;">
+							<p:commandButton value="Salvar"
+								process=":mainForm:edit-container"
+								action="#{controleDocumentoMacro.gravar()}" update="@form"
+								icon="ui-icon-disk" />
+							<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+								action="#{controleDocumentoMacro.cancelar()}" immediate="true"
+								update="@form" />
+						</h:panelGrid>
+
+						<br />
+						<br />
+					</p:outputPanel>
+
+				</p:outputPanel>
+
+
+
+				<p:dialog id="confirmacao" header="Exclusão de documento"
+					widgetVar="confirmDeleteDialog" modal="true">
+					<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+					<p:outputLabel
+						value="Tem certeza de que deseja excluir este documento?" />
+					<br />
+					<br />
+					<br />
+					<p:commandButton value="Sim"
+						action="#{controleDocumentoMacro.excluir()}" process="@this"
+						onclick="PF('confirmDeleteDialog').hide();" update="@form" />
+					<p:commandButton value="Não"
+						action="#{controleDocumentoMacro.cancelar()}"
+						onclick="PF('confirmDeleteDialog').hide();" immediate="true" />
+					<br />
+				</p:dialog>
+
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

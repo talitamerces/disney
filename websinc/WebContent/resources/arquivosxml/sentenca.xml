@@ -1,0 +1,512 @@
+<DOCUMENTO>
+<IP-MAT>
+<IP-GER>
+<VB-G>
+<LEAF W="yes" v="REINANDO">REINANDO</LEAF></VB-G>
+<NP-SBJ>
+<D>
+<LEAF W="yes" v="aquele">aquele</LEAF></D>
+<ADJP>
+<Q>
+<LEAF W="yes" v="muito">muito</LEAF></Q>
+<ADJ>
+<LEAF W="yes" v="católico">católico</LEAF></ADJ>
+<CONJP>
+<CONJ>
+<LEAF W="yes" v="e">e</LEAF></CONJ>
+<ADJX>
+<ADJ-S>
+<LEAF W="yes" v="sereníssimo">sereníssimo</LEAF></ADJ-S>
+</ADJX>
+</CONJP>
+</ADJP>
+<NPR>
+<LEAF W="yes" v="Príncipe">Príncipe</LEAF></NPR>
+<NP-PRN>
+<NPR>
+<LEAF W="yes" v="el-Rei">el-Rei</LEAF></NPR>
+<NPR>
+<LEAF W="yes" v="Dom">Dom</LEAF></NPR>
+<NPR>
+<LEAF W="yes" v="MANUEL">MANUEL</LEAF></NPR>
+</NP-PRN>
+</NP-SBJ>
+</IP-GER>
+<COMMA>
+<LEAF W="no" v=",">,</LEAF></COMMA>
+<VB-D>
+<LEAF W="yes" v="fez-">fez-</LEAF></VB-D>
+<NP-SE-4>
+<CL>
+<LEAF W="yes" v="-se">-se</LEAF></CL>
+</NP-SE-4>
+<NP-SBJ-4>
+<D-UM-F>
+<LEAF W="yes" v="uma">uma</LEAF></D-UM-F>
+<N>
+<LEAF W="yes" v="frota">frota</LEAF></N>
+<PP>
+<P>
+<LEAF W="yes" v="para">para</LEAF></P>
+<NP>
+<D-F>
+<LEAF W="yes" v="a">a</LEAF></D-F>
+<NPR>
+<LEAF W="yes" v="Índia">Índia</LEAF></NPR>
+</NP>
+</PP>
+<CP-REL>
+<WPP-2>
+<P>
+<LEAF W="yes" v="de">de</LEAF></P>
+<NP>
+<WPRO>
+<LEAF W="yes" v="que">que</LEAF></WPRO>
+</NP>
+</WPP-2>
+<IP-SUB>
+<VB-D>
+<LEAF W="yes" v="ia">ia</LEAF></VB-D>
+<PP>
+<P>
+<LEAF W="yes" v="por">por</LEAF></P>
+<NP>
+<N>
+<LEAF W="yes" v="capitão">capitão</LEAF></N>
+<ADJ>
+<LEAF W="yes" v="mór">mór</LEAF></ADJ>
+<NP-GEN>
+<LEAF W="no" v="*T*-2">*T*-2</LEAF></NP-GEN>
+</NP>
+</PP>
+<NP-SBJ>
+<NPR>
+<LEAF W="yes" v="Pedro">Pedro</LEAF></NPR>
+<NPR>
+<LEAF W="yes" v="Álvares">Álvares</LEAF></NPR>
+<NPR>
+<LEAF W="yes" v="Cabral">Cabral</LEAF></NPR>
+</NP-SBJ>
+</IP-SUB>
+</CP-REL>
+</NP-SBJ-4>
+<POINT>
+<LEAF W="yes" v=":">:</LEAF></POINT>
+<CP-CAR>
+<WNP-3>
+<WPRO>
+<LEAF W="yes" v="que">que</LEAF></WPRO>
+</WNP-3>
+<IP-SUB>
+<NP-SBJ>
+<LEAF W="no" v="*T*-3">*T*-3</LEAF></NP-SBJ>
+<SR-D>
+<LEAF W="yes" v="foi">foi</LEAF></SR-D>
+<NP-ACC>
+<D-F>
+<LEAF W="yes" v="a">a</LEAF></D-F>
+<ADJ-F>
+<LEAF W="yes" v="segunda">segunda</LEAF></ADJ-F>
+<N>
+<LEAF W="yes" v="navegação">navegação</LEAF></N>
+<CP-REL>
+<WNP-1>
+<WPRO>
+<LEAF W="yes" v="que">que</LEAF></WPRO>
+</WNP-1>
+<IP-SUB>
+<NP-ACC>
+<LEAF W="no" v="*T*-1">*T*-1</LEAF></NP-ACC>
+<VB-D>
+<LEAF W="yes" v="fizeram">fizeram</LEAF></VB-D>
+<NP-SBJ>
+<D-P>
+<LEAF W="yes" v="os">os</LEAF></D-P>
+<NPR-P>
+<LEAF W="yes" v="Portugueses">Portugueses</LEAF></NPR-P>
+</NP-SBJ>
+<PP>
+<P>
+<LEAF W="yes" v="para">para</LEAF></P>
+<NP>
+<D-F-P>
+<LEAF W="yes" v="aquelas">aquelas</LEAF></D-F-P>
+<N-P>
+<LEAF W="yes" v="partes">partes</LEAF></N-P>
+<PP>
+<P>
+<LEAF W="yes" v="d@">d@</LEAF></P>
+<NP>
+<D>
+<LEAF W="yes" v="@o">@o</LEAF></D>
+<NPR>
+<LEAF W="yes" v="Oriente">Oriente</LEAF></NPR>
+</NP>
+</PP>
+</NP>
+</PP>
+</IP-SUB>
+</CP-REL>
+<POINT>
+<LEAF W="no" v=".">.</LEAF></POINT>
+<CP-REL>
+<WNP-1>
+<D-F>
+<LEAF W="yes" v="A">A</LEAF></D-F>
+<WPRO>
+<LEAF W="yes" v="qual">qual</LEAF></WPRO>
+</WNP-1>
+<IP-SUB>
+<NP-SBJ>
+<LEAF W="no" v="*T*-1">*T*-1</LEAF></NP-SBJ>
+<VB-D>
+<LEAF W="yes" v="partiu">partiu</LEAF></VB-D>
+<PP>
+<P>
+<LEAF W="yes" v="d@">d@</LEAF></P>
+<NP>
+<D-F>
+<LEAF W="yes" v="@a">@a</LEAF></D-F>
+<N>
+<LEAF W="yes" v="cidade">cidade</LEAF></N>
+<PP>
+<P>
+<LEAF W="yes" v="de">de</LEAF></P>
+<NP>
+<NPR>
+<LEAF W="yes" v="Lisboa">Lisboa</LEAF></NPR>
+</NP>
+</PP>
+</NP>
+</PP>
+<PP>
+<P>
+<LEAF W="yes" v="a">a</LEAF></P>
+<NP>
+<NUM>
+<LEAF W="yes" v="nove">nove</LEAF></NUM>
+<PP>
+<P>
+<LEAF W="yes" v="de">de</LEAF></P>
+<NP>
+<NPR>
+<LEAF W="yes" v="Março">Março</LEAF></NPR>
+</NP>
+</PP>
+</NP>
+</PP>
+<PP>
+<P>
+<LEAF W="yes" v="n@">n@</LEAF></P>
+<NP>
+<D>
+<LEAF W="yes" v="@o">@o</LEAF></D>
+<N>
+<LEAF W="yes" v="ano">ano</LEAF></N>
+<PP>
+<P>
+<LEAF W="yes" v="de">de</LEAF></P>
+<NP>
+<NUM>
+<LEAF W="yes" v="1500">1500</LEAF></NUM>
+</NP>
+</PP>
+</NP>
+</PP>
+</IP-SUB>
+</CP-REL>
+</NP-ACC>
+</IP-SUB>
+</CP-CAR>
+<POINT>
+<LEAF W="no" v=".">.</LEAF></POINT>
+</IP-MAT>
+<ID>
+<LEAF W="yes" v="G_008,6.1">G_008,6.1</LEAF></ID>
+
+
+<IP-MAT>
+<CONJ>
+<LEAF W="yes" v="E">E</LEAF></CONJ>
+<NP-SBJ>
+<LEAF W="no" v="*pro*">*pro*</LEAF></NP-SBJ>
+<IP-GER>
+<HV-G>
+<LEAF W="yes" v="havendo">havendo</LEAF></HV-G>
+<ADVP>
+<ADV>
+<LEAF W="yes" v="já">já</LEAF></ADV>
+</ADVP>
+<NP-ACC>
+<D-UM>
+<LEAF W="yes" v="um">um</LEAF></D-UM>
+<N>
+<LEAF W="yes" v="mês">mês</LEAF></N>
+</NP-ACC>
+<COMMA>
+<LEAF W="no" v=",">,</LEAF></COMMA>
+<CP-THT>
+<C>
+<LEAF W="yes" v="que">que</LEAF></C>
+<IP-SUB>
+<NP-SBJ>
+<LEAF W="no" v="*pro*">*pro*</LEAF></NP-SBJ>
+<VB-D>
+<LEAF W="yes" v="iam">iam</LEAF></VB-D>
+<PP>
+<P>
+<LEAF W="yes" v="n@">n@</LEAF></P>
+<NP>
+<D-F>
+<LEAF W="yes" v="@aquela">@aquela</LEAF></D-F>
+<N>
+<LEAF W="yes" v="volta">volta</LEAF></N>
+</NP>
+</PP>
+</IP-SUB>
+</CP-THT>
+</IP-GER>
+<IP-GER>
+<VB-G>
+<LEAF W="yes" v="navegando">navegando</LEAF></VB-G>
+<PP>
+<P>
+<LEAF W="yes" v="com">com</LEAF></P>
+<NP>
+<N>
+<LEAF W="yes" v="vento">vento</LEAF></N>
+<ADJ>
+<LEAF W="yes" v="próspero">próspero</LEAF></ADJ>
+</NP>
+</PP>
+</IP-GER>
+<COMMA>
+<LEAF W="no" v=",">,</LEAF></COMMA>
+<VB-D>
+<LEAF W="yes" v="foram">foram</LEAF></VB-D>
+<IP-INF>
+<VB>
+<LEAF W="yes" v="dar">dar</LEAF></VB>
+<PP>
+<P>
+<LEAF W="yes" v="n@">n@</LEAF></P>
+<NP>
+<D-F>
+<LEAF W="yes" v="@a">@a</LEAF></D-F>
+<N>
+<LEAF W="yes" v="costa">costa</LEAF></N>
+<PP>
+<P>
+<LEAF W="yes" v="d@">d@</LEAF></P>
+<NP>
+<D-F>
+<LEAF W="yes" v="@esta">@esta</LEAF></D-F>
+<N>
+<LEAF W="yes" v="província">província</LEAF></N>
+</NP>
+</PP>
+<POINT>
+<LEAF W="yes" v=":">:</LEAF></POINT>
+<CP-REL>
+<WPP-4>
+<P>
+<LEAF W="yes" v="a@">a@</LEAF></P>
+<NP>
+<D>
+<LEAF W="yes" v="@o">@o</LEAF></D>
+<ADV>
+<LEAF W="yes" v="longo">longo</LEAF></ADV>
+<PP>
+<P>
+<LEAF W="yes" v="d@">d@</LEAF></P>
+<NP>
+<D-F>
+<LEAF W="yes" v="@a">@a</LEAF></D-F>
+<WPRO>
+<LEAF W="yes" v="qual">qual</LEAF></WPRO>
+</NP>
+</PP>
+</NP>
+</WPP-4>
+<IP-SUB>
+<PP>
+<LEAF W="no" v="*T*-4">*T*-4</LEAF></PP>
+<NP-SBJ>
+<LEAF W="no" v="*pro*">*pro*</LEAF></NP-SBJ>
+<VB-D>
+<LEAF W="yes" v="cortaram">cortaram</LEAF></VB-D>
+<NP-ADV>
+<Q>
+<LEAF W="yes" v="todo">todo</LEAF></Q>
+<D>
+<LEAF W="yes" v="aquele">aquele</LEAF></D>
+<N>
+<LEAF W="yes" v="dia">dia</LEAF></N>
+</NP-ADV>
+<COMMA>
+<LEAF W="no" v=",">,</LEAF></COMMA>
+<IP-GER>
+<VB-G>
+<LEAF W="yes" v="parecendo">parecendo</LEAF></VB-G>
+<PP>
+<P>
+<LEAF W="yes" v="a">a</LEAF></P>
+<NP>
+<Q-P>
+<LEAF W="yes" v="todos">todos</LEAF></Q-P>
+</NP>
+</PP>
+<CP-THT>
+<C>
+<LEAF W="yes" v="que">que</LEAF></C>
+<IP-SUB>
+<NP-SBJ>
+<LEAF W="no" v="*exp*-5">*exp*-5</LEAF></NP-SBJ>
+<SR-D>
+<LEAF W="yes" v="era">era</LEAF></SR-D>
+<NP-5>
+<Q-F>
+<LEAF W="yes" v="alguma">alguma</LEAF></Q-F>
+<ADJ-G>
+<LEAF W="yes" v="grande">grande</LEAF></ADJ-G>
+<N>
+<LEAF W="yes" v="ilha">ilha</LEAF></N>
+</NP-5>
+<CP-CLF>
+<WNP-6>
+<LEAF W="yes" v="0">0</LEAF></WNP-6>
+<C>
+<LEAF W="yes" v="que">que</LEAF></C>
+<IP-SUB>
+<NP-SBJ>
+<LEAF W="no" v="*T*-6">*T*-6</LEAF></NP-SBJ>
+<ADVP>
+<ADV>
+<LEAF W="yes" v="ali">ali</LEAF></ADV>
+</ADVP>
+<ET-D>
+<LEAF W="yes" v="estava">estava</LEAF></ET-D>
+</IP-SUB>
+</CP-CLF>
+</IP-SUB>
+</CP-THT>
+</IP-GER>
+<COMMA>
+<LEAF W="no" v=",">,</LEAF></COMMA>
+<PP>
+<P>
+<LEAF W="yes" v="sem">sem</LEAF></P>
+<IP-INF>
+<HV>
+<LEAF W="yes" v="haver">haver</LEAF></HV>
+<NP-ACC>
+<NP>
+<N>
+<LEAF W="yes" v="Piloto">Piloto</LEAF></N>
+</NP>
+<COMMA>
+<LEAF W="no" v=",">,</LEAF></COMMA>
+<CONJP>
+<CONJ-NEG>
+<LEAF W="yes" v="nem">nem</LEAF></CONJ-NEG>
+<NP>
+<OUTRO-F>
+<LEAF W="yes" v="outra">outra</LEAF></OUTRO-F>
+<N>
+<LEAF W="yes" v="pessoa">pessoa</LEAF></N>
+<Q-F>
+<LEAF W="yes" v="alguma">alguma</LEAF></Q-F>
+</NP>
+</CONJP>
+<CP-REL>
+<CP-REL>
+<WNP-2>
+<WPRO>
+<LEAF W="yes" v="que">que</LEAF></WPRO>
+</WNP-2>
+<IP-SUB>
+<NP-SBJ>
+<LEAF W="no" v="*T*-2">*T*-2</LEAF></NP-SBJ>
+<TR-SD>
+<LEAF W="yes" v="tivesse">tivesse</LEAF></TR-SD>
+<NP-ACC>
+<N>
+<LEAF W="yes" v="notícia">notícia</LEAF></N>
+<PP>
+<P>
+<LEAF W="yes" v="d@">d@</LEAF></P>
+<NP>
+<PRO>
+<LEAF W="yes" v="@ela">@ela</LEAF></PRO>
+</NP>
+</PP>
+</NP-ACC>
+</IP-SUB>
+</CP-REL>
+<COMMA>
+<LEAF W="no" v=",">,</LEAF></COMMA>
+<CONJP>
+<CONJ-NEG>
+<LEAF W="yes" v="nem">nem</LEAF></CONJ-NEG>
+<CP-REL>
+<WNP-3>
+<WPRO>
+<LEAF W="yes" v="que">que</LEAF></WPRO>
+</WNP-3>
+<IP-SUB>
+<NP-SBJ>
+<LEAF W="no" v="*T*-3">*T*-3</LEAF></NP-SBJ>
+<VB-SD>
+<LEAF W="yes" v="presumisse">presumisse</LEAF></VB-SD>
+<CP-THT>
+<C>
+<LEAF W="yes" v="que">que</LEAF></C>
+<IP-SUB>
+<NP-SBJ>
+<LEAF W="no" v="*pro*">*pro*</LEAF></NP-SBJ>
+<VB-D>
+<LEAF W="yes" v="podia">podia</LEAF></VB-D>
+<IP-INF>
+<ET>
+<LEAF W="yes" v="estar">estar</LEAF></ET>
+<NP-SBJ>
+<N>
+<LEAF W="yes" v="terra">terra</LEAF></N>
+<ADJ-G>
+<LEAF W="yes" v="firme">firme</LEAF></ADJ-G>
+</NP-SBJ>
+<PP>
+<P>
+<LEAF W="yes" v="para">para</LEAF></P>
+<NP>
+<D-F>
+<LEAF W="yes" v="aquela">aquela</LEAF></D-F>
+<N>
+<LEAF W="yes" v="parte">parte</LEAF></N>
+<ADJ-G>
+<LEAF W="yes" v="Ocidental">Ocidental</LEAF></ADJ-G>
+</NP>
+</PP>
+</IP-INF>
+</IP-SUB>
+</CP-THT>
+</IP-SUB>
+</CP-REL>
+</CONJP>
+</CP-REL>
+</NP-ACC>
+</IP-INF>
+</PP>
+</IP-SUB>
+</CP-REL>
+</NP>
+</PP>
+</IP-INF>
+<POINT>
+<LEAF W="no" v=".">.</LEAF></POINT>
+</IP-MAT>
+
+<ID>
+<LEAF W="yes" v="G_008,6.4">G_008,6.4</LEAF></ID>
+
+</DOCUMENTO>

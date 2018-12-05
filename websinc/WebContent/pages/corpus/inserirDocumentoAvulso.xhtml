@@ -1,0 +1,433 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+		<style type="text/css">
+.ui-autocomplete-input {
+	width: 440px !important;
+	/*                 text-transform: uppercase; */
+}
+</style>
+
+		<h:form id="mainForm" enctype="multipart/form-data">
+			<p:growl showDetail="true"></p:growl>
+			<p:panel header="Cadastro de Documentos avulsos"
+				styleClass="panelContent">
+				<h:panelGrid columns="2">
+					<p:commandButton id="novoButton" value="Novo"
+						update=":mainForm:edit-container" process="@this"
+						icon="ui-icon-plus" action="#{controleDocumentoMicro.novo(true)}" />
+					<p:commandButton type="button" value="Ajuda"
+						style="margin-left: 575px;" icon="ui-icon-help" />
+				</h:panelGrid>
+				<br />
+				<p:outputPanel id="list-container" layout="block">
+					<p:dataTable id="documentoMicroTable" rows="10" paginator="true"
+						paginatorPosition="bottom" var="documentoMicro"
+						value="#{controleDocumentoMicro.dao.listarAvulsos()}"
+						emptyMessage="Nenhum documento micro inserido.">
+						<p:column style="width:70px">
+							<f:facet name="header">
+								<h:outputText value="Código" />
+							</f:facet>
+							<h:outputText value="#{documentoMicro.idDocumentoOriginal}" />
+						</p:column>
+						<p:column style="width:200px">
+							<f:facet name="header">
+								<h:outputText value="Título do documento" />
+							</f:facet>
+							<h:outputText value="#{documentoMicro.titulo}" />
+						</p:column>
+						<p:column style="width:80px">
+							<f:facet name="header">
+								<h:outputText value="Tipo de documento" />
+							</f:facet>
+							<h:outputText
+								value="#{documentoMicro.tipoMicro.descricaoTipoMicro}" />
+						</p:column>
+
+						<p:column style="width:60px">
+							<f:facet name="header">
+								<h:outputText value="Ações" />
+							</f:facet>
+								<p:commandLink process="@this" update=":mainForm:edit-container"
+								action="#{controleDocumentoMicro.alterar(documentoMicro)}">
+								<p:graphicImage value="/resources/images/editar.png"
+									id="imagemAlterar" />
+								<p:tooltip id="toolTipAlterar" for="imagemAlterar"
+									value="Editar" />
+								<f:setPropertyActionListener
+									target="#{controleDocumentoMicro.objeto}"
+									value="#{documentoMicro}" />
+							</p:commandLink>
+							
+							<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+						<p:commandLink process="@this"
+								onclick="PF('confirmDeleteDialog').show();">
+								<p:graphicImage value="/resources/images/apagar.png"
+									id="imagemExcluir" />
+								<p:tooltip id="toolTipExcluir" for="imagemExcluir"
+									value="Excluir" />
+
+								<f:setPropertyActionListener
+									target="#{controleDocumentoMicro.objeto}"
+									value="#{documentoMicro}" />
+							</p:commandLink>
+						</p:column>
+
+
+
+
+					</p:dataTable>
+				</p:outputPanel>
+
+
+				<p:outputPanel id="edit-container" layout="block">
+
+					<p:dialog id="modalNovo" header="Documento Micro"
+						widgetVar="modalNovoDocumento" modal="true" height="500"
+						width="900" style="background-color: white" resizable="false"
+						visible="#{controleDocumentoMicro.edicao}">
+						<p:hotkey bind="esc" handler="modalNovoDocumento.hide()" />
+						<p:outputPanel id="formDataWrapper" layout="block">
+
+							<p:tabView orientation="left">
+								<p:tab title="Dados Gerais">
+
+									<em>Dados Gerais do Documento</em>
+									<h:panelGrid columns="3" cellpading="5">
+										<h:panelGroup>
+
+											<p:outputLabel style="display: block" value="Código:"
+												for="codigo" />
+											<p:inputText id="codigo" size="12"
+												value="#{controleDocumentoMicro.objeto.idDocumentoOriginal}" />
+										</h:panelGroup>
+										<h:panelGroup>
+											<p:outputLabel style="display: block" value="*Título:"
+												for="titulo" />
+											<p:inputText id="titulo"
+												value="#{controleDocumentoMicro.objeto.titulo}" size="45" />
+										</h:panelGroup>
+										<h:panelGroup>
+											<p:outputLabel style="display: block"
+												value="* Tipo de Documento:" for="tipo" />
+
+											<p:selectOneMenu id="tipo" style="width: 145px;"
+												value="#{controleDocumentoMicro.selectedTipoMicro}">
+												<f:selectItem itemValue="null" itemLabel="Sel. tipo" />
+												<f:selectItems value="#{controleDocumentoMicro.listaTipos}"
+													var="tipos" itemLabel="#{tipos.descricaoTipoMicro}"
+													itemValue="#{tipos}" />
+											</p:selectOneMenu>
+										</h:panelGroup>
+
+									</h:panelGrid>
+
+									<h:panelGrid columns="2">
+
+
+										<h:panelGroup>
+
+											<p:outputLabel value="Autor:" style="display: block"
+												for="autoAutor" />
+											<p:autoComplete size="50" id="autoAutor"
+												value="#{controleDocumentoMicro.selectedAutor}"
+												completeMethod="#{controleDocumentoMicro.completeAutor}"
+												var="autor"
+												itemLabel="#{autor.nomeAutor}" itemValue="#{autor}"
+												forceSelection="true" />
+
+										</h:panelGroup>
+
+<!-- 										<h:panelGroup> -->
+<!-- 											<p:outputLabel style="display: block" value="Completude:" -->
+<!-- 												for="completudeDocumento" /> -->
+
+<!-- 											<p:selectOneMenu id="completudeDocumento" -->
+<!-- 												style="width: 155px;" -->
+<!-- 												value="#{controleDocumentoMicro.selectedCompletudeDocumento}"> -->
+<!-- 												<f:selectItems -->
+<!-- 													value="#{controleDocumentoMicro.listaCompletudeColeta}" -->
+<!-- 													var="completudes" itemLabel="#{completudes.label}" -->
+<!-- 													itemValue="#{completudes}" /> -->
+<!-- 											</p:selectOneMenu> -->
+<!-- 										</h:panelGroup> -->
+
+
+
+
+
+									</h:panelGrid>
+
+
+									<em>Datas do Documento</em>
+									<h:panelGrid columns="4">
+
+										<h:panelGroup>
+											<p:outputLabel style="display: block" for="dataDocumento"
+												value="Data do documento" />
+											<p:calendar id="dataDocumento" size="15"
+												value="#{controleDocumentoMicro.objeto.dataDocumentoCompleta}"
+												pattern="dd/MM/yyyy" mask="true">
+												<p:ajax
+													listener="#{controleDocumentoMicro.ajaxAnoDocumento()}"
+													update="anoDocumento" event="dateSelect" />
+											</p:calendar>
+										</h:panelGroup>
+										<h:panelGroup>
+											<p:outputLabel style="display: block" for="dataPublicacao"
+												value="Data de publicação" />
+											<p:calendar id="dataPublicacao" size="15"
+												value="#{controleDocumentoMicro.objeto.dataPublicacaoCompleta}"
+												pattern="dd/MM/yyyy" mask="true">
+												<p:ajax
+													listener="#{controleDocumentoMicro.ajaxAnoPublicacao()}"
+													update="anoPublicacao" event="dateSelect" />
+											</p:calendar>
+
+										</h:panelGroup>
+										<h:panelGroup>
+											<p:outputLabel style="display: block" for="anoDocumento"
+												value="Ano do documento" />
+											<p:inputText id="anoDocumento" size="8"
+												value="#{controleDocumentoMicro.anoDocumento}" />
+										</h:panelGroup>
+										<h:panelGroup>
+											<p:outputLabel style="display: block" for="anoPublicacao"
+												value="Ano de publicação" />
+											<p:inputText id="anoPublicacao" size="8"
+												value="#{controleDocumentoMicro.anoPublicacao}" />
+										</h:panelGroup>
+
+
+									</h:panelGrid>
+
+
+
+									<em>Observações</em>
+									<h:panelGrid columns="1">
+										<h:panelGroup>
+											<!-- 												<p:outputLabel style="display: block" for="observacoes" -->
+											<!-- 													value="Observações:" /> -->
+											<p:inputTextarea id="observacoes" rows="3" cols="80"
+												value="#{controleDocumentoMicro.objeto.observacoes}" />
+										</h:panelGroup>
+
+
+
+									</h:panelGrid>
+								</p:tab>
+								<p:tab title="Características físicas">
+									<em>Características físicas</em>
+
+									<h:panelGrid columns="1">
+
+										<h:panelGroup>
+											<p:outputLabel for="avulso" value="Documento avulso" />
+											<p:selectBooleanCheckbox id="avulso"
+												value="#{controleDocumentoMicro.objeto.avulso}"
+												disabled="true">
+
+											</p:selectBooleanCheckbox>
+
+										</h:panelGroup>
+<!-- 										<h:panelGroup> -->
+<!-- 											<p:outputLabel style="display: block" for="folhas" -->
+<!-- 												value="Quant. folhas:" /> -->
+<!-- 											<p:inputText id="folhas" size="10" -->
+<!-- 												value="#{controleDocumentoMicro.objeto.quantidadeFolhas}" /> -->
+<!-- 										</h:panelGroup> -->
+									</h:panelGrid>
+									<h:panelGrid columns="2">
+
+										<h:panelGroup>
+											<p:outputLabel for="comCapa" value="Com capa" />
+											<p:selectBooleanCheckbox id="comCapa"
+												value="#{controleDocumentoMicro.objeto.comCapa}">
+												<p:ajax
+													listener="#{controleDocumentoMicro.processChecked()}"
+													update="imagemCapa" event="change" />
+											</p:selectBooleanCheckbox>
+
+										</h:panelGroup>
+
+										<h:panelGroup>
+											<p:outputLabel value="Imagem da capa:" for="imagemCapa"
+												style="display: block" />
+											<p:fileUpload id="imagemCapa" showButtons="false"
+												style="width: 400px;"
+												disabled="#{controleDocumentoMicro.comCapa}"
+												fileUploadListener="#{controleDocumentoMicro.uploadArquivoCapa()}"
+												allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
+												label="Procurar..." auto="true" mode="advanced"
+												update="caminhoCapa" />
+											<h:outputText id="caminhoCapa"
+												value="#{controleDocumentoMicro.caminhoImagemCapa}" />
+										</h:panelGroup>
+
+
+									</h:panelGrid>
+								</p:tab>
+
+								<p:tab title="Upload de Arquivos">
+									<h:panelGrid columns="1">
+									
+										<p:panel style="cellpading: 5px;">
+											<h:panelGroup>
+												<p:outputLabel value="Arquivo XML:" for="arquivoXML"
+													style="display: block" />
+												<p:fileUpload id="arquivoXML" showButtons="false"
+													style="width: 400px;"
+													fileUploadListener="#{controleDocumentoMicro.uploadArquivoXML}"
+													allowTypes="/(\.|\/)(xml|XML)$/" label="Procurar..."
+													auto="true" mode="advanced" update="caminhoLombada" />
+												<h:outputText id="caminhoLombada"
+													value="#{controleDocumentoMicro.caminhoArquivoXML}" />
+											</h:panelGroup>
+										</p:panel>
+										<p:panel style="cellpading: 5px;">
+											<h:panelGroup>
+												<p:outputLabel for="arquivoPSD" style="display: block"
+													value="Arquivo PSD" />
+												<p:fileUpload id="arquivoPSD" style="width: 400px;"
+													fileUploadListener="#{controleDocumentoMicro.uploadArquivoPSD}"
+													allowTypes="/(\.|\/)(txt|TXT)$/" label="Procurar..."
+													auto="true" mode="advanced" update="caminhoContraCapa" />
+												<h:outputText id="caminhoContraCapa"
+													value="#{controleDocumentoMicro.caminhoArquivoPSD}" />
+											</h:panelGroup>
+										</p:panel>
+
+
+									</h:panelGrid>
+								</p:tab>
+
+								<p:tab title="Imagens do documento">
+									<h:panelGrid columns="1" id="panelImagens">
+										<p:panel style="cellpading: 5px;" id="imagensDocumento">
+
+											<h:panelGroup>
+
+												<p:outputLabel value="Arquivo de imagem:"
+													style="display: block" />
+												<p:fileUpload id="arquivoImagem" style="width: 400px;"
+													fileUploadListener="#{controleDocumentoMicro.uploadArquivoImagem}"
+													allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
+													label="Procurar..." auto="true" mode="advanced"
+													update="caminhoImagem addImageButton" />
+
+												<h:outputText id="caminhoImagem"
+													value="#{controleDocumentoMicro.caminhoArquivoImagem}" />
+												<!-- 	<p:graphicImage  id="mostree" value="#{controleDocumentoMicro.caminhoImagemCapa}"></p:graphicImage>	 -->
+
+											</h:panelGroup>
+											<br/>
+											<br />
+											<h:panelGroup>
+												<p:outputLabel style="display: block" value="Imagem de:"
+													for="listaTipoImagem" />
+
+																								
+												<p:selectOneRadio id="listaTipoImagem" 
+												value="#{controleDocumentoMicro.selectedTipoImagem}" immediate="true">
+            <f:selectItems value="#{controleDocumentoMicro.listaTipoImagem}" var="tipoImagem" itemLabel="#{tipoImagem.label}" 
+            itemValue="#{tipoImagem}"/>
+            <p:ajax event="change" update="addImageButton"/>
+        </p:selectOneRadio>
+											</h:panelGroup>
+
+											<p:commandButton id="addImageButton" value="Adicionar" 
+												action="#{controleDocumentoMicro.addImagem()}"
+												process="@this" update="imagemListTable" icon="ui-icon-plus"
+												partialSubmit="#{true}" /><br/>
+
+          
+
+											<p:dataTable id="imagemListTable" var="rowImagem"
+												value="#{controleDocumentoMicro.imagens}" paginator="false"
+												emptyMessage="Nenhuma imagem inserida para este documento.">
+												<p:column style="width:175px;">
+													<f:facet name="header">
+														<h:outputText value="Caminho da imagem" />
+													</f:facet>
+													<h:outputText value="#{rowImagem.enderecoImagem}" />
+												</p:column>
+
+												<p:column style="width:175px;">
+													<f:facet name="header">
+														<h:outputText value="Tipo imagem" />
+													</f:facet>
+													<h:outputText value="#{rowImagem.tipoImagem}" />
+												</p:column>
+												<p:column style="width:100px;">
+													<f:facet name="header">
+														<h:outputText value="Imagem" />
+													</f:facet>
+													<p:graphicImage  id="imagemMicro" value="/resources/images/corpusdovic/#{rowImagem.enderecoImagem}" width="40" height="40"></p:graphicImage>	 
+												</p:column>
+											
+											</p:dataTable>
+										</p:panel>
+									</h:panelGrid>
+
+								</p:tab>
+
+
+
+							</p:tabView>
+
+							<h:outputText value="* Campos obrigatórios"
+								style="position: relative; left: 215px;" />
+							<br />
+							<br />
+							<h:panelGrid columns="2" style="position: relative; left: 280px;">
+								<p:commandButton value="Salvar"
+									process=":mainForm:edit-container"
+									action="#{controleDocumentoMicro.gravar()}"
+									update=":mainForm:list-container"
+									onclick="PF('modalNovoTipo').hide()" icon="ui-icon-disk" />
+								<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+									action="#{controleDocumentoMicro.cancelar()}"
+									onclick="PF('modalNovoTipo').hide()" />
+							</h:panelGrid>
+							<br />
+							<br />
+						</p:outputPanel>
+					</p:dialog>
+					<p:messages severity="info" escape="false" showDetail="true"
+						autoUpdate="true" closable="true" />
+
+				</p:outputPanel>
+
+
+
+
+
+				<p:dialog id="confirmacao" header="Exclusão de documento"
+					widgetVar="confirmDeleteDialog" modal="true">
+					<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+					<p:outputLabel
+						value="Tem certeza de que deseja excluir este documento?" />
+					<br />
+					<br />
+					<br />
+					<p:commandButton value="Sim"
+						action="#{controleDocumentoMicro.excluir()}" process="@this"
+						onclick="PF('confirmDeleteDialog').hide();"
+						update=":mainForm:list-container" />
+					<p:commandButton value="Não"
+						action="#{controleDocumentoMicro.cancelar()}"
+						onclick="PF('confirmDeleteDialog').hide();" />
+					<br />
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

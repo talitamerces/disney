@@ -1,0 +1,153 @@
+
+<ui:composition template="/resources/templates/loginTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="head">
+        <h:head>
+            <ui:insert name="head.meta">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            </ui:insert>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+           
+            <ui:insert name="head.title">
+                <title>WebSinC - Sistema Web para buscas em Corpora anotados em XML </title>
+            </ui:insert>
+           
+        </h:head>
+    </ui:define>
+    
+    <ui:define name="body.content.center">
+       <h:form>
+        <div style="float: left; margin-left:20px; margin-right:20px;" >
+        
+       
+         <br/>
+            <p:fieldset id="fieldset" style="width: 800px;">
+                
+                <p style="font-size: 12px;"/>
+                <br/>
+                 <div class="apresentacao">             
+                <h2> Pesquisadores</h2>
+               
+        <h:outputText value="SÊNIOR - Doutor" style="font-weight: bold" styleClass="ui-fieldset-legend ui-corner-all ui-state-default"/>
+        <p:dataScroller value="#{controleColaborador.getSenior()}" var="colaborador" 
+        chunkSize="50" mode="inline" styleClass="ui-fieldset">       
+        
+        <h:panelGrid columns="1" style="width:100%">
+<!--             <p:graphicImage name="demo/images/car/#{colaborador.enderecoFoto}" />  -->
+            
+ 
+            <p:outputPanel>
+                <h:panelGrid columns="1" cellpadding="5">
+                   <hr color="#33CCFF"/>
+                    <h:outputText value="#{colaborador.nomeColaborador}" style="font-weight: bold;" />
+ 
+                    <h:outputText value="Biografia:" />
+                    <h:outputText value="#{colaborador.biografia}" />
+ 
+                    <h:outputLink value="#{colaborador.linkLattes}"> Currículo Latttes</h:outputLink>
+                    
+                </h:panelGrid>
+            </p:outputPanel>
+            
+        </h:panelGrid>
+     
+   </p:dataScroller>
+               <br/><br/>
+       <h:outputText value="MASTER - Mestre" style="font-weight: bold" styleClass="ui-fieldset-legend ui-corner-all ui-state-default"/>
+        <p:dataScroller value="#{controleColaborador.getMaster()}" var="colaborador" 
+        chunkSize="50" mode="inline" styleClass="ui-fieldset">       
+        
+        <h:panelGrid columns="1" style="width:100%">
+<!--             <p:graphicImage name="demo/images/car/#{colaborador.enderecoFoto}" />  -->
+            
+ 
+            <p:outputPanel>
+                <h:panelGrid columns="1" cellpadding="5">
+                   <hr color="#33CCFF"/>
+                    <h:outputText value="#{colaborador.nomeColaborador}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Biografia:" />
+                    <h:outputText value="#{colaborador.biografia}" />
+ 
+                    <h:outputLink value="#{colaborador.linkLattes}"> Currículo Latttes</h:outputLink>
+                    
+                </h:panelGrid>
+            </p:outputPanel>
+            
+        </h:panelGrid>
+     
+   </p:dataScroller>  
+   <br/><br/> 
+   
+     <h:outputText value="JÚNIOR - Mestrando" style="font-weight: bold" styleClass="ui-fieldset-legend ui-corner-all ui-state-default"/>
+        <p:dataScroller value="#{controleColaborador.getMestrando()}" var="colaborador" 
+        chunkSize="50" mode="inline" styleClass="ui-fieldset">       
+        
+        <h:panelGrid columns="1" style="width:100%">
+<!--             <p:graphicImage name="demo/images/car/#{colaborador.enderecoFoto}" />  -->
+            
+ 
+            <p:outputPanel>
+                <h:panelGrid columns="1" cellpadding="5">
+                   <hr color="#33CCFF"/>
+                    <h:outputText value="#{colaborador.nomeColaborador}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Biografia:" />
+                    <h:outputText value="#{colaborador.biografia}" />
+ 
+                    <h:outputLink value="#{colaborador.linkLattes}"> Currículo Latttes</h:outputLink>
+                    
+                </h:panelGrid>
+            </p:outputPanel>
+            
+        </h:panelGrid>
+     
+   </p:dataScroller> 
+   <br/><br/>
+   
+     <h:outputText value="JÚNIOR - Graduando" style="font-weight: bold" styleClass="ui-fieldset-legend ui-corner-all ui-state-default"/>
+        <p:dataScroller value="#{controleColaborador.getGraduando()}" var="colaborador" 
+        chunkSize="50" mode="inline" styleClass="ui-fieldset">       
+        
+        <h:panelGrid columns="1" style="width:100%">
+<!--             <p:graphicImage name="demo/images/car/#{colaborador.enderecoFoto}" />  -->
+            
+ 
+            <p:outputPanel>
+                <h:panelGrid columns="1" cellpadding="5">
+                   <hr color="#33CCFF"/>
+                    <h:outputText value="#{colaborador.nomeColaborador}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Biografia:" />
+                    <h:outputText value="#{colaborador.biografia}" />
+ 
+                    <h:outputLink value="#{colaborador.linkLattes}"> Currículo Latttes</h:outputLink>
+                    
+                </h:panelGrid>
+            </p:outputPanel>
+            
+        </h:panelGrid>
+     
+   </p:dataScroller>      
+                    
+               
+            </div>
+            </p:fieldset>
+            
+           
+            
+            
+            
+           
+        </div>
+        </h:form>
+    </ui:define>
+   
+</ui:composition>
+

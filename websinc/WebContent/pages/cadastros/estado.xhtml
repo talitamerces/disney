@@ -1,0 +1,128 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="body.content.center">
+
+
+<h:form id="mainForm">
+ <p:panel header="Estados" styleClass="panelContent"> 
+                <h:panelGrid columns="2">
+                    <p:commandButton id="novoButton" value="Novo" update=":mainForm:edit-container" process="@this" icon="ui-icon-plus" action="#{controleEstado.novo()}"/> 
+                    <p:commandButton type="button" value="Ajuda" style="margin-left: 575px;" icon="ui-icon-help" />
+                </h:panelGrid>
+                <br />
+                <p:outputPanel id="list-container" layout="block">
+                    <p:dataTable id="estadoTable" rows="15" var="estado" value="#{controleEstado.dao.listarTodos()}" 
+                                 paginator="true" paginatorPosition="bottom" emptyMessage="Nenhum Estado cadastrado.">
+                        <p:column>  
+                            <f:facet name="header">  
+                                <h:outputText value="Nome do estado" />  
+                            </f:facet>  
+                            <h:outputText value="#{estado.nomeEstado}" />  
+                        </p:column>
+                        
+                         <p:column>  
+                            <f:facet name="header">  
+                                <h:outputText value="Nome do país" />  
+                            </f:facet>  
+                            <h:outputText value="#{estado.pais.nomePais}" />  
+                        </p:column>
+                        
+                        <p:column style="width:60px">
+							<f:facet name="header">
+								<h:outputText value="Ações" />
+							</f:facet>
+													  
+							<p:commandLink process="@this"
+								update=":mainForm:edit-container"
+								action="#{controleEstado.alterar(estado)}">
+								<p:graphicImage value="/resources/images/editar.png" id="imagemAlterar"/>
+								<p:tooltip id="toolTipAlterar" for="imagemAlterar" value="Editar" />
+								<f:setPropertyActionListener
+									target="#{controleEstado.objeto}"
+									value="#{estado}" />
+							</p:commandLink>
+							<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+							<p:commandLink process="@this"
+								onclick="PF('confirmDeleteDialog').show();">
+								<p:graphicImage value="/resources/images/apagar.png" id="imagemExcluir"/>
+								<p:tooltip id="toolTipExcluir" for="imagemExcluir" value="Excluir" />
+ 
+								<f:setPropertyActionListener
+									target="#{controleEstado.objeto}"
+									value="#{estado}" />
+							</p:commandLink>
+						</p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+                
+                <p:outputPanel id="edit-container" layout="block">
+                    <p:dialog id="modalNovo" header="Cadastro de Estados" widgetVar="modalNovoTipo" 
+                              modal="true" height="200" width="670" style="background-color: white" resizable="false"
+                              visible="#{controleEstado.edicao}">
+                        <p:hotkey bind="esc" handler="modalNovoTipo.hide()"/>
+                        <p:outputPanel id="formDataWrapper" layout="block">
+                           
+                                  <h:panelGrid columns="2">
+                                   <h:panelGroup>
+                                  <p:outputLabel value="* Nome:" for="descricao" style="display: block"/> 
+                                  <p:inputText id="descricao" value="#{controleEstado.objeto.nomeEstado}" /> 
+                                  </h:panelGroup>
+                                  
+                                  <h:panelGroup>
+												<p:outputLabel style="display: block"
+													value="* País:" for="pais" />
+
+												<p:selectOneMenu id="pais" style="width: 175px;"
+													value="#{controleEstado.selectedPais}">
+													<f:selectItem itemValue="null" itemLabel="Selecione:" />
+													<f:selectItems value="#{controleEstado.listaPaises}"
+														var="paises" itemLabel="#{paises.nomePais}"
+														itemValue="#{paises}" />
+												</p:selectOneMenu>
+											</h:panelGroup>
+                                  
+                                </h:panelGrid>
+                           
+                       
+                        
+                  
+                  <h:outputText value="* Campos obrigatórios" style="position: relative; left: 315px;"/>
+                        <br /><br />
+                        <h:panelGrid columns="2" style="position: relative; left: 280px;" >
+                         	<p:commandButton value="Cancelar" icon="ui-icon-cancel" action="#{controleEstado.cancelar()}" onclick="PF('modalNovoTipo').hide()"/>
+                            <p:commandButton value="Salvar" process=":mainForm:edit-container" action="#{controleEstado.gravar()}"
+                                             update=":mainForm:list-container" onclick="PF('modalNovoTipo').hide()" 
+                                             icon="ui-icon-disk" />
+                           
+                        </h:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+                    
+             <p:messages severity="info" escape="false" showDetail="true"
+						autoUpdate="true" closable="true"  />        
+</p:outputPanel>          
+                
+                   
+         
+      
+
+ <p:dialog id="confirmacao" header="Exclusão de estado" widgetVar="confirmDeleteDialog" modal="true">
+                        <p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+                          <p:outputLabel value="Tem certeza de que deseja excluir este Estado?"/>
+                        <br/> 
+                        <br/> 
+                        <br/> 
+                        <p:commandButton value="Sim" action="#{controleEstado.excluir()}" process="@this" onclick="PF('confirmDeleteDialog').hide();"
+                                         update=":mainForm:list-container"/>
+                        <p:commandButton value="Não" action="#{controleEstado.cancelar()}" onclick="PF('confirmDeleteDialog').hide();"/>  
+                    </p:dialog> 
+                     </p:panel>
+                      </h:form>
+</ui:define>
+</ui:composition>

@@ -1,0 +1,35 @@
+<DOCUMENTO id="0"><NP-ACC id="1">
+<D-F-P id="2">
+<LEAF id="3" W="yes" v="as">as</LEAF></D-F-P>
+<NPR-P id="4">
+<PP id="5">
+<LEAF id="6" W="yes" v="Reflexões">Reflexões</LEAF></PP>
+<TEST id="7">
+<LEAF id="8" W="yes" v="teste">teste</LEAF></TEST>
+</NPR-P>
+<PEPA id="9">
+<P id="10">
+<S id="11">
+<LEAF id="12" W="yes" v="sobre">sobre</LEAF></S>
+<I id="13">
+<LEAF id="14" W="yes" v="irmao">irmao</LEAF></I>
+</P>
+<NP id="15">
+<D-F id="16">
+<LEAF id="17" W="yes" v="a">a</LEAF></D-F>
+<N id="18">
+<LEAF id="19" W="yes" v="vaidade">vaidade</LEAF></N>
+<PEP id="20">
+<P id="21">
+<LEAF id="22" W="yes" v="de@">de@</LEAF></P>
+<NP id="23">
+<D-P id="24">
+<LEAF id="25" W="yes" v="dos">dos</LEAF></D-P>
+<N-P id="26">
+<LEAF id="27" W="yes" v="homens">homens</LEAF></N-P>
+</NP>
+</PEP>
+</NP>
+</PEPA>
+</NP-ACC>
+</DOCUMENTO>

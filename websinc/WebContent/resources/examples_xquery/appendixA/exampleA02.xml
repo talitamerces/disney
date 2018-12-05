@@ -1,0 +1,15 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example A-2. XML document with IDs and IDREFs (book.xml) -->
+<book>
+  <section id="preface">This book introduces XQuery...
+    The examples are downloadable<fnref ref="fn1"/>...
+  </section>
+  <section id="context">...</section>
+  <section id="language">...Expressions, introduced
+   in <secRef refs="context"/>, are...
+  </section>
+  <section id="types">...As described in
+    <secRef refs="context language"/>, you can...
+  </section>
+  <fn fnid="fn1">See http://datypic.com.</fn>
+</book>

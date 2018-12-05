@@ -1,0 +1,9 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 10-5. Overriding the default namespace -->
+<catalog xmlns="http://datypic.com/cat">
+  <number>1446</number>
+  <product xmlns="http://datypic.com/prod">
+    <number>563</number>
+    <name language="en">Floppy Sun Hat</name>
+  </product>
+</catalog>

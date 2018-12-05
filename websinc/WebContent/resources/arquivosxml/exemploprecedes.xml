@@ -1,0 +1,69 @@
+<DOCUMENTO><IP-MAT>
+<D-F-P>
+<LEAF W="yes" v="as">as</LEAF></D-F-P>
+<NPR-P>
+<PP>
+<LEAF W="yes" v="Reflexões">Reflexões</LEAF></PP>
+<TEST>
+<LEAF W="yes" v="teste">teste</LEAF></TEST>
+</NPR-P>
+<PEPA>
+<P>
+<S>
+<LEAF W="yes" v="sobre">sobre</LEAF></S>
+<I>
+<LEAF W="yes" v="irmao">irmao</LEAF></I>
+</P>
+<NP>
+<D-F>
+<LEAF W="yes" v="a">a</LEAF></D-F>
+<N>
+<LEAF W="yes" v="vaidade">vaidade</LEAF></N>
+<PEP>
+<P>
+<LEAF W="yes" v="de@">de@</LEAF></P>
+<NP>
+<D-P>
+<LEAF W="yes" v="dos">dos</LEAF></D-P>
+<N-P>
+<LEAF W="yes" v="homens">homens</LEAF></N-P>
+</NP>
+</PEP>
+</NP>
+</PEPA>
+</IP-MAT>
+<IP-MAT>
+<ALINE>
+<LEAF W="yes" v="as">as</LEAF></ALINE>
+<BRUNO>
+<IGOR>
+<LEAF W="yes" v="segunda">segunda</LEAF></IGOR>
+<ARTHUR>
+<LEAF W="yes" v="sentenca">sentenca</LEAF></ARTHUR>
+</BRUNO>
+<EU>
+<TU>
+<S>
+<LEAF W="yes" v="é">é</LEAF></S>
+<ELE>
+<LEAF W="yes" v="essa">essa</LEAF></ELE>
+</TU>
+<ELE>
+<NOS>
+<LEAF W="yes" v="aqui">aqui</LEAF></NOS>
+<VOS>
+<LEAF W="yes" v="agora">agora</LEAF></VOS>
+<ELES>
+<P>
+<LEAF W="yes" v="de@">de@</LEAF></P>
+<NP>
+<D-P>
+<LEAF W="yes" v="dos">dos</LEAF></D-P>
+<N-P>
+<LEAF W="yes" v="homens">homens</LEAF></N-P>
+</NP>
+</ELES>
+</ELE>
+</EU>
+</IP-MAT>
+</DOCUMENTO>

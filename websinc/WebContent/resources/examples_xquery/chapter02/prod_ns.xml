@@ -1,0 +1,10 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Input document with namespaces (prod_ns.xml) -->
+<prod:product xmlns:prod="http://datypic.com/prod">
+  <prod:number>563</prod:number>
+  <prod:name language="en">Floppy Sun Hat</prod:name>
+</prod:product>
+
+
+
+

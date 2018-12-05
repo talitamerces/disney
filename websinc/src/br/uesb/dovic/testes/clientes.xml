@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clientes>
+
+  <cliente id="1">
+
+   <nome>Jose da Silva</nome>
+
+   <idade>48</idade>
+
+   <rendaMensal>2000</rendaMensal>
+
+  </cliente>
+
+  <cliente id="2">
+
+   <nome>Joao Paulo Siqueira</nome>
+
+   <idade>32</idade>
+
+   <rendaMensal>1000</rendaMensal>
+
+  </cliente>
+
+  <cliente id="3">
+
+   <nome> Maria Eduarda da Silva</nome>
+
+   <idade>26</idade>
+
+   <rendaMensal>5000</rendaMensal>
+
+  </cliente>
+
+  <cliente id="4">
+
+   <nome>Carlos Souza</nome>
+
+   <idade>28</idade>
+
+   <rendaMensal>3000</rendaMensal>
+
+  </cliente>
+
+</clientes>
+
+

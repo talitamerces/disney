@@ -1,0 +1,6 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 21-12. Two equivalent h1 elements, one with CDATA section -->
+<root>
+<h1><![CDATA[Catalog & Price List from <catalog>]]></h1>
+<h1>Catalog &amp; Price List from &lt;catalog></h1>
+</root>

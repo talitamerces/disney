@@ -1,0 +1,11 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Nilled elements -->
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <child>12</child>
+  <child xsi:nil="true"></child>
+  <child></child>
+  <child/>
+  <child xsi:nil="false"></child>
+</root>
+
+

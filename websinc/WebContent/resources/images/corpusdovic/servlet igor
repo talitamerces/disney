@@ -1,0 +1,65 @@
+/*
+ * Created on 29/08/2006
+ */
+package br.com.linkcom.sined.controller;
+
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.linkcom.neo.core.standard.Neo;
+import br.com.linkcom.sined.geral.bean.Arquivo;
+import br.com.linkcom.sined.geral.service.ArquivoService;
+
+public class ArquivoFotoServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String cdfile = request.getParameter("cdfile");
+		Arquivo arquivo = new Arquivo();
+		arquivo.setCdfile(cdfile);
+		arquivo = (Arquivo) arquivoService.loadWithContents(arquivo);			
+		
+		response.setContentType(arquivo.getTipoconteudo());
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + arquivo.getNome() + "\";");
+		
+			// Envia o arquivo.
+//			OutputStream saida = new GZIPOutputStream(response.getOutputStream());
+			BufferedOutputStream saida = new BufferedOutputStream(response.getOutputStream());
+
+			if (arquivo.getTipoconteudo().matches(".*png.*")) {
+				ImageIO.write(imagemNova, "png", saida);
+			}
+			else if (arquivo.getTipoconteudo().matches(".*jpe?g.*")) {
+				ImageIO.write(imagemNova, "jpg", saida);
+			}
+			else if (arquivo.getTipoconteudo().matches(".*gif.*")) {
+				ImageIO.write(imagemNova, "gif", saida);
+			}
+			else if (arquivo.getTipoconteudo().matches(".*bmp.*")) {
+				ImageIO.write(imagemNova, "bmp", saida);
+			}
+			else {
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				return;
+			}
+			
+			saida.flush();
+		
+		return;		
+	}
+	
+	
+
+}

@@ -1,0 +1,124 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+
+		<h:form id="mainForm">
+			<p:panel header="Usuários" styleClass="panelContent">
+				
+				<br />
+				
+					<p:outputPanel id="formDataWrapper" layout="block">
+
+
+							<h:panelGrid columns="1" cellpading="5">
+								<h:panelGroup>
+
+									<p:outputLabel style="display: block" value="Nome: *" for="nome" />
+									<p:inputText id="nome" size="65"
+										value="#{controleUsuario.objeto.nomeUsuario}" />
+									<p:message for="nome" />
+								</h:panelGroup>
+
+								<h:panelGroup>
+									<p:outputLabel style="display: block" for="emailUsuario"
+										value="Email" />
+									<p:inputText id="emailUsuario" size="65"
+										value="#{controleUsuario.objeto.emailUsuario}" />
+									<p:message for="emailUsuario" />
+
+								</h:panelGroup>
+
+								<h:panelGroup>
+									<p:outputLabel style="display: block" for="instituicaoUsuario"
+										value="Instituição" />
+									<p:inputText id="instituicaoUsuario" size="65"
+										value="#{controleUsuario.objeto.instituicaoUsuario}" />
+								</h:panelGroup>
+							</h:panelGrid>
+							<em />
+							<h:panelGrid columns="1">
+								
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Login: *"
+										for="login" />
+									<p:inputText id="login"
+										value="#{controleUsuario.objeto.loginUsuario}" size="38">
+										<f:validator validatorId="loginValidator" />
+									</p:inputText>
+									<p:message for="login" />
+								</h:panelGroup>
+							</h:panelGrid>
+						
+							<h:panelGrid columns="2">
+								<h:panelGroup>
+
+									<h:outputLabel for="senha" value="Senha: *" style="display: block" />
+									<p:password id="senha"
+										value="#{controleUsuario.objeto.senhaUsuario}"
+										redisplay="true" size="30"/>
+								</h:panelGroup>		
+								<h:panelGroup>		
+									<h:outputLabel for="confirmacaoSenha"
+										value="Redigite a senha: *" style="display: block" />
+									<p:password id="confirmacaoSenha"
+										value="#{controleUsuario.confirmacaoSenha}" size="30" redisplay="true">
+										<f:validator validatorId="senhaValidator" />
+
+
+									</p:password>
+									<p:message for="confirmacaoSenha" />
+
+								</h:panelGroup>
+
+
+
+							</h:panelGrid>
+
+							<em>Outras informações</em>
+							<h:panelGrid columns="1">
+								<h:panelGroup>
+									<p:outputLabel style="display: block" for="interesses"
+										value="Interesses:" />
+									<p:inputTextarea id="interesses" rows="3" cols="75"
+										value="#{controleUsuario.objeto.interesseUsuario}" />
+								</h:panelGroup>
+
+
+
+							</h:panelGrid>
+
+							<h:outputText value="* Campos obrigatórios"
+								style="position: relative; left: 215px;" />
+							<br />
+							<br />
+							<h:panelGrid columns="2" style="position: relative; left: 280px;">
+								<p:commandButton value="Salvar"
+									
+									action="#{controleUsuario.gravar()}"
+									icon="ui-icon-disk" />
+								<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+									action="#{controleUsuario.cancelar()}"/>
+							</h:panelGrid>
+							<br />
+							<br />
+						</p:outputPanel>
+						
+				
+				
+<!-- 				AQUI -->
+			
+				
+
+		
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+

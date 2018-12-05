@@ -1,0 +1,93 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+
+		<h:form id="mainForm" enctype="multipart/form-data">
+
+		
+			<br />
+			<br />
+
+
+			<p:panel toggleable="true" closable="true" style="width:80%;"
+				header="Administração do Portal">
+			
+
+<p:growl showDetail="true" sticky="true"></p:growl>
+			
+			<br />
+			
+			<br />
+
+			<br />
+
+			<p:tabView orientation="left" style="width:80%;">
+				<p:tab title="Apresentação">
+				<p:panel>
+				
+				<em>Apresentação</em>
+				<p:editor widgetVar="editor1" value="#{controlePortal.apresentacao}" height="300" style="margin-bottom:10px"/> 
+
+ 				  
+    			
+				 
+                </p:panel>
+				</p:tab>
+				<p:tab title="Agradecimentos">
+				<p:panel>
+				
+				<em>Agradecimentos</em>
+				<p:editor widgetVar="editor2" value="#{controlePortal.agradecimentos}" height="300" style="margin-bottom:10px"/> 
+
+ 				  
+    			
+ 				</p:panel>
+				</p:tab>
+				
+				<p:tab title="Projetos">
+				<p:panel>
+				
+				<em>Projetos</em>
+				<p:editor widgetVar="editor3" value="#{controlePortal.projetos}" height="300" style="margin-bottom:10px"/> 
+
+ 				  
+    			
+ 				</p:panel>
+				</p:tab>
+				<p:tab title="Lapelinc">
+				<p:panel>
+				
+				<em>Lapelinc</em>
+				<p:editor widgetVar="editor4" value="#{controlePortal.lapelinc}" height="300" style="margin-bottom:10px"/> 
+
+ 				  
+    			
+ 			</p:panel>
+				</p:tab>
+				<p:tab title="Corpus DOViC">
+				<p:panel>
+				
+				<em>Corpus DOViC</em>
+				<p:editor widgetVar="editor5" value="#{controlePortal.corpusDovic}" height="300" style="margin-bottom:10px"/> 
+
+ 				  
+<!--     			<p:commandButton value="Limpar" type="button" onclick="PF('editor5').clear();" icon="ui-icon-close" /> -->
+ 		</p:panel>
+				</p:tab>
+				
+			
+			</p:tabView>
+<p:commandButton value="Salvar"  style="margin-left: 240px;" action="#{controlePortal.gravar()}"
+                         update="@form"                    
+                                             icon="	ui-icon-disk" />
+                                             </p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

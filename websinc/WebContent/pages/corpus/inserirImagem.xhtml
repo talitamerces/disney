@@ -1,0 +1,292 @@
+
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+		<h:form id="mainForm" enctype="multipart/form-data">
+			<p:growl showDetail="true" sticky="true"></p:growl>
+			<p:panel header="Cadastro de Imagens do Documento Macro"
+				styleClass="panelContent">
+
+
+				<div align="left">
+					<br />
+					<h:outputText class="negrito" value="Documento Macro:" />
+					<h:outputText value="#{controleImagem.selectedMacro.titulo}" />
+					<br /> <br />
+				</div>
+
+				<h:panelGrid columns="2">
+					<p:commandButton id="novoButton" value="Novo"
+						update=":mainForm:edit-container" process="@this"
+						icon="ui-icon-plus" action="#{controleImagem.novo()}" />
+
+					<h:link
+						outcome="/pages/corpus/inserirDocumentoMacro?faces-redirect=true"
+						styleClass="linkVoltar" value="Voltar">
+
+					</h:link>
+
+				</h:panelGrid>
+				<br />
+				<p:outputPanel id="list-container" layout="block">
+
+					<p:dataTable id="ImagemTable" rows="12" paginator="true"
+						paginatorPosition="bottom" var="imagem"
+						value="#{controleImagem.imagensMacro}"
+						emptyMessage="Nenhuma imagem inserida.">
+						<p:column style="width:30px">
+							<f:facet name="header">
+								<h:outputText value="Imagem" />
+							</f:facet>
+
+							<!-- 				<p:commandButton update=":mainForm:imagemDetail" oncomplete="PF('ampliaImagemDialog').show()"  -->
+							<!-- 				process="@this" icon="ui-icon-search" ajax="true"> -->
+							<!--                     <f:setPropertyActionListener value="#{imagem}" target="#{controleImagem.selectedImagem}" /> -->
+							<!--                 </p:commandButton> -->
+							<p:graphicImage id="img"
+								value="#{controleImagem.getEnderecoImagem(imagem)}" width="35"
+								height="35" />
+						</p:column>
+						<p:column style="width:40px">
+							<f:facet name="header">
+								<h:outputText value="Nº" />
+							</f:facet>
+							<h:outputText value="#{imagem.numeroSequencia}" />
+						</p:column>
+						<p:column style="width:70px">
+							<f:facet name="header">
+								<h:outputText value="Código" />
+							</f:facet>
+							<h:outputText value="#{imagem.codigoImagem}" />
+						</p:column>
+
+						<p:column style="width:120px">
+							<f:facet name="header">
+								<h:outputText value="Tipo" />
+							</f:facet>
+							<h:outputText value="#{imagem.tipoImagem.toString()}" />
+						</p:column>
+						<p:column style="width:80px">
+							<f:facet name="header">
+								<h:outputText value="Lado" />
+							</f:facet>
+							<h:outputText value="#{imagem.ladoImagem.toString()}" />
+						</p:column>
+
+						<p:column style="width:30px">
+							<f:facet name="header">
+								<h:outputText value="N° Folha" />
+							</f:facet>
+
+							<h:outputText value=" #{imagem.numeroFolha}" />
+
+						</p:column>
+
+						<p:column style="width:30px">
+							<f:facet name="header">
+								<h:outputText value="N° Página" />
+							</f:facet>
+
+							<h:outputText value=" #{imagem.numeroPagina} " />
+						</p:column>
+
+						<p:column style="width:60px">
+							<f:facet name="header">
+								<h:outputText value="Ações" />
+							</f:facet>
+
+							<p:commandLink process="@this" update=":mainForm:edit-container"
+								action="#{controleImagem.alterar(imagem)}">
+								<p:graphicImage value="/resources/images/editar.png"
+									id="imagemAlterar" />
+								<p:tooltip id="toolTipAlterar" for="imagemAlterar"
+									value="Editar" />
+								<f:setPropertyActionListener target="#{controleImagem.objeto}"
+									value="#{imagem}" />
+							</p:commandLink>
+
+							<h:outputText value="&#160;&#160;&#160;&#160;" escape="false" />
+							<p:commandLink process="@this"
+								onclick="PF('confirmDeleteDialog').show();">
+								<p:graphicImage value="/resources/images/apagar.png"
+									id="imagemExcluir" />
+								<p:tooltip id="toolTipExcluir" for="imagemExcluir"
+									value="Excluir" />
+
+								<f:setPropertyActionListener target="#{controleImagem.objeto}"
+									value="#{imagem}" />
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+				<p:outputPanel id="edit-container" layout="block">
+
+					<p:dialog id="modalImagem" header="Imagens" widgetVar="modalImagem"
+						modal="true" height="500" width="600"
+						style="background-color: white" resizable="false"
+						visible="#{controleImagem.edicao}">
+						<p:hotkey bind="esc" handler="modalImagem.hide()" />
+
+						<p:outputPanel id="formDataWrapper" layout="block">
+							<h:panelGrid columns="1">
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Código da imagem:"
+										for="codigoImagem" />
+									<h:outputText id="codigoImagem" size="10"
+										style="border:1px solid #4297d7;"
+										value="#{controleImagem.codigoImagem}" />
+								</h:panelGroup>
+							</h:panelGrid>
+							<h:panelGrid columns="4">
+
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Nº da coleta:"
+										for="nrColeta" />
+									<p:inputText id="nrColeta" size="10"
+										value="#{controleImagem.numeroColeta}">
+										<p:ajax listener="#{controleImagem.ajaxCodigoImagem()}"
+											update="codigoImagem" event="blur" />
+									</p:inputText>
+								</h:panelGroup>
+
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Nº de sequência:"
+										for="nrSequencia" />
+									<p:inputText id="nrSequencia" size="10"
+										value="#{controleImagem.numeroSequencia}">
+										<p:ajax listener="#{controleImagem.ajaxCodigoImagem()}"
+											update="codigoImagem" event="blur" />
+									</p:inputText>
+								</h:panelGroup>
+								<h:panelGroup>
+
+									<p:outputLabel style="display: block" value="Nº da página:"
+										for="nrPagina" />
+									<p:inputText id="nrPagina" size="10"
+										value="#{controleImagem.numeroPagina}" />
+								</h:panelGroup>
+								<h:panelGroup>
+
+									<p:outputLabel style="display: block" value="Nº da folha:"
+										for="nrFolha" />
+									<p:inputText id="nrFolha" size="10"
+										value="#{controleImagem.numeroFolha}" />
+								</h:panelGroup>
+							</h:panelGrid>
+
+
+							<br />
+
+
+							<p:layout style="min-width:350px;min-height:255px;">
+
+								<p:layoutUnit position="west" resizable="true" size="200"
+									minSize="40" maxSize="300">
+									<p:outputLabel value="Tipo de Imagem:" style="display: block" />
+									<h:selectOneRadio id="listaTipoImagem" layout="pageDirection"
+										value="#{controleImagem.selectedTipoImagem}">
+										<f:selectItems value="#{controleImagem.listaTipoImagem}"
+											var="tipoImagem" itemLabel="#{tipoImagem.label}"
+											itemValue="#{tipoImagem}" />
+									</h:selectOneRadio>
+								</p:layoutUnit>
+
+								<p:layoutUnit position="center">
+									<p:outputLabel value="Lado da Imagem:" style="display: block" />
+									<h:selectOneRadio id="listaLadoImagem" layout="pageDirection"
+										value="#{controleImagem.selectedLadoImagem}">
+										<f:selectItems value="#{controleImagem.listaLadoImagem}"
+											var="ladoImagem" itemLabel="#{ladoImagem.label}"
+											itemValue="#{ladoImagem}" />
+									</h:selectOneRadio>
+								</p:layoutUnit>
+							</p:layout>
+
+
+							<h:panelGroup id="panelArquivo">
+								<p:outputLabel value="Selecionar arquivo do computador:"
+									style="display: block" />
+								<p:fileUpload id="arquivoImagem" style="width: 200px;"
+									showButtons="false"
+									fileUploadListener="#{controleImagem.uploadArquivoImagem}"
+									allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
+									label="Selecionar" auto="true" mode="advanced"
+									update="panelArquivo botaoSalvar" />
+								<h:outputText value="#{controleImagem.caminhoImagem}" />
+							</h:panelGroup>
+							<br />
+							<br />
+							<h:panelGrid columns="2" style="position: relative; left: 280px;">
+
+								<h:commandButton id="botaoSalvar" value="Salvar"
+									style="padding:4px !important;"
+									styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
+									onclick="PF('modalImagem').hide()" icon="ui-icon-disk"
+									actionListener="#{controleImagem.gravar}"
+									disabled="#{controleImagem.naoSalvar}" />
+
+
+								<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+									action="#{controleImagem.cancelar()}"
+									onclick="PF('modalImagem').hide()" />
+
+							</h:panelGrid>
+							<br />
+						</p:outputPanel>
+
+					</p:dialog>
+
+				</p:outputPanel>
+
+
+				<p:dialog id="confirmacao" header="Exclusão de imagem"
+					widgetVar="confirmDeleteDialog" modal="true">
+					<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+					<p:outputLabel
+						value="Tem certeza de que deseja excluir esta imagem?" />
+					<br />
+					<br />
+					<br />
+					<p:commandButton value="Sim" action="#{controleImagem.excluir}"
+						process="@this" onclick="PF('confirmDeleteDialog').hide();"
+						update="@form" />
+					<p:commandButton value="Não" action="#{controleImagem.cancelar()}"
+						onclick="PF('confirmDeleteDialog').hide();" immediate="true" />
+					<br />
+				</p:dialog>
+
+				<p:dialog header="Imagem" widgetVar="ampliaImagemDialog"
+					modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+					<p:outputPanel id="imagemDetail" style="text-align:center;">
+						<p:panelGrid columns="2"
+							rendered="#{not empty controleImagem.selectedImagem}"
+							columnClasses="label,value">
+
+
+
+
+							<h:outputText value="Número sequência:" />
+							<h:outputText
+								value="#{controleImagem.selectedImagem.numeroSequencia}" />
+
+
+							<h:outputText value="Nº página" />
+							<h:outputText
+								value="#{controleImagem.selectedImagem.numeroPagina}" />
+							<h:outputText value="Nº folha" />
+							<h:outputText
+								value="#{controleImagem.selectedImagem.numeroFolha}" />
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:dialog>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

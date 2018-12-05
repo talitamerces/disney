@@ -1,0 +1,123 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+
+
+		<h:form id="mainForm">
+			<p:panel header="Usuários" styleClass="panelContent">
+
+					
+				<p:outputPanel id="edit-container" layout="block">
+					<p:dialog id="modalNovo" header="usuario" widgetVar="modalNovoTipo"
+						modal="true" height="500" width="800"
+						style="background-color: white" resizable="false"
+						visible="#{controleUsuario.edicao}">
+						<p:hotkey bind="esc" handler="modalNovoTipo.hide()" />
+						<p:outputPanel id="formDataWrapper" layout="block">
+						<h:panelGrid columns="1">
+							<h:panelGroup>
+								<h:outputLabel value="* Nome do usuario:" for="nome" style="display: block" />
+								<p:inputText id="nome"
+									value="#{controleUsuario.objeto.nomeUsuario}" size="80" />
+							</h:panelGroup>
+
+
+
+							<h:panelGroup>
+								<p:outputLabel style="display: block" for="emailUsuario"
+									value="Email" />
+								<p:inputText id="emailUsuario" size="70"
+									value="#{controleUsuario.objeto.emailUsuario}" />
+							</h:panelGroup>
+							
+
+							<h:panelGroup>
+									<p:outputLabel style="display: block" for="instituicaoUsuario"
+										value="Instituição" />
+									<p:inputText id="instituicaoUsuario" size="70"
+										value="#{controleUsuario.objeto.instituicaoUsuario}" />
+							</h:panelGroup>
+							<h:panelGroup>
+									<p:outputLabel style="display: block" for="loginUsuario"
+										value="Login" />
+									<p:inputText id="loginUsuario" size="30"
+										value="#{controleUsuario.objeto.loginUsuario}" />
+							</h:panelGroup>
+
+
+								<h:panelGroup>
+									<h:outputText value="Senha : "  style="display: block"/>
+									<p:password id="senha"
+										value="#{controleUsuario.objeto.senhaUsuario}" feedback="true"
+										promptLabel="Digite a senha" weakLabel="Fraca"
+										goodLabel="Razoável" strongLabel="Forte" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<h:outputText value="Confirmação da senha : " style="display: block"/>
+									<p:password id="senhaConfirmacao"
+										value="#{controleUsuario.objeto.senhaUsuario}" />
+								</h:panelGroup>
+							</h:panelGrid>
+								<em>Outras informações</em>
+								<h:panelGrid columns="1">
+									<h:panelGroup>
+										<p:outputLabel style="display: block" for="interesses"
+											value="Interesses:" />
+										<p:inputTextarea id="interesses" rows="3" cols="75"
+											value="#{controleUsuario.objeto.interesseUsuario}" />
+									</h:panelGroup>
+
+
+
+								</h:panelGrid>
+
+								<h:outputText value="* Campos obrigatórios"
+									style="position: relative; left: 315px;" />
+								<br />
+								<br />
+								<h:panelGrid columns="2"
+									style="position: relative; left: 280px;">
+									<p:commandButton value="Salvar"
+										process=":mainForm:edit-container"
+										action="#{controleUsuario.gravar()}"
+										update=":mainForm:list-container"
+										onclick="PF('modalNovoTipo').hide()" icon="ui-icon-disk" />
+									<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+										action="#{controleUsuario.cancelar()}"
+										onclick="PF('modalNovoTipo').hide()" />
+								</h:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+
+
+				</p:outputPanel>
+
+
+
+
+
+				<p:dialog id="confirmacao" header="Exclusão de usuário"
+					widgetVar="confirmDeleteDialog" modal="true">
+					<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+					<p:outputLabel
+						value="Tem certeza de que deseja excluir este usuário?" />
+					<br />
+					<br />
+					<br />
+					<p:commandButton value="Sim" action="#{controleUsuario.excluir()}"
+						process="@this" onclick="PF('confirmDeleteDialog').hide();"
+						update=":mainForm:list-container" />
+					<p:commandButton value="Não" action="#{controleUsuario.cancelar()}"
+						onclick="PF('confirmDeleteDialog').hide();" />
+				</p:dialog>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

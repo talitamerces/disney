@@ -1,0 +1,46 @@
+
+<ui:composition template="/resources/templates/loginTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="head">
+		<h:head>
+			<ui:insert name="head.meta">
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			</ui:insert>
+			<h:outputStylesheet name="default.css" library="css" />
+			<h:outputStylesheet name="cssLayout.css" library="css" />
+
+			<ui:insert name="head.title">
+				<title>WebSinC - Sistema Web para buscas em Corpora anotados
+					em XML</title>
+			</ui:insert>
+
+		</h:head>
+	</ui:define>
+
+	<ui:define name="body.content.center">
+		<h:form>
+			<div style="float: left; margin-left: 20px; margin-right: 20px;">
+
+
+				<br />
+				<p:fieldset id="fieldset" style="width: 800px;">
+
+					<p style="font-size: 12px;" />
+					<br />
+					<div class="apresentacao">
+						<h1>Projetos</h1>
+						<h:outputText escape="false" value="#{controlePortal.projetos}"></h:outputText>
+					</div>
+				</p:fieldset>
+
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+

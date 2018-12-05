@@ -1,0 +1,82 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+<h:form id="mainForm" enctype="multipart/form-data">
+         <br/>
+               <p:panel  toggleable="true" header="INFORMAÇÕES  #{controleDocumentoMacro.objeto.titulo} ">  
+                    <div align="left">
+                        <br/>
+                        <h:outputText class="negrito" value="Título: "/><h:outputText value="#{controleDocumentoMacro.objeto.titulo}" /><br/>
+                        <h:outputText class="negrito" value="Tipo: "/><h:outputText value=" #{controleDocumentoMacro.objeto.tipoMacro.descricaoTipoMacro}" /> <br/> 
+                        <h:outputText class="negrito" value="Ano:"/><h:outputText value="#{controleDocumentoMacro.objeto.anoInicioDocumento} - #{controleDocumentoMacro.objeto.anoFimDocumento}" />  <br/>
+                        <h:outputText class="negrito" value="Capa: " /><h:outputText value="#{controleDocumentoMacro.objeto.materialCapa.nomeMaterialCapa} - #{controleDocumentoMacro.objeto.corCapa.nomeCor}" />  <br/>
+                        <h:outputText class="negrito" value="Altura:"/><h:outputText value=" #{controleDocumentoMacro.objeto.alturaDocumento} cm" />   <br/>
+                        <h:outputText class="negrito" value="Largura:"/><h:outputText value=" #{controleDocumentoMacro.objeto.larguraDocumento} cm" />   <br/>
+                        <h:outputText class="negrito" value="Profundidade: "/><h:outputText value="#{controleDocumentoMacro.objeto.profundidadeDocumento} cm" />   <br/>
+                       
+                        <br/>
+                    </div>
+                    
+                    
+                </p:panel> 
+                
+                   <br/>
+                            <div align="left">
+                                 <p:panelGrid style="vertical-align: top"> 
+                        <p:row>
+                            <p:column>
+                            <em> <h:outputText  value="CAPA (FRENTE)"/></em>
+
+                            <p:graphicImage  id="capa"  value="#{controleDocumentoMacro.getEnderecoCapaFrente()}" width="149" height="205"/>      
+                            </p:column>
+                            <p:column>
+                            <em> <h:outputText  value="LOMBADA"/></em>
+                             <p:graphicImage  id="lombada" value="#{controleDocumentoMacro.getEnderecoLombada()}" height="205"/>   
+                               
+                            </p:column>
+                            <p:column>
+                           <em> <h:outputText  value="CAPA (VERSO)"/></em>
+                             <p:graphicImage  id="contracapa" value="#{controleDocumentoMacro.getEnderecoCapaVerso()}" width="149" height="205"/>  
+                                      
+                            </p:column>
+                            <p:column>
+                           <em> <h:outputText  value="TERMO DE ABERTURA "/></em>
+                             <p:graphicImage  id="abertura" value="#{controleDocumentoMacro.getEnderecoTermoAbertura()}" width="149" height="205"/>  
+                                      
+                            </p:column>
+                            <p:column>
+                           <em> <h:outputText  value="TERMO DE FECHAMENTO "/></em>
+                             <p:graphicImage  id="fechamento" value="#{controleDocumentoMacro.getEnderecoTermoFechamento()}" width="149" height="205"/>  
+                                      
+                            </p:column>
+                           </p:row>
+                           <p:row>
+                            <p:column colspan="5" style="vertical-align: top">
+                         
+                    <p:dataList value="#{controleDocumentoMacro.getDocumentosMicro()}" var="documentoMicro" type="ordered">
+                   <f:facet name="header">
+                   <h:outputText value="Documentos do #{controleDocumentoMacro.objeto.titulo}" />    
+          			 </f:facet>
+           					<h:link styleClass="linkMacro" value="#{documentoMicro.titulo}"
+								outcome="#{controleDocumentoMacro.catalogoMicro()}">
+								<f:param id="idMicroSelected" name="idMicroSelected"
+									value="#{documentoMicro.id}" />
+							</h:link>
+         					
+         					  <br/> 
+          				 </p:dataList>
+                           
+                               
+                            </p:column>                
+                        </p:row>
+                    </p:panelGrid>  
+                            </div>  
+		</h:form>
+	</ui:define>
+</ui:composition>

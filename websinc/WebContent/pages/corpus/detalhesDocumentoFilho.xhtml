@@ -1,0 +1,267 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+
+		<h:form id="mainForm" enctype="multipart/form-data">
+			<br />
+			<br />
+			<p:panel toggleable="true" style="width:80%;"
+				header="#{controleDocumentoMicro.objeto.titulo} - Dados do texto original">
+				<div align="left">
+					<h:outputText class="negrito" value="Título:" />
+					<h:outputText value="#{controleDocumentoMicro.objeto.titulo}" />
+					<br />
+					<h:outputText class="negrito" value="Gênero: " />
+					<h:outputText
+						value="#{controleDocumentoMicro.objeto.tipoMicro.descricaoTipoMicro} " />
+					<br />
+					<h:outputText class="negrito" value="Data do texto original: " />
+					<h:outputText value="#{controleDocumentoMicro.objeto.anoDocumento}" />
+					<br />
+					<h:outputText class="negrito"
+						value="Localização do texto original: " />
+					<h:outputText value="#{controleDocumentoMicro.objeto.localDeposito} " />
+					<br />
+				</div>
+			</p:panel>
+			<br />
+						<br />
+			<br />
+			<p:tabView orientation="left" style="width:80%;">
+				<p:tab title="Texto Original">
+					<p:panel toggleable="true"
+						header="Texto Original">
+						<div class="titulo">
+							<h:outputLabel class="titulo"
+								value="#{controleDocumentoMicro.objeto.titulo}" />
+						</div>
+
+						<p:dataScroller
+							value="#{controleDocumentoMicro.textoTranscrito()}" var="pagina"
+							chunkSize="10">
+
+							<h:panelGrid columns="2" style="width:100%"
+								columnClasses="logo,detail">
+								<p:graphicImage
+									style="border: solid 2px #5C9CCC; margin: 5px;  
+           							 padding: 5px; height: 200px; float:left;"
+									value="#{pagina.imagem}" />
+
+								<p:outputPanel>
+									<h:panelGrid columns="2" cellpadding="5">
+										
+										<h:outputText class="nrpagina" value="Folha #{pagina.nrFolha} - #{pagina.ladoImagem}"
+											style="font-weight: bold" />
+
+
+										<h:outputText styleClass="justificado" value="#{pagina.texto}" escape="false" />
+
+
+									</h:panelGrid>
+								</p:outputPanel>
+							</h:panelGrid>
+						</p:dataScroller>
+
+
+					</p:panel>
+				</p:tab>
+
+				<p:tab title="Texto Modernizado">
+					<p:panel toggleable="true"
+						header="Texto Modernizado">
+
+						<div class="titulo">
+							<h:outputLabel class="titulo"
+								value="#{controleDocumentoMicro.objeto.titulo}" />
+						</div>
+
+						<p:dataScroller
+							value="#{controleDocumentoMicro.textoModernizado()}" var="pagina"
+							chunkSize="10">
+
+							<h:panelGrid columns="2" style="width:100%"
+								columnClasses="logo,detail">
+								<p:graphicImage
+									style="border: solid 2px #5C9CCC; margin: 5px;  
+           							 padding: 5px; height: 200px; float:left;"
+									value="#{pagina.imagem}" />
+
+								<p:outputPanel>
+									<h:panelGrid columns="2" cellpadding="5">
+										<h:outputText class="nrpagina" value="Página: " />
+										<h:outputText value="#{pagina.nrPagina}"
+											style="font-weight: bold" />
+
+
+										<h:outputText styleClass="justificado" value="#{pagina.texto}" escape="false" />
+
+
+									</h:panelGrid>
+								</p:outputPanel>
+							</h:panelGrid>
+						</p:dataScroller>
+
+
+					</p:panel>
+				</p:tab>
+
+				<p:tab title="Léxico de Edições">
+					<p:panel toggleable="true"
+						header="#{controleDocumentoMicro.objeto.titulo} - Léxico de Edições">
+
+						<div class="titulo">
+							<h:outputLabel class="titulo"
+								value="#{controleDocumentoMicro.objeto.titulo}" />
+						</div>
+						<p:dataTable var="lexico"
+							value="#{controleDocumentoMicro.lexicoEdicoes()}">
+							<p:column headerText="Item original">
+								<h:outputText value="#{lexico.original}" />
+							</p:column>
+
+							<p:column headerText="Item editado">
+								<h:outputText value="#{lexico.edicao}" />
+							</p:column>
+
+							<p:column headerText="Tipo de Edição">
+								<h:outputText value="#{lexico.tipoEdicao}" />
+							</p:column>
+
+
+						</p:dataTable>
+					</p:panel>
+				</p:tab>
+
+				<p:tab title="Créditos">
+					
+					<br /><br />
+					<p:panel toggleable="true"
+						header=" Créditos do Trabalho de TRANSCRIÇÃO">
+						<div align="left">
+							<h:outputText class="negrito"
+								value="Data inicial:"/> <h:outputText value="  #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.transcricao.dataInicioTrabalho)}"/>
+							<br />
+							<h:outputText class="negrito"
+								value="Data final:"/> <h:outputText value="   #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.transcricao.dataFimTrabalho)} " />
+							<br />
+							<h:outputText class="negrito"
+								value="Equipe: " />
+							<br />
+							<p:dataList value="#{controleDocumentoMicro.getColaboradoresTrabalho(controleDocumentoMicro.objeto.transcricao)}"
+							 var="colaborador" type="definition">
+					        
+					        #{colaborador.nomeColaborador}
+					    </p:dataList>
+						</div>
+
+					</p:panel>
+					<br /><br />
+					<p:panel toggleable="true"
+						header="Créditos do Trabalho de EDIÇÃO">
+						<div align="left">
+							<h:outputText class="negrito"
+								value="Data inicial:"/> <h:outputText value="   #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.edicao.dataInicioTrabalho)} " />
+							<br />
+							<h:outputText class="negrito"
+								value="Data final:"/> <h:outputText value="   #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.edicao.dataFimTrabalho)} " />
+							<br />
+							<h:outputText class="negrito"
+								value="Equipe: " />
+							<br />
+							<p:dataList value="#{controleDocumentoMicro.getColaboradoresTrabalho(controleDocumentoMicro.objeto.edicao)}"
+							 var="colaborador" type="definition">
+					        
+					        #{colaborador.nomeColaborador}
+					    </p:dataList>
+						</div>
+
+					</p:panel><br/><br/>
+					
+					<p:panel toggleable="true"
+						header=" Créditos do Trabalho de REVISÃO DA ANOTAÇÃO MORFOLÓGICA">
+						<div align="left">
+							<h:outputText class="negrito"
+								value="Data inicial:"/> <h:outputText value="   #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.revisaoMorfologia.dataInicioTrabalho)} " />
+							<br />
+							<h:outputText class="negrito"
+								value="Data final:"/> <h:outputText value="   #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.revisaoMorfologia.dataFimTrabalho)} " />
+							<br />
+							<h:outputText class="negrito"
+								value="Equipe: " />
+							<br />
+							<p:dataList value="#{controleDocumentoMicro.getColaboradoresTrabalho(controleDocumentoMicro.objeto.revisaoMorfologia)}"
+							 var="colaborador" type="definition">
+					        
+					        #{colaborador.nomeColaborador}
+					    </p:dataList>
+						</div>
+
+					</p:panel>
+					<br /><br />
+					<p:panel toggleable="true"
+						header=" Créditos do Trabalho de REVISÃO DA ANOTAÇÃO SINTÁTICA">
+						<div align="left">
+							<h:outputText class="negrito"
+								value="Data inicial:"/> <h:outputText value="   #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.revisaoSintaxe.dataInicioTrabalho)} " />
+							<br />
+							<h:outputText class="negrito"
+								value="Data final:"/> <h:outputText value="   #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.revisaoSintaxe.dataFimTrabalho)} " />
+							<br />
+							<h:outputText class="negrito"
+								value="Equipe: " />
+							<br />
+							<p:dataList value="#{controleDocumentoMicro.getColaboradoresTrabalho(controleDocumentoMicro.objeto.revisaoSintaxe)}"
+							 var="colaborador" type="definition">
+					        
+					        #{colaborador.nomeColaborador}
+					    </p:dataList>
+						</div>
+
+					</p:panel>
+					
+					<br /><br />
+					<p:panel toggleable="true"
+						header=" Créditos do Trabalho de CADASTRO NO SISTEMA WEBSINC">
+						<div align="left">
+							<h:outputText class="negrito"
+								value="Data inicial:"/> <h:outputText value="   #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.cadastroWebsinc.dataInicioTrabalho)} " />
+							<br />
+							<h:outputText class="negrito"
+								value="Data final:"/> <h:outputText value="   #{controleDocumentoMicro.formatarData(controleDocumentoMicro.objeto.cadastroWebsinc.dataFimTrabalho)} " />
+							<br />
+							<h:outputText class="negrito"
+								value="Equipe: " />
+							<br />
+							<p:dataList value="#{controleDocumentoMicro.getColaboradoresTrabalho(controleDocumentoMicro.objeto.cadastroWebsinc)}"
+							 var="colaborador" type="definition">
+					        
+					        #{colaborador.nomeColaborador}
+					    </p:dataList>
+						</div>
+
+					</p:panel>
+					
+					
+				</p:tab>
+			</p:tabView>
+
+			<p:dialog id="dialog1" header="Carta 29 - Página 2" showEffect="fade"
+				hideEffect="fade" modal="true" widgetVar="letter2Dialog"
+				closable="true" appendToBody="true" draggable="false">
+
+				<p:outputPanel id="letter2Detail" style="text-align:center;"
+					layout="block">
+
+					
+
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

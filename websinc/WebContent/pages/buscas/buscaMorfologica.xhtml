@@ -1,0 +1,722 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+		<h:form id="mainForm">
+		<p:outputPanel id="cabecalho">
+		
+			<p:panel id="containers">
+			 
+
+				<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+					style="vertical-align:text-top;">
+
+			<h:outputText value="Selecionar documento para a busca:" />
+			<h:panelGroup>
+			<p:inputText value="#{controleBuscasMorfologicas.arquivoDeBusca}" disabled="true" size="30"></p:inputText>
+			<p:commandButton id="selecao"  icon="ui-icon-search" action="#{controleBuscasMorfologicas.atualizaPanelTextos()}"
+		 update=":mainForm:textos-container"  process="@this"/>
+			</h:panelGroup>
+					<h:outputText id="textoSelecionado" value="Texto da busca: #{controleBuscasMorfologicas.tituloTexto}"/>
+
+				</h:panelGrid>
+				
+				
+				<p:panel id="container1"
+					style="background:#FFFACD;width:300px; float:left;margin: 8px !important;">
+					
+
+
+					<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+						style="vertical-align:text-top;">
+						<em> BLOCO 1 </em>
+						<!-- 						<h:outputText value="BLOCO 1" styleClass="bloco" />	 -->
+						<h:panelGroup>
+
+
+							<p:autoComplete id="itens1" dropdown="true"
+								placeholder="Digite para selecionar um item:"
+								styleClass="autocompleteSelecao"
+								value="#{controleBuscasMorfologicas.selectedEtiqueta1}"
+								scrollHeight="300"
+								completeMethod="#{controleBuscasMorfologicas.completeEtiquetas}"
+								var="etiq1" itemLabel="#{etiq1.displayName}"
+								itemValue="#{etiq1}" forceSelection="true">
+
+								<p:ajax partialSubmit="true" process="@this" event="itemSelect"
+									listener="#{controleBuscasMorfologicas.addItem1}"
+									update="consultaListTable1, itens1, consulta" />
+							</p:autoComplete>
+
+
+						</h:panelGroup>
+						<p:panel>
+							<p:dataTable id="consultaListTable1" styleClass="consultaTable"
+								value="#{controleBuscasMorfologicas.consultaList1}"
+								var="rowConsulta1">
+								<p:column headerText="Classe">
+									<h:outputText value="#{rowConsulta1.etiqueta.displayName}" />
+								</p:column>
+
+								<p:column headerText="Etiqueta" style="width:50px">
+
+									<h:outputText value="#{rowConsulta1.etiqueta.name}" />
+								</p:column>
+
+								<p:column style="width:5px">
+									<p:commandLink title="Remover item" update="consultaListTable1"
+										styleClass="ui-icon ui-icon-trash"
+										action="#{controleBuscasMorfologicas.deleteItem1(rowConsulta1)}">
+									</p:commandLink>
+								</p:column>
+
+							</p:dataTable>
+							<p:outputLabel style="float:left;"
+								value="Operação entre os itens:          " for="operacaoLogica1" />
+							<p:selectOneRadio id="operacaoLogica1"
+								value="#{controleBuscasMorfologicas.selectedOperacaoLogica1}">
+								<f:selectItem itemLabel="OU" itemValue="or" id="or1" />
+								<f:selectItem itemLabel="E" itemValue="and" id="and1" />
+
+								<p:ajax listener="#{controleBuscasMorfologicas.montaConsulta()}"
+									event="change" update="consulta" global="true" />
+							</p:selectOneRadio>
+
+						</p:panel>
+
+					</h:panelGrid>
+					<p:panel style="width:290px;float:left;margin: 5px !important;">
+						<h:panelGrid columns="2">
+
+							<h:panelGroup>
+
+								<p:selectBooleanCheckbox id="negacao1" itemLabel=" Negação"
+									value="#{controleBuscasMorfologicas.operacaoNegacao1}">
+									<p:ajax event="change" process="@this"
+										update="consulta labelOperacao2"
+										listener="#{controleBuscasMorfologicas.montaConsulta()}" />
+								</p:selectBooleanCheckbox>
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" value="Função:"
+									for="operacao1" />
+
+								<p:selectOneMenu id="operacao1" style="width: 203px;"
+									value="#{controleBuscasMorfologicas.selectedOperacao1}">
+									<f:selectItems
+										value="#{controleBuscasMorfologicas.listaOperacoes}"
+										var="operacoes" itemLabel="#{operacoes.label}"
+										itemValue="#{operacoes}" />
+									<p:ajax event="change"
+										update="panelVizinhanca1 container2 consulta labelOperacao2"
+										process="@this" partialSubmit="true"
+										listener="#{controleBuscasMorfologicas.selectOperacao1()}" />
+								</p:selectOneMenu>
+								<br />
+								<p:panel id="panelVizinhanca1"
+									visible="#{controleBuscasMorfologicas.mostrarValorN1}"
+									style="border: none">
+									<h:panelGroup>
+										<p:outputLabel for="vizinhanca1" value="Digite valor de N:"
+											style="display:block" />
+										<p:inputText id="vizinhanca1" size="7"
+											value="#{controleBuscasMorfologicas.argumentoN1}"></p:inputText>
+
+									</h:panelGroup>
+								</p:panel>
+
+							</h:panelGroup>
+						</h:panelGrid>
+					</p:panel>
+
+					<!-- 	pára aqui -->
+				</p:panel>
+
+
+				<!-- DAQUI -->
+
+				<p:panel id="container2"
+					style="background:#FFFACD;width:300px;float:left;margin: 8px !important;"
+					visible="#{controleBuscasMorfologicas.mostrarLista2}">
+
+					<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+						style="vertical-align:text-top;">
+						<h:panelGroup>
+							<em>BLOCO 2</em>
+
+							<p:outputLabel for="itens2" id="labelOperacao2"
+								value="Bloco 1 #{controleBuscasMorfologicas.getOperacaoTotal2()}:"
+								style="display:block" />
+
+
+							<p:autoComplete id="itens2" scrollHeight="300" dropdown="true"
+								placeholder="Digite para selecionar um item:"
+								styleClass="autocompleteSelecao"
+								value="#{controleBuscasMorfologicas.selectedEtiqueta2}"
+								completeMethod="#{controleBuscasMorfologicas.completeEtiquetas}"
+								var="etiq2" itemLabel="#{etiq2.displayName}"
+								itemValue="#{etiq2}" forceSelection="true" effect="fade">
+
+								<p:ajax partialSubmit="true" process="@this" event="itemSelect"
+									listener="#{controleBuscasMorfologicas.addItem2}"
+									update="consultaListTable2, itens2, consulta" />
+							</p:autoComplete>
+						</h:panelGroup>
+						<p:panel>
+							<p:dataTable id="consultaListTable2" styleClass="consultaTable"
+								value="#{controleBuscasMorfologicas.consultaList2}"
+								var="rowConsulta2">
+
+								<p:column headerText="Classe">
+									<h:outputText value="#{rowConsulta2.etiqueta.displayName}" />
+								</p:column>
+								<p:column headerText="Etiqueta" style="width:50px">
+
+									<h:outputText value="#{rowConsulta2.etiqueta.name}" />
+								</p:column>
+
+
+								<p:column style="width:5px">
+									<p:commandLink title="Remover item"
+										styleClass="ui-icon ui-icon-trash"
+										action="#{controleBuscasMorfologicas.deleteItem2(rowConsulta2)}"
+										update="consultaListTable2">
+
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+							<p:outputLabel style="float:left;"
+								value="Operação entre os itens:     " for="operacaoLogica2" />
+							<p:selectOneRadio id="operacaoLogica2"
+								value="#{controleBuscasMorfologicas.selectedOperacaoLogica2}">
+								<f:selectItem itemLabel="OU" itemValue="or" id="or2" />
+								<f:selectItem itemLabel="E" itemValue="and" id="and2" />
+
+								<p:ajax listener="#{controleBuscasMorfologicas.montaConsulta()}"
+									event="change" update="consulta" global="true" />
+							</p:selectOneRadio>
+						</p:panel>
+					</h:panelGrid>
+					<p:panel style="width:290px;float:left;margin: 5px !important;">
+						<h:panelGrid columns="2">
+
+							<h:panelGroup>
+
+								<p:selectBooleanCheckbox id="negacao2" itemLabel=" Negação"
+									value="#{controleBuscasMorfologicas.operacaoNegacao2}">
+									<p:ajax event="change" process="@this"
+										update="consulta labelOperacao3"
+										listener="#{controleBuscasMorfologicas.montaConsulta()}" />
+								</p:selectBooleanCheckbox>
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" value="Função:"
+									for="operacao2" />
+
+								<p:selectOneMenu id="operacao2" style="width: 203px;"
+									value="#{controleBuscasMorfologicas.selectedOperacao2}">
+									<f:selectItems
+										value="#{controleBuscasMorfologicas.listaOperacoes}"
+										var="operacoes" itemLabel="#{operacoes.label}"
+										itemValue="#{operacoes}" />
+									<p:ajax event="change"
+										update="panelVizinhanca2 container3 consulta labelOperacao3"
+										process="@this" partialSubmit="true"
+										listener="#{controleBuscasMorfologicas.selectOperacao2()}" />
+								</p:selectOneMenu>
+								<br />
+								<p:panel id="panelVizinhanca2"
+									visible="#{controleBuscasMorfologicas.mostrarValorN2}"
+									style="border: none">
+									<h:panelGroup>
+										<p:outputLabel for="vizinhanca2" value="Digite valor de N:"
+											style="display:block" />
+										<p:inputText id="vizinhanca2" size="7"
+											value="#{controleBuscasMorfologicas.argumentoN2}"></p:inputText>
+
+									</h:panelGroup>
+								</p:panel>
+
+							</h:panelGroup>
+						</h:panelGrid>
+					</p:panel>
+
+				</p:panel>
+				<!-- ATEAQUI -->
+
+
+
+				<!-- DAQUI -->
+
+				<p:panel id="container3"
+					style="background:#FFFACD;width:300px;float:left;margin: 7px !important;"
+					visible="#{controleBuscasMorfologicas.mostrarLista3}">
+
+					<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+						style="vertical-align:text-top;">
+						<h:panelGroup>
+							<em>BLOCO 3</em>
+							<p:outputLabel for="itens3" id="labelOperacao3"
+								value="Bloco 2 #{controleBuscasMorfologicas.getOperacaoTotal3()}:"
+								style="display:block" />
+
+
+							<p:autoComplete id="itens3" scrollHeight="300" dropdown="true"
+								placeholder="Digite para selecionar um item:"
+								styleClass="autocompleteSelecao"
+								value="#{controleBuscasMorfologicas.selectedEtiqueta3}"
+								completeMethod="#{controleBuscasMorfologicas.completeEtiquetas}"
+								var="etiq3" itemLabel="#{etiq3.displayName}"
+								itemValue="#{etiq3}" forceSelection="true" effect="fade">
+
+								<p:ajax partialSubmit="true" process="@this" event="itemSelect"
+									listener="#{controleBuscasMorfologicas.addItem3}"
+									update="consultaListTable3, itens3, consulta" />
+							</p:autoComplete>
+
+
+
+						</h:panelGroup>
+						<p:panel>
+							<p:dataTable id="consultaListTable3" styleClass="consultaTable"
+								value="#{controleBuscasMorfologicas.consultaList3}"
+								var="rowConsulta3">
+								<p:column headerText="Classe">
+									<h:outputText value="#{rowConsulta3.etiqueta.displayName}" />
+								</p:column>
+								<p:column headerText="Etiqueta" style="width:50px">
+
+									<h:outputText value="#{rowConsulta3.etiqueta.name}" />
+								</p:column>
+
+
+								<p:column style="width:5px">
+									<p:commandLink title="Remover item"
+										styleClass="ui-icon ui-icon-trash"
+										action="#{controleBuscasMorfologicas.deleteItem3(rowConsulta3)}"
+										update="consultaListTable3">
+
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+							<p:outputLabel style="float:left;"
+								value="Operação entre os itens:     " for="operacaoLogica3" />
+							<p:selectOneRadio id="operacaoLogica3"
+								value="#{controleBuscasMorfologicas.selectedOperacaoLogica3}">
+								<f:selectItem itemLabel="OU" itemValue="or" id="or3" />
+								<f:selectItem itemLabel="E" itemValue="and" id="and3" />
+
+								<p:ajax listener="#{controleBuscasMorfologicas.montaConsulta()}"
+									event="change" update="consulta" global="true" />
+							</p:selectOneRadio>
+						</p:panel>
+					</h:panelGrid>
+
+					<p:panel style="width:290px;float:left;margin: 5px !important;">
+						<h:panelGrid columns="2">
+
+							<h:panelGroup>
+
+								<p:selectBooleanCheckbox id="negacao3" itemLabel=" Negação"
+									value="#{controleBuscasMorfologicas.operacaoNegacao3}">
+									<p:ajax event="change" process="@this"
+										update="consulta labelOperacao4"
+										listener="#{controleBuscasMorfologicas.montaConsulta()}" />
+								</p:selectBooleanCheckbox>
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" value="Função:"
+									for="operacao3" />
+
+								<p:selectOneMenu id="operacao3" style="width: 203px;"
+									value="#{controleBuscasMorfologicas.selectedOperacao3}">
+									<f:selectItems
+										value="#{controleBuscasMorfologicas.listaOperacoes}"
+										var="operacoes" itemLabel="#{operacoes.label}"
+										itemValue="#{operacoes}" />
+									<p:ajax event="change"
+										update="panelVizinhanca3 container4 consulta labelOperacao4"
+										process="@this" partialSubmit="true"
+										listener="#{controleBuscasMorfologicas.selectOperacao3()}" />
+								</p:selectOneMenu>
+								<br />
+								<p:panel id="panelVizinhanca3"
+									visible="#{controleBuscasMorfologicas.mostrarValorN3}"
+									style="border: none">
+									<h:panelGroup>
+										<p:outputLabel for="vizinhanca3" value="Digite valor de N:"
+											style="display:block" />
+										<p:inputText id="vizinhanca3" size="7"
+											value="#{controleBuscasMorfologicas.argumentoN3}"></p:inputText>
+
+									</h:panelGroup>
+								</p:panel>
+
+							</h:panelGroup>
+						</h:panelGrid>
+					</p:panel>
+
+				</p:panel>
+				<!-- ATEAQUI -->
+
+
+				<!-- DAQUI -->
+
+				<p:panel id="container4"
+					style="background:#FFFACD;width:300px;float:left;margin: 7px !important;"
+					visible="#{controleBuscasMorfologicas.mostrarLista4}">
+
+					<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+						style="vertical-align:text-top;">
+						<h:panelGroup>
+
+							<em>BLOCO 4</em>
+							<p:outputLabel for="itens4" id="labelOperacao4"
+								value="Bloco 3 #{controleBuscasMorfologicas.getOperacaoTotal4()}:"
+								style="display:block" />
+
+
+							<p:autoComplete id="itens4" scrollHeight="300" dropdown="true"
+								placeholder="Digite para selecionar um item:"
+								styleClass="autocompleteSelecao"
+								value="#{controleBuscasMorfologicas.selectedEtiqueta4}"
+								completeMethod="#{controleBuscasMorfologicas.completeEtiquetas}"
+								var="etiq4" itemLabel="#{etiq4.displayName}"
+								itemValue="#{etiq4}" forceSelection="true" effect="fade">
+
+								<p:ajax partialSubmit="true" process="@this" event="itemSelect"
+									listener="#{controleBuscasMorfologicas.addItem4}"
+									update="consultaListTable4, itens4, consulta" />
+							</p:autoComplete>
+
+
+
+						</h:panelGroup>
+						<p:panel>
+							<p:dataTable id="consultaListTable4" styleClass="consultaTable"
+								value="#{controleBuscasMorfologicas.consultaList4}"
+								var="rowConsulta4">
+
+								<p:column>
+									<h:outputText value="#{rowConsulta4.etiqueta.displayName}" />
+								</p:column>
+								<p:column headerText="Etiqueta" style="width:50px">
+
+									<h:outputText value="#{rowConsulta4.etiqueta.name}" />
+								</p:column>
+
+
+								<p:column style="width:5px">
+									<p:commandLink title="Remover item"
+										styleClass="ui-icon ui-icon-trash"
+										action="#{controleBuscasMorfologicas.deleteItem4(rowConsulta4)}"
+										update="consultaListTable4">
+
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+							<p:outputLabel style="float:left;"
+								value="Operação entre os itens:     " for="operacaoLogica4" />
+							<p:selectOneRadio id="operacaoLogica4"
+								value="#{controleBuscasMorfologicas.selectedOperacaoLogica4}">
+								<f:selectItem itemLabel="OU" itemValue="or" id="or4" />
+								<f:selectItem itemLabel="E" itemValue="and" id="and4" />
+
+								<p:ajax listener="#{controleBuscasMorfologicas.montaConsulta()}"
+									event="change" update="consulta" global="true" />
+							</p:selectOneRadio>
+						</p:panel>
+					</h:panelGrid>
+
+
+				</p:panel>
+				<!-- ATEAQUI -->
+
+
+				<h:panelGroup
+					style="margin-left:80% !important;margin-right:0px;margin-bottom:5px">
+					<p:commandButton id="NovoContainerButton" value="Bloco"
+						actionListener="#{controleBuscasMorfologicas.adicionarContainer()}"
+						process="@this" update="container5 consulta"
+						style="display: block; " icon="ui-icon-plus" />
+					<br />
+				</h:panelGroup>
+			</p:panel>
+			<!-- 			TERMINA CONTAINER AQUI -->
+			<br />
+
+
+
+			<p:panel id="containers2" style="display:block;" visible="#{true}">
+
+				<p:panel id="container5"
+					visible="#{controleBuscasMorfologicas.mostrarLista5}"
+					style="background:#FFFACD;width:300px; float:left;margin: 8px !important;">
+					<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+						style="vertical-align:text-top;">
+						<em> BLOCO 5 </em>
+
+						<h:panelGroup>
+
+
+							<p:autoComplete id="itens5" dropdown="true"
+								placeholder="Digite para selecionar um item:"
+								styleClass="autocompleteSelecao"
+								value="#{controleBuscasMorfologicas.selectedEtiqueta5}"
+								scrollHeight="300"
+								completeMethod="#{controleBuscasMorfologicas.completeEtiquetas}"
+								var="etiq5" itemLabel="#{etiq5.displayName}"
+								itemValue="#{etiq5}" forceSelection="true">
+
+								<p:ajax partialSubmit="true" process="@this" event="itemSelect"
+									listener="#{controleBuscasMorfologicas.addItem5}"
+									update="consultaListTable5, itens5, consulta" />
+							</p:autoComplete>
+
+
+						</h:panelGroup>
+						<p:panel>
+							<p:dataTable id="consultaListTable5" styleClass="consultaTable"
+								value="#{controleBuscasMorfologicas.consultaList5}"
+								var="rowConsulta5">
+								<p:column headerText="Classe">
+									<h:outputText value="#{rowConsulta5.etiqueta.displayName}" />
+								</p:column>
+
+								<p:column headerText="Etiqueta" style="width:50px">
+
+									<h:outputText value="#{rowConsulta5.etiqueta.name}" />
+								</p:column>
+
+								<p:column style="width:5px">
+									<p:commandLink title="Remover item" update="consultaListTable5"
+										styleClass="ui-icon ui-icon-trash"
+										action="#{controleBuscasMorfologicas.deleteItem5(rowConsulta5)}">
+									</p:commandLink>
+								</p:column>
+
+							</p:dataTable>
+							<p:outputLabel style="float:left;"
+								value="Operação entre os itens:    " for="operacaoLogica5" />
+							<p:selectOneRadio id="operacaoLogica5"
+								value="#{controleBuscasMorfologicas.selectedOperacaoLogica5}">
+								<f:selectItem itemLabel="OU" itemValue="or" id="or5" />
+								<f:selectItem itemLabel="E" itemValue="and" id="and5" />
+
+								<p:ajax listener="#{controleBuscasMorfologicas.montaConsulta()}"
+									event="change" update="consulta" global="true" />
+							</p:selectOneRadio>
+
+						</p:panel>
+
+					</h:panelGrid>
+					<p:panel style="width:290px;float:left;margin: 5px !important;">
+						<h:panelGrid columns="2">
+
+							<h:panelGroup>
+
+								<p:selectBooleanCheckbox id="negacao5" itemLabel=" Negação"
+									value="#{controleBuscasMorfologicas.operacaoNegacao5}">
+									<p:ajax event="change" process="@this"
+										update="consulta labelOperacao6"
+										listener="#{controleBuscasMorfologicas.montaConsulta()}" />
+								</p:selectBooleanCheckbox>
+							</h:panelGroup>
+							<h:panelGroup>
+								<p:outputLabel style="display: block" value="Função:"
+									for="operacao5" />
+
+								<p:selectOneMenu id="operacao5" style="width: 203px;"
+									value="#{controleBuscasMorfologicas.selectedOperacao5}">
+									<f:selectItems
+										value="#{controleBuscasMorfologicas.listaOperacoes}"
+										var="operacoes" itemLabel="#{operacoes.label}"
+										itemValue="#{operacoes}" />
+									<p:ajax event="change"
+										update="panelVizinhanca5 container6 consulta labelOperacao6"
+										process="@this" partialSubmit="true"
+										listener="#{controleBuscasMorfologicas.selectOperacao5()}" />
+								</p:selectOneMenu>
+								<br />
+								<p:panel id="panelVizinhanca5"
+									visible="#{controleBuscasMorfologicas.mostrarValorN5}"
+									style="border: none">
+									<h:panelGroup>
+										<p:outputLabel for="vizinhanca5" value="Digite valor de N:"
+											style="display:block" />
+										<p:inputText id="vizinhanca5" size="7"
+											value="#{controleBuscasMorfologicas.argumentoN5}"></p:inputText>
+
+									</h:panelGroup>
+								</p:panel>
+
+							</h:panelGroup>
+						</h:panelGrid>
+					</p:panel>
+
+					<!-- 	pára aqui -->
+				</p:panel>
+
+
+				<!-- DAQUI -->
+
+				<p:panel id="container6"
+					style="background:#FFFACD;width:300px;float:left;margin: 8px !important;"
+					visible="#{controleBuscasMorfologicas.mostrarLista6}">
+
+					<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+						style="vertical-align:text-top;">
+						<h:panelGroup>
+							<em>BLOCO 6</em>
+							<!-- 							<h:outputText value="BLOCO 2"  styleClass="bloco"/> -->
+							<p:outputLabel for="itens6" id="labelOperacao6"
+								value="Bloco 5 #{controleBuscasMorfologicas.getOperacaoTotal6()}:"
+								style="display:block" />
+
+
+							<p:autoComplete id="itens6" scrollHeight="300" dropdown="true"
+								placeholder="Digite para selecionar um item:"
+								styleClass="autocompleteSelecao"
+								value="#{controleBuscasMorfologicas.selectedEtiqueta6}"
+								completeMethod="#{controleBuscasMorfologicas.completeEtiquetas}"
+								var="etiq6" itemLabel="#{etiq6.displayName}"
+								itemValue="#{etiq6}" forceSelection="true" effect="fade">
+
+								<p:ajax partialSubmit="true" process="@this" event="itemSelect"
+									listener="#{controleBuscasMorfologicas.addItem6}"
+									update="consultaListTable6, itens6, consulta" />
+							</p:autoComplete>
+						</h:panelGroup>
+						<p:panel>
+							<p:dataTable id="consultaListTable6" styleClass="consultaTable"
+								value="#{controleBuscasMorfologicas.consultaList6}"
+								var="rowConsulta6">
+
+								<p:column headerText="Classe">
+									<h:outputText value="#{rowConsulta6.etiqueta.displayName}" />
+								</p:column>
+								<p:column headerText="Etiqueta" style="width:50px">
+
+									<h:outputText value="#{rowConsulta6.etiqueta.name}" />
+								</p:column>
+
+
+								<p:column style="width:5px">
+									<p:commandLink title="Remover item"
+										styleClass="ui-icon ui-icon-trash"
+										action="#{controleBuscasMorfologicas.deleteItem6(rowConsulta6)}"
+										update="consultaListTable6">
+
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+							<p:outputLabel style="float:left;"
+								value="Operação entre os itens:" for="operacaoLogica6" />
+							<p:selectOneRadio id="operacaoLogica6"
+								value="#{controleBuscasMorfologicas.selectedOperacaoLogica6}">
+								<f:selectItem itemLabel="OU" itemValue="or" id="or6" />
+								<f:selectItem itemLabel="E" itemValue="and" id="and6" />
+
+								<p:ajax listener="#{controleBuscasMorfologicas.montaConsulta()}"
+									event="change" update="consulta" global="true" />
+							</p:selectOneRadio>
+						</p:panel>
+					</h:panelGrid>
+
+				</p:panel>
+				<!-- ATEAQUI -->
+
+
+			</p:panel>
+
+
+
+
+			<!-- 			CONTAINER 2 VAI TERMINAR AQUI -->
+			<p:panel id="panelConsulta" style="clear:both;">
+				<h:panelGrid columns="1" cellpadding="5" cellspacing="5"
+					style="vertical-align:text-top;">
+					<h:panelGroup>
+						<em>Montagem da busca:</em>
+						<!-- 						<p:inputTextarea id="consulta2" rows="1" cols="120" value="" -->
+						<!-- 							style="border:0px !important" disabled="true" /> -->
+						<h:outputLabel id="consulta" escape="false"
+							styleClass="ui-inputtextarea 
+					 ui-corner-all"
+							style="width:300px !important; white-space:normal"
+							value="#{controleBuscasMorfologicas.consulta}" />
+					</h:panelGroup>
+					<h:panelGroup>
+
+						<p:commandButton id="addLimparButton" value="Limpar Busca"
+							action="#{controleBuscasMorfologicas.novaBuscaMorfologica()}"
+							ajax="true"
+							update="container1 container2 container3 container4 container5 container6 consulta"
+							icon="ui-icon-document-b"
+							style="width:135px;float:left;margin-left:650px;" />
+						<p:commandButton id="addConsultaButton" value="Processar Busca"
+							action="#{controleBuscasMorfologicas.saidaBuscaMorfologica()}"
+							ajax="true" icon="ui-icon-play"
+							style="width:135px;margin-left:10px" />
+					</h:panelGroup>
+				</h:panelGrid>
+				
+					
+
+			</p:panel>
+	</p:outputPanel>
+	<p:outputPanel id="textos-container">
+	<p:dialog id="modalNovo" header="Seleção de documentos"
+						widgetVar="modalTexto" modal="true" height="400" width="600"
+						style="background-color: white" resizable="false"
+						visible="#{controleBuscasMorfologicas.mostrarSelecaoTextos}">
+						<p:hotkey bind="esc" handler="modalTexto.hide()" />
+						<p:outputPanel id="formDataWrapper" layout="block">
+
+							<p:panel>
+								<BR />
+
+								<h:panelGrid columns="1">
+									<h:outputLabel escape="false"
+										style="width:300px !important; white-space:normal"
+										value="Selecione o documento para a busca: " />
+				    
+						    	<p:selectOneMenu id="textos" style="width: 370px;" immediate="true"
+													value="#{controleBuscasMorfologicas.tituloTexto}">
+													<f:selectItem itemValue="null" itemLabel="Selecione:" />
+													<f:selectItems value="#{controleBuscasMorfologicas.listaTextos}"
+														var="t" itemLabel="#{t.titulo}"
+														itemValue="#{t.titulo}" />
+									<p:ajax event="change" update=":mainForm:cabecalho" />
+								</p:selectOneMenu>
+
+
+
+								</h:panelGrid>
+								<BR />
+								<div style="text-align: right; margin-right: 4em;">
+									<p:commandButton id="selecaoTextosCancelButton"
+										value="  Cancelar  " 
+										action="#{controleBuscasMorfologicas.cancelarSelecao()}" onclick="PF('modalTexto').hide()"
+										partialSubmit="#{true}" />
+									<p:commandButton id="selecaoTextosOKButton" value="  OK  " process=":mainForm:textos-container" immediate="true"
+										action="#{controleBuscasMorfologicas.selecionarTexto()}"  update=":mainForm:cabecalho" onclick="PF('modalTexto').hide()"/>
+
+									<br />
+								</div>
+								
+							</p:panel>
+							<h:outputText id="obs" value=" * Listados apenas documentos com anotação morfossintática disponível"/>
+						</p:outputPanel>
+					</p:dialog>
+			
+	</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

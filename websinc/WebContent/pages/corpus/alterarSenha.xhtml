@@ -1,0 +1,72 @@
+
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+
+
+		<h:form id="mainForm" enctype="multipart/form-data">
+
+			<p:panel header="Alteração de senha" styleClass="panelContent">
+				
+				<br />
+				<br />
+				<p:outputPanel id="list-container" layout="block">
+					<h:panelGrid columns="1" cellpading="5">
+								<h:panelGroup>
+
+									<p:outputLabel style="display: block" value="Usuário: *" for="login" />
+									<h:outputText id="login" value="#{controleLogin.usuarioLogado.loginUsuario}"></h:outputText>
+								</h:panelGroup>
+							
+								<h:panelGroup>
+
+									<h:outputLabel for="senhaUsuario" value="Nova Senha: *" style="display: block" 
+									/>
+									<p:password id="senhaUsuario" value="#{controleUsuario.novaSenhaUsuario}"
+										redisplay="true" size="30"/>
+								  <p:message for="senhaUsuario"/>
+								</h:panelGroup>		
+								<h:panelGroup>		
+									<h:outputLabel for="confirmacaoSenha" 
+										value="Redigite a senha: *" style="display: block" />
+									<p:password id="confirmacaoSenha" 
+										value="#{controleUsuario.confirmacaoSenha}" size="30" redisplay="true">
+										<f:validator validatorId="senhaValidator" />
+
+
+									</p:password>
+									<p:message for="confirmacaoSenha" />
+
+								</h:panelGroup>
+
+
+
+							</h:panelGrid>
+
+							<br />
+							<br />
+							<h:panelGrid columns="2" style="position: relative; left: 280px;">
+								<p:commandButton value="Alterar senha"
+									action="#{controleUsuario.alterarSenha()}"
+									icon="ui-icon-disk" />
+								<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+									action="#{controleUsuario.cancelar()}" immediate="true"
+								/>
+							</h:panelGrid>
+							<br />
+							<br />	
+								
+
+								
+							
+				
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

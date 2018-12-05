@@ -1,0 +1,37 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 13-1. Schema for catalog.xml -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="catalog" type="CatalogType"/>
+  <xs:complexType name="CatalogType">
+    <xs:sequence>
+      <xs:element ref="product" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="product" type="ProductType"/>
+  <xs:complexType name="ProductType">
+    <xs:sequence>
+      <xs:element name="number" type="xs:integer"/>
+      <xs:element name="name" type="NameType"/>
+      <xs:element name="colorChoices" type="ColorListType" minOccurs="0"/>
+      <xs:element name="desc" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="dept" type="xs:string"/>
+   </xs:complexType>
+  <xs:simpleType name="ColorListType">
+    <xs:list itemType="xs:string"/>
+  </xs:simpleType>
+  <xs:complexType name="NameType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="language" type="LangType"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="LangType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="en"/>
+      <xs:enumeration value="fr"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

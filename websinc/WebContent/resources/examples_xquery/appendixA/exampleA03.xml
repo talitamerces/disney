@@ -1,0 +1,10 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example A-3. Document with xml:lang attributes specified (descs.xml) -->
+<desclist xml:lang="en">
+  <desc xml:lang="en-US">
+     <line>The first line of the description.</line>
+  </desc>
+  <desc xml:lang="fr">
+     <line>La première ligne de la déscription.</line>
+  </desc>
+</desclist>

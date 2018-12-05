@@ -1,0 +1,10 @@
+<!-- XQuery by Priscilla Walmsley (c) O'Reilly Media 2007 -->
+<!-- Example 21-1. XML document with comments (comment.xml) -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a business document -->
+<b:businessDocument xmlns:b="http://datypic.com/b">
+  <b:header>
+     <!-- date created --><b:date>2006-10-15</b:date>
+  </b:header>
+</b:businessDocument>
+

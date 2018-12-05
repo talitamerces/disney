@@ -1,0 +1,82 @@
+
+<ui:composition template="/resources/templates/loginTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="head">
+        <h:head>
+            <ui:insert name="head.meta">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            </ui:insert>
+            <h:outputStylesheet name="default.css" library="css" />
+            <h:outputStylesheet name="cssLayout.css" library="css" />
+           
+            <ui:insert name="head.title">
+                <title>WebSinC - Sistema Web para buscas em Corpora anotados em XML </title>
+            </ui:insert>
+           
+        </h:head>
+    </ui:define>
+    <ui:define name="body.content.header">
+        <p:fieldset>
+            <h:graphicImage url="/resources/images/topouesb-corpora.png" style="border:0px" alt="LAPELINC"/>
+        </p:fieldset>
+    </ui:define>
+    <ui:define name="body.content.center">
+       <h:form>
+        <div style="float: left; margin-left:20px; margin-right:20px;" >
+        
+        <p:menubar autoDisplay="false">  
+        
+                <p:menuitem value="Apresentação" action="/index?faces-redirect=true" icon="ui-icon-home" ajax="false"/>
+                <p:menuitem value="Linguística de Corpus" action="/index?faces-redirect=true" icon="ui-icon-home" ajax="false"/>
+                <p:menuitem value="Projetos" action="/index?faces-redirect=true" icon="ui-icon-home" ajax="false"/>
+                <p:menuitem value="Construção de corpora" action="/index?faces-redirect=true" icon="ui-icon-home" ajax="false"/> 
+                <p:menuitem value="Corpus Dovic" action="/index?faces-redirect=true" icon="ui-icon-home" ajax="false"/> 
+                <p:menuitem value="Pesquisadores" action="/index?faces-redirect=true" icon="ui-icon-home" ajax="false"/> 
+                <p:menuitem value="Parceiros" action="/index?faces-redirect=true" icon="ui-icon-home" ajax="false"/> 
+                 
+                  
+         
+         </p:menubar>
+         <br/>
+            <p:fieldset id="fieldset" style="max-width: 850px;">
+                
+                <p style="font-size: 12px;"/>
+                <br/>
+                 <div class="apresentacao">             
+                <h1> Apresentação </h1>
+                     <p>O avanço tecnológico da pesquisa no âmbito da Linguística de corpus 
+                    permite aos lingüistas a precisão e a agilidade tão almejada nas ciências da 
+                    linguagem, pois, com o uso de ferramentas automáticas, poder-se-á descrever 
+                    e analisar grandes corpora em uma velocidade bastante razoável para a pesquisa
+                    lingüística. </p>
+                    <P>Este espaço virtual destina-se a divulgar o trabalho com corpora 
+                    desenvolvido pelo grupo de pesquisadores do <i>Laboratório de Pesquisa
+                    em Linguística de Corpus </i>(LAPELINC) da <i>Universidade Estadual do
+                    Sudoeste da Bahia </i>(UESB), <i>campus</i> de Vitória da Conquista, 
+                    bem como disponibilizar produtos frutos dos projetos desenvolvidos
+                    e em desenvolvimento nesse laboratório.</P>
+                    <P>O LAPELINC conta com uma equipe de pesquisadores inter e multi 
+                    disciplinar que tem como objetivo colaborar em projetos parceiros
+                    que visam a construção e/ou implementação de corpora para estudo
+                    da língua portuguesa no Brasil, mais especificamente, na região
+                    Sudoeste da Bahia.</P>
+                    <P>Os objetivos centrais dos projetos desenvolvidos no LAPELINC 
+                    contemplam, através da publicação e disponibilização dos corpora 
+                    gerados para fomentar a pesquisa lingüística, a recuperação da
+                    memória e preservação do nosso patrimônio histórico e lingüístico,
+                    servindo também de objeto para consultas várias. </P>
+                
+            </div>
+            </p:fieldset>
+           
+        </div>
+        </h:form>
+    </ui:define>
+   
+</ui:composition>
+

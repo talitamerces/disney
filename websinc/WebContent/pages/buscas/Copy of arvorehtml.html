@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://bl.ocks.org/d3noob/raw/8329447/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+    <title>Collapsible Tree Example</title>
+
+    <style>
+
+	.node rect {
+	  fill: #96c2ff;
+	  stroke: #96c2ff;
+	  stroke-width: 1.5px;
+	  border-radius: 4px; 
+	}
+
+	.node text { font: 10px sans-serif; font-weight:bold; }
+
+	.link {
+	  fill: none;
+	  stroke: steelblue;
+	  stroke-width: 1px;
+	}
+	
+    </style>
+
+  </head>
+
+  <body>
+
+<!-- load the d3.js library -->	
+<script src="./Collapsible Tree Example_files/d3.v3.min.js"></script>
+	
+<script>
+
+// ************** Generate the tree diagram	 *****************
+var margin = {top: 20, right: 120, bottom: 20, left: 120},
+	width = 5000 - margin.right - margin.left,
+	height = 3500 - margin.top - margin.bottom;
+	
+var i = 0;
+
+var tree = d3.layout.tree()
+	.size([height, width]);
+
+var diagonal = d3.svg.diagonal()
+	.projection(function(d) { return [d.x, d.y]; });
+
+var svg = d3.select("body").append("svg")
+	.attr("width", width + margin.right + margin.left)
+	.attr("height", height + margin.top + margin.bottom)
+  .append("g")
+	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var treeData = [
+{
+	"name":"IP-MAT",
+	"parent":"null",
+	"children":[{
+	"name":"IP-GER",
+	"parent":"IP-MAT",
+	"children":[{
+	"name":"VB-G",
+	"parent":"IP-GER",
+	"children":[{
+	"name":"REINANDO",
+	"parent":"VB-G"
+	}
+	]}
+	,{
+	"name":"NP-SBJ",
+	"parent":"IP-GER",
+	"children":[{
+	"name":"D",
+	"parent":"NP-SBJ",
+	"children":[{
+	"name":"aquele",
+	"parent":"D"
+	}
+	]}
+	,{
+	"name":"ADJP",
+	"parent":"NP-SBJ",
+	"children":[{
+	"name":"Q",
+	"parent":"ADJP",
+	"children":[{
+	"name":"muito",
+	"parent":"Q"
+	}
+	]}
+	,{
+	"name":"ADJ",
+	"parent":"ADJP",
+	"children":[{
+	"name":"cat?lico",
+	"parent":"ADJ"
+	}
+	]}
+	,{
+	"name":"CONJP",
+	"parent":"ADJP",
+	"children":[{
+	"name":"CONJ",
+	"parent":"CONJP",
+	"children":[{
+	"name":"e",
+	"parent":"CONJ"
+	}
+	]}
+	,{
+	"name":"ADJX",
+	"parent":"CONJP",
+	"children":[{
+	"name":"ADJ-S",
+	"parent":"ADJX",
+	"children":[{
+	"name":"seren?ssimo",
+	"parent":"ADJ-S"
+	}
+	]}
+	]}
+	]}
+	]}
+	,{
+	"name":"NPR",
+	"parent":"NP-SBJ",
+	"children":[{
+	"name":"Pr?ncipe",
+	"parent":"NPR"
+	}
+	]}
+	,{
+	"name":"NP-PRN",
+	"parent":"NP-SBJ",
+	"children":[{
+	"name":"NPR",
+	"parent":"NP-PRN",
+	"children":[{
+	"name":"el-Rei",
+	"parent":"NPR"
+	}
+	]}
+	,{
+	"name":"NPR",
+	"parent":"NP-PRN",
+	"children":[{
+	"name":"Dom",
+	"parent":"NPR"
+	}
+	]}
+	,{
+	"name":"NPR",
+	"parent":"NP-PRN",
+	"children":[{
+	"name":"MANUEL",
+	"parent":"NPR"
+	}
+	]}
+	]}
+	]}
+	]}
+	,{
+	"name":"COMMA",
+	"parent":"IP-MAT",
+	"children":[{
+	"name":",",
+	"parent":"COMMA"
+	}
+	]}
+	,{
+	"name":"VB-D",
+	"parent":"IP-MAT",
+	"children":[{
+	"name":"fez-",
+	"parent":"VB-D"
+	}
+	]}
+	,{
+	"name":"NP-SE-4",
+	"parent":"IP-MAT",
+	"children":[{
+	"name":"CL",
+	"parent":"NP-SE-4",
+	"children":[{
+	"name":"-se",
+	"parent":"CL"
+	}
+	]}
+	]}
+	,{
+	"name":"NP-SBJ-4",
+	"parent":"IP-MAT",
+	"children":[{
+	"name":"D-UM-F",
+	"parent":"NP-SBJ-4",
+	"children":[{
+	"name":"uma",
+	"parent":"D-UM-F"
+	}
+	]}
+	,{
+	"name":"N",
+	"parent":"NP-SBJ-4",
+	"children":[{
+	"name":"frota",
+	"parent":"N"
+	}
+	]}
+	,{
+	"name":"PP",
+	"parent":"NP-SBJ-4",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"para",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"D-F",
+	"parent":"NP",
+	"children":[{
+	"name":"a",
+	"parent":"D-F"
+	}
+	]}
+	,{
+	"name":"NPR",
+	"parent":"NP",
+	"children":[{
+	"name":"?ndia",
+	"parent":"NPR"
+	}
+	]}
+	]}
+	]}
+	,{
+	"name":"CP-REL",
+	"parent":"NP-SBJ-4",
+	"children":[{
+	"name":"WPP-2",
+	"parent":"CP-REL",
+	"children":[{
+	"name":"P",
+	"parent":"WPP-2",
+	"children":[{
+	"name":"de",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"WPP-2",
+	"children":[{
+	"name":"WPRO",
+	"parent":"NP",
+	"children":[{
+	"name":"que",
+	"parent":"WPRO"
+	}
+	]}
+	]}
+	]}
+	,{
+	"name":"IP-SUB",
+	"parent":"CP-REL",
+	"children":[{
+	"name":"VB-D",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"ia",
+	"parent":"VB-D"
+	}
+	]}
+	,{
+	"name":"PP",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"por",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"N",
+	"parent":"NP",
+	"children":[{
+	"name":"capit?o",
+	"parent":"N"
+	}
+	]}
+	,{
+	"name":"ADJ",
+	"parent":"NP",
+	"children":[{
+	"name":"m?r",
+	"parent":"ADJ"
+	}
+	]}
+	,{
+	"name":"NP-GEN",
+	"parent":"NP",
+	"children":[{
+	"name":"*T*-2",
+	"parent":"NP-GEN"
+	}
+	]}
+	]}
+	]}
+	,{
+	"name":"NP-SBJ",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"NPR",
+	"parent":"NP-SBJ",
+	"children":[{
+	"name":"Pedro",
+	"parent":"NPR"
+	}
+	]}
+	,{
+	"name":"NPR",
+	"parent":"NP-SBJ",
+	"children":[{
+	"name":"?lvares",
+	"parent":"NPR"
+	}
+	]}
+	,{
+	"name":"NPR",
+	"parent":"NP-SBJ",
+	"children":[{
+	"name":"Cabral",
+	"parent":"NPR"
+	}
+	]}
+	]}
+	]}
+	]}
+	]}
+	,{
+	"name":"POINT",
+	"parent":"IP-MAT",
+	"children":[{
+	"name":":",
+	"parent":"POINT"
+	}
+	]}
+	,{
+	"name":"CP-CAR",
+	"parent":"IP-MAT",
+	"children":[{
+	"name":"WNP-3",
+	"parent":"CP-CAR",
+	"children":[{
+	"name":"WPRO",
+	"parent":"WNP-3",
+	"children":[{
+	"name":"que",
+	"parent":"WPRO"
+	}
+	]}
+	]}
+	,{
+	"name":"IP-SUB",
+	"parent":"CP-CAR",
+	"children":[{
+	"name":"NP-SBJ",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"*T*-3",
+	"parent":"NP-SBJ"
+	}
+	]}
+	,{
+	"name":"SR-D",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"foi",
+	"parent":"SR-D"
+	}
+	]}
+	,{
+	"name":"NP-ACC",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"D-F",
+	"parent":"NP-ACC",
+	"children":[{
+	"name":"a",
+	"parent":"D-F"
+	}
+	]}
+	,{
+	"name":"ADJ-F",
+	"parent":"NP-ACC",
+	"children":[{
+	"name":"segunda",
+	"parent":"ADJ-F"
+	}
+	]}
+	,{
+	"name":"N",
+	"parent":"NP-ACC",
+	"children":[{
+	"name":"navega??o",
+	"parent":"N"
+	}
+	]}
+	,{
+	"name":"CP-REL",
+	"parent":"NP-ACC",
+	"children":[{
+	"name":"WNP-1",
+	"parent":"CP-REL",
+	"children":[{
+	"name":"WPRO",
+	"parent":"WNP-1",
+	"children":[{
+	"name":"que",
+	"parent":"WPRO"
+	}
+	]}
+	]}
+	,{
+	"name":"IP-SUB",
+	"parent":"CP-REL",
+	"children":[{
+	"name":"NP-ACC",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"*T*-1",
+	"parent":"NP-ACC"
+	}
+	]}
+	,{
+	"name":"VB-D",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"fizeram",
+	"parent":"VB-D"
+	}
+	]}
+	,{
+	"name":"NP-SBJ",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"D-P",
+	"parent":"NP-SBJ",
+	"children":[{
+	"name":"os",
+	"parent":"D-P"
+	}
+	]}
+	,{
+	"name":"NPR-P",
+	"parent":"NP-SBJ",
+	"children":[{
+	"name":"Portugueses",
+	"parent":"NPR-P"
+	}
+	]}
+	]}
+	,{
+	"name":"PP",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"para",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"D-F-P",
+	"parent":"NP",
+	"children":[{
+	"name":"aquelas",
+	"parent":"D-F-P"
+	}
+	]}
+	,{
+	"name":"N-P",
+	"parent":"NP",
+	"children":[{
+	"name":"partes",
+	"parent":"N-P"
+	}
+	]}
+	,{
+	"name":"PP",
+	"parent":"NP",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"d@",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"D",
+	"parent":"NP",
+	"children":[{
+	"name":"@o",
+	"parent":"D"
+	}
+	]}
+	,{
+	"name":"NPR",
+	"parent":"NP",
+	"children":[{
+	"name":"Oriente",
+	"parent":"NPR"
+	}
+	]}
+	]}
+	]}
+	]}
+	]}
+	]}
+	]}
+	,{
+	"name":"POINT",
+	"parent":"NP-ACC",
+	"children":[{
+	"name":".",
+	"parent":"POINT"
+	}
+	]}
+	,{
+	"name":"CP-REL",
+	"parent":"NP-ACC",
+	"children":[{
+	"name":"WNP-1",
+	"parent":"CP-REL",
+	"children":[{
+	"name":"D-F",
+	"parent":"WNP-1",
+	"children":[{
+	"name":"A",
+	"parent":"D-F"
+	}
+	]}
+	,{
+	"name":"WPRO",
+	"parent":"WNP-1",
+	"children":[{
+	"name":"qual",
+	"parent":"WPRO"
+	}
+	]}
+	]}
+	,{
+	"name":"IP-SUB",
+	"parent":"CP-REL",
+	"children":[{
+	"name":"NP-SBJ",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"*T*-1",
+	"parent":"NP-SBJ"
+	}
+	]}
+	,{
+	"name":"VB-D",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"partiu",
+	"parent":"VB-D"
+	}
+	]}
+	,{
+	"name":"PP",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"d@",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"D-F",
+	"parent":"NP",
+	"children":[{
+	"name":"@a",
+	"parent":"D-F"
+	}
+	]}
+	,{
+	"name":"N",
+	"parent":"NP",
+	"children":[{
+	"name":"cidade",
+	"parent":"N"
+	}
+	]}
+	,{
+	"name":"PP",
+	"parent":"NP",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"de",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"NPR",
+	"parent":"NP",
+	"children":[{
+	"name":"Lisboa",
+	"parent":"NPR"
+	}
+	]}
+	]}
+	]}
+	]}
+	]}
+	,{
+	"name":"PP",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"a",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"NUM",
+	"parent":"NP",
+	"children":[{
+	"name":"nove",
+	"parent":"NUM"
+	}
+	]}
+	,{
+	"name":"PP",
+	"parent":"NP",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"de",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"NPR",
+	"parent":"NP",
+	"children":[{
+	"name":"Mar?o",
+	"parent":"NPR"
+	}
+	]}
+	]}
+	]}
+	]}
+	]}
+	,{
+	"name":"PP",
+	"parent":"IP-SUB",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"n@",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"D",
+	"parent":"NP",
+	"children":[{
+	"name":"@o",
+	"parent":"D"
+	}
+	]}
+	,{
+	"name":"N",
+	"parent":"NP",
+	"children":[{
+	"name":"ano",
+	"parent":"N"
+	}
+	]}
+	,{
+	"name":"PP",
+	"parent":"NP",
+	"children":[{
+	"name":"P",
+	"parent":"PP",
+	"children":[{
+	"name":"de",
+	"parent":"P"
+	}
+	]}
+	,{
+	"name":"NP",
+	"parent":"PP",
+	"children":[{
+	"name":"NUM",
+	"parent":"NP",
+	"children":[{
+	"name":"1500",
+	"parent":"NUM"
+	}
+	]}
+	]}
+	]}
+	]}
+	]}
+	]}
+	]}
+	]}
+	]}
+	]}
+	,{
+	"name":"POINT",
+	"parent":"IP-MAT",
+	"children":[{
+	"name":".",
+	"parent":"POINT"
+	}
+	]}
+	]}
+
+];
+
+// load the external data
+//d3.json("treeData.json", function(error, treeData) {
+
+  root = treeData[0];
+  update(root);
+//});
+
+function update(source) {
+
+  // Compute the new tree layout.
+  var nodes = tree.nodes(root).reverse(),
+	  links = tree.links(nodes);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d) { d.y = d.depth * 50; d.x=d.x*1.2; });
+
+  // Declare the nodes?
+  var node = svg.selectAll("g.node")
+	  .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+  // Enter the nodes.
+  var nodeEnter = node.enter().append("g")
+	  .attr("class", "node")
+	  .attr("transform", function(d) { 
+		  return "translate(" + d.x + "," + d.y + ")"; });
+
+  nodeEnter.append("rect")
+	  .attr("width", function(d){
+		  	return d.name.length*12 + "px"
+		  	
+		})
+      .attr("height", "1.5em")
+      .attr("x", function(d){
+		  	return (-(d.name.length/3)) + "em"
+		})
+      .attr("y", "-0.75em")
+      .attr("rx", 5)
+      .attr("ry", 5)
+	  .style("fill", "#eee");
+
+  nodeEnter.append("text")
+	  .attr("x", function(d) { 
+		  return 0; })
+// 		  return d.children || d._children ? -13 : 13; })
+	  .attr("dy", ".40em")
+	  .attr("text-anchor", function(d) { 
+		  return "middle"; })
+	  .text(function(d) { return d.name; })
+	  .style("fill-opacity", 1);
+
+  // Declare the links?
+  var link = svg.selectAll("path.link")
+	  .data(links, function(d) { return d.target.id; });
+
+  // Enter the links.
+  link.enter().insert("path", "g")
+	  .attr("class", "link")
+	  .attr("d", diagonal);
+
+}
+
+</script>
+	
+  
+
+</body></html>

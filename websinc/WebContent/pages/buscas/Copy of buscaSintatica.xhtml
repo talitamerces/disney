@@ -1,0 +1,331 @@
+<ui:composition template="/resources/templates/baseTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="body.content.center">
+		<h:form id="mainForm">
+			<p:panel id="containers">
+
+					<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+						style="vertical-align:text-top;">
+						<p:selectOneRadio id="selecao"
+							value="#{controleBuscasSintaticas.selectedOpcaoTextos}"
+							layout="pageDirection">
+							<f:selectItem itemLabel="Buscar em todo o corpus"
+								itemValue="todos" id="todos" />
+							<f:selectItem itemLabel="Selecionar documentos para a busca"
+								itemValue="selecionar" id="selecionar" />
+						<p:ajax listener="#{controleBuscasSintaticas.atualizaPanelTextos()}"
+											event="change" update="textos-container"  global="true" />
+								
+						</p:selectOneRadio>
+													
+					</h:panelGrid>
+					<p:panel id="container1"
+						style="background:#DCDCDC;width:380px; float:left;margin: 8px !important;">
+
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="3"
+							style="vertical-align:text-top;">
+							<p:outputLabel 
+								value="Exibir lista de:" for="opcaoItens" />
+							<p:selectOneRadio id="opcaoItens"
+								value="#{controleBuscasSintaticas.selectedOpcaoItens}">
+								<f:selectItem itemLabel="Sintagmas" itemValue="sintagmas" />
+								<f:selectItem itemLabel="Classes" itemValue="classes" />
+							<p:ajax listener="#{controleBuscasSintaticas.atualizaListaItens()}"
+											event="change" update="itens1 labelItens1"  global="true" />
+							</p:selectOneRadio>
+							</h:panelGrid>
+							<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+							style="vertical-align:text-top;"> 
+							
+							<h:panelGroup>
+								<p:outputLabel id="labelItens1" for="itens1" 
+								value="#{controleBuscasSintaticas.labelItens1}"
+									style="display:block" />
+								<p:selectOneMenu id="itens1"
+									value="#{controleBuscasSintaticas.selectedEtiqueta1}"
+									style="width:320px" var="e1">
+									<f:selectItem itemValue="null"
+										itemLabel="Selecione o sintagma:" />
+									<f:selectItems value="#{controleBuscasSintaticas.getItens()}"
+										var="etiqueta1" itemLabel="#{etiqueta1}"
+										itemValue="#{etiqueta1}" />
+									<p:column>
+										<h:outputText value="#{e1.displayName}" />
+									</p:column>
+									<p:ajax event="change" update="addItemButton" />
+
+								</p:selectOneMenu>
+
+								<h:outputText value="&#160;&#160;" escape="false" />
+								<p:commandButton id="addItemButton"
+									icon="ui-icon-plus" 
+									style="position:relative; top:-7px;" ajax="true"
+									action="#{controleBuscasSintaticas.addItem()}" partialSubmit="true" 
+									update="consultaListTable"  process="@this"
+									/>
+									 
+									
+							</h:panelGroup>
+<p:panel>
+							<p:dataTable id="consultaListTable" editable="true"
+								value="#{controleBuscasSintaticas.consultaList}"
+								var="rowConsulta" style="padding:10px;width:350px;">
+								<f:facet name="header">Container de itens/sintagmas</f:facet>
+								<p:column headerText="Classe/Sintagma">
+									<h:outputText value="#{rowConsulta.etiqueta.displayName}" />
+								</p:column>
+								
+								<p:column headerText="Etiqueta" style="width:60px">
+           	<h:outputText value="#{rowConsulta.etiqueta.name}" />
+           
+       </p:column>
+<!-- 			<p:column style="width:32px"> -->
+<!--            <p:rowEditor rendered="#{!controleBuscasSintaticas.especificarValor(rowConsulta)}"/> -->
+<!--        </p:column>					 -->
+<!-- 								<p:column style="width:8px;"> -->
+<!-- 									<p:commandLink title="Especificar Valor" -->
+<!-- 										styleClass="ui-icon ui-icon-pencil"  -->
+<!-- 										disabled="#{controleBuscasSintaticas.especificarValor(rowConsulta)}"> -->
+<!-- 										<f:setPropertyActionListener value="rowConsulta" -->
+<!-- 											target="#{dataListView.selectedCar}" /> -->
+
+<!-- 									</p:commandLink> -->
+<!-- 								</p:column> -->
+								<p:column style="width:9px">
+									<p:commandLink title="Remover item" update="consultaListTable"
+										styleClass="ui-icon ui-icon-trash"
+										action="#{controleBuscasSintaticas.deleteItem(rowConsulta)}">
+
+
+									</p:commandLink>
+								</p:column>
+
+							</p:dataTable>
+							<p:outputLabel style="display: block"
+								value="Operação entre os itens:" for="operacaoLogica1" />
+							<p:selectOneRadio id="operacaoLogica1"
+								value="#{controleBuscasSintaticas.selectedOperacaoLogica1}">
+								<f:selectItem itemLabel="OU" itemValue="or" id="or1" />
+								<f:selectItem itemLabel="E" itemValue="and" id="and1" />
+							</p:selectOneRadio>
+
+				</p:panel>		
+						
+							</h:panelGrid>
+							<p:panel style="width:366px;float:left;margin: 6px !important;">
+							<h:panelGrid columns="2">
+								
+							<h:panelGroup>
+							
+							<p:selectBooleanCheckbox id="negacao" itemLabel=" NEGAÇÃO"
+												value="#{controleBuscasSintaticas.operacaoNegacao}">
+												<p:ajax event="change" process="@this"	
+												update="itens2 consulta"
+												listener="#{controleBuscasSintaticas.selectNegacao()}"/>
+							</p:selectBooleanCheckbox>
+												</h:panelGroup>
+											<h:panelGroup>
+								<p:outputLabel style="display: block" value="Função:"
+									for="operacao" />
+
+								<p:selectOneMenu id="operacao" style="width: 260px;"
+									value="#{controleBuscasSintaticas.selectedFuncao}">
+									<f:selectItems value="#{controleBuscasSintaticas.listaFuncoes}"
+										var="operacoes" itemLabel="#{operacoes.label}"
+										itemValue="#{operacoes}" />
+									<p:ajax event="change"
+										update="panelVizinhanca container2 consulta" process="@this"
+										partialSubmit="true"
+										listener="#{controleBuscasSintaticas.selectFuncao1()}" />
+								</p:selectOneMenu>
+								<br />
+								<p:panel id="panelVizinhanca"
+									visible="#{controleBuscasSintaticas.mostrarValorN}"
+									style="border: none">
+									<h:panelGroup>
+										<p:outputLabel for="vizinhanca" value="Digite valor de N:"
+											style="display:block" />
+										<p:inputText id="vizinhanca" size="7" value="#{controleBuscasSintaticas.argumentoN}"></p:inputText>
+										
+									</h:panelGroup>
+								</p:panel>
+
+							</h:panelGroup>
+</h:panelGrid>
+</p:panel>
+						
+	</p:panel>
+
+
+					<!-- DAQUI -->
+
+					<p:panel id="container2"
+						style="background:#DCDCDC;width:380px;float:left;margin: 7px !important;"
+						visible="#{controleBuscasSintaticas.mostrarLista2}">
+						
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="2"
+							style="vertical-align:text-top;">
+							<p:outputLabel 
+								value="Exibir lista de:" for="opcaoItens2"/>
+							<p:selectOneRadio id="opcaoItens2" 
+								value="#{controleBuscasSintaticas.selectedOpcaoItens2}">
+								<f:selectItem itemLabel="Sintagmas" itemValue="sintagmas" />
+								<f:selectItem itemLabel="Classes" itemValue="classes" />
+							<p:ajax listener="#{controleBuscasSintaticas.atualizaListaItens2()}"
+											event="change" update="itens2"  global="true" />
+							</p:selectOneRadio>
+							</h:panelGrid>   
+						
+						<h:panelGrid columns="1" cellpadding="2" cellspacing="2"
+							style="vertical-align:text-top;">
+							<h:panelGroup>
+								<p:outputLabel for="itens2"
+									value="#{controleBuscasSintaticas.getFuncaoTotal()}"
+									style="display:block" />
+								<p:selectOneMenu id="itens2"
+									value="#{controleBuscasSintaticas.selectedEtiqueta2}"
+									style="width:320px" var="e2">
+									<f:selectItem itemValue="null" itemLabel="Selecione o item:" />
+									<f:selectItems value="#{controleBuscasSintaticas.getItens2()}"
+										var="etiqueta2" itemLabel="#{etiqueta2}"
+										itemValue="#{etiqueta2}" />
+									<p:column>
+										<h:outputText value="#{e2.displayName}" />
+									</p:column>
+									<p:ajax event="change" update="addItemButton2" />
+
+								</p:selectOneMenu>
+								<h:outputText value="&#160;&#160;" escape="false" />
+								<p:commandButton id="addItemButton2"
+									action="#{controleBuscasSintaticas.addItem2()}"
+									update="consultaListTable2, consulta" process="@this"
+									icon="ui-icon-plus" partialSubmit="#{true}"
+									style="position:relative; top:-7px;" />
+							</h:panelGroup>
+   <p:panel>
+							<p:dataTable id="consultaListTable2"
+								value="#{controleBuscasSintaticas.consultaList2}"
+								var="rowConsulta2" style="padding:10px;width:350px;">
+								<f:facet name="header">Container de itens/sintagemas</f:facet>
+								<p:column>
+									<h:outputText value="#{rowConsulta2.etiqueta.displayName}" />
+								</p:column>
+								<p:column style="width:8px;">
+									<p:commandLink title="Especificar Valor"
+										styleClass="ui-icon ui-icon-pencil"
+										disabled="#{controleBuscasSintaticas.especificarValor(rowConsulta2)}">
+
+
+									</p:commandLink>
+								</p:column>
+								<p:column style="width:8px">
+									<p:commandLink title="Remover item"
+										styleClass="ui-icon ui-icon-trash"
+										action="#{controleBuscasSintaticas.deleteItem2(rowConsulta2)}"
+										update="consultaListTable2">
+
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+							<p:outputLabel style="display: block"
+								value="Operação entre os itens:" for="operacaoLogica2" />
+							<p:selectOneRadio id="operacaoLogica2"
+								value="#{controleBuscasSintaticas.selectedOperacaoLogica2}">
+								<f:selectItem itemLabel="OU" itemValue="or" id="or2" />
+								<f:selectItem itemLabel="E" itemValue="and" id="and2" />
+							</p:selectOneRadio>
+				</p:panel>			
+						</h:panelGrid>
+					</p:panel>
+					<!-- ATEAQUI -->
+					<h:panelGroup
+						style="margin-left:80% !important;margin-right:0px;margin-bottom:5px">
+<!-- 						<p:commandButton id="NovoContainerButton" -->
+<!-- 							value="Adicionar Container" -->
+<!-- 							action="#" -->
+<!-- 							update="consultaListTable" process="@this" -->
+<!-- 							style="display: block; " icon="ui-icon-plus" -->
+<!-- 							partialSubmit="#{true}" disabled="true" /> -->
+						<br />
+					</h:panelGroup>
+			</p:panel>
+			<br />
+			<p:panel id="panelConsulta">
+				<h:panelGrid columns="1" cellpadding="5" cellspacing="5"
+					style="vertical-align:text-top;">
+					<h:panelGroup>
+						<em>Montagem da Busca:</em>
+<!-- 						<p:inputTextarea id="consulta2" rows="1" cols="120" value="" -->
+<!-- 							style="border:0px !important" disabled="true" /> -->
+						<h:outputLabel id="consulta" escape="false"
+							styleClass="ui-inputtextarea 
+					 ui-corner-all"
+							style="width:300px !important; white-space:normal"
+							value="#{controleBuscasSintaticas.consulta}" />
+					</h:panelGroup>
+					<p:commandButton id="addConsultaButton" value="Processar Busca"
+						action="#{controleBuscasSintaticas.saidaBuscaSintatica()}"
+						ajax="false" icon="ui-icon-play"
+						style="width:150px;margin-left:650px" />
+				</h:panelGrid>
+				<p:outputPanel id="textos-container" layout="block">
+								<p:dialog id="modalNovo" header="Seleção de documentos"
+						widgetVar="modalTexto" modal="true" height="400" width="600"
+						style="background-color: white" resizable="false"
+						visible="#{controleBuscasSintaticas.mostrarSelecaoTextos}">
+						<p:hotkey bind="esc" handler="modalTexto.hide()" />
+						<p:outputPanel id="formDataWrapper" layout="block">
+						
+						<p:panel>
+							<BR/>
+						
+							<h:panelGrid columns="1">
+							<h:outputLabel escape="false"
+								style="width:300px !important; white-space:normal"
+							value="Selecione os documentos para a busca: " />
+									<p:selectManyMenu id="textos"
+								value="#{controleBuscasSintaticas.selectedTextos}"
+								converter="documentoConverter" var="t" filter="true"
+								filterMatchMode="contains" showCheckbox="true"
+								scrollHeight="250" style="width:550px">
+								<f:selectItems value="#{controleBuscasSintaticas.listaTextos}"
+									var="texto" itemLabel="#{texto.titulo}" itemValue="#{texto}" />
+
+								<p:column>
+									<h:outputText value="#{t.titulo}" />
+								</p:column>
+
+							</p:selectManyMenu>
+							</h:panelGrid>
+							<BR/>
+						<div style="text-align: right; margin-right: 4em;">	
+						<p:commandButton id="selecaoTextosCancelButton"
+							value="  Cancelar  "
+							action="#"
+							update="consultaListTable" process="@this"
+						
+							partialSubmit="#{true}"/>
+						<p:commandButton id="selecaoTextosOKButton"
+							value="  OK  "
+							action="#"
+							update="consultaListTable" process="@this"
+							partialSubmit="#{true}"/>
+						
+						<br />
+							</div>
+							</p:panel>
+						</p:outputPanel>
+					</p:dialog>	
+				</p:outputPanel>
+
+			</p:panel>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
