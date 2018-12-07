@@ -24,16 +24,16 @@
 						<br /> <br />
 					</div>
 					<p:commandButton id="novoButton" value="Novo"
-						style="float:right;widht:300px "
+						style="float:right;widht:300px; padding:4px "
 						label="Adicionar imagem ao documento macro"
 						update=":mainForm:edit-container" process="@this"
-						icon="ui-icon-plus" action="#{controleImagem.novo()}" />
+						icon="ui-icon-plus" action="#{controleImagem.novo}" />
 
 					<br />
 					<br />
 					<div class="ui-fluid">
 						<p:dataTable id="ImagemTable" paginator="true"
-							paginatorPosition="bottom" var="imagem" style="margin-top:5px"
+							paginatorPosition="bottom" var="imagem" style="margin-top:10px"
 							value="#{controleImagem.imagensMacro}" rowHover="true"
 							selectionMode="single"
 							rowKey="#{controleImagem.selectedMacro.titulo}"
@@ -68,7 +68,7 @@
 									<h:outputText class="titTabela" value="Tipo" />
 								</f:facet>
 								<h:outputText class="contTab"
-									value="#{imagem.tipoImagem.toString()}" />
+									value="#{imagem.tipoImagem}" />
 							</p:column>
 							<p:column style="width:8%;text-align:center">
 								<f:facet name="header">
@@ -141,7 +141,7 @@
 								<h:panelGroup id="panelArquivo" style="margin-left:25px;">
 									<p:fileUpload id="arquivoImagem" required="true"
 										style="margin-left:25px; width: 80%;" auto="true"
-										dragDropSupport="false"
+										
 										fileUploadListener="#{controleImagem.uploadArquivoImagem}"
 										allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
 										label="Selecionar arquivo do computador" mode="advanced"
@@ -152,7 +152,6 @@
 								<br />
 								<br />
 								<em>Características</em>
-								<!-- 								<p:panel header="Características"> -->
 								<h:panelGrid columns="2" style="margin-left:25px;">
 									<h:panelGroup>
 										<p:outputLabel style="display: block" value="Tipo de Imagem" />
@@ -183,7 +182,7 @@
 											for="nrColeta" />
 										<p:inputText id="nrColeta" size="10"
 											value="#{controleImagem.numeroColeta}">
-											<p:ajax listener="#{controleImagem.ajaxCodigoImagem()}"
+											<p:ajax listener="#{controleImagem.ajaxCodigoImagem}"
 												update="codigoImagem" event="blur" />
 										</p:inputText>
 									</h:panelGroup>
@@ -192,7 +191,7 @@
 											for="nrSequencia" />
 										<p:inputText id="nrSequencia" size="10"
 											value="#{controleImagem.numeroSequencia}">
-											<p:ajax listener="#{controleImagem.ajaxCodigoImagem()}"
+											<p:ajax listener="#{controleImagem.ajaxCodigoImagem}"
 												update="codigoImagem" event="blur" />
 										</p:inputText>
 									</h:panelGroup>
@@ -213,13 +212,13 @@
 								<br />
 								<div style="max-width: 100%; margin: auto; text-align: center;">
 									<p:commandButton value="Cancelar" icon="ui-icon-cancel"
-										style="margin:left-center; width:80px"
-										action="#{controleImagem.cancelar()}"
+										style="margin:left-center; width:80px; padding:4px"
+										action="#{controleImagem.cancelar}"
 										onclick="PF('modalImagem').hide()" />
 									<p:commandButton id="botaoSalvar" value="Salvar"
-										style="text-align:center; horizontal-align:center;width:80px"
+										style="text-align:center; horizontal-align:center;width:80px;padding:4px"
 										onclick="PF('modalImagem').hide()" icon="ui-icon-disk"
-										actionListener="#{controleImagem.gravar}"
+										actionListener="#{controleImagem.gravar()}"
 										disabled="#{controleImagem.naoSalvar}" />
 								</div>
 							</p:outputPanel>
@@ -238,14 +237,14 @@
 						<f:facet name="footer">
 							<div style="max-width: 100%; margin: auto; text-align: center;">
 								<p:commandButton value="NÃO"
-									action="#{controleImagem.cancelar()}"
+									action="#{controleImagem.cancelar}"
 									icon="ui-icon-circle-close"
-									style="margin:left-center; width:80px"
+									style="margin:left-center;padding:4px; width:80px"
 									onclick="PF('confirmDeleteDialog').hide();" immediate="true" />
 								<p:commandButton value="SIM" icon="ui-icon-circle-check"
 									action="#{controleImagem.excluir}" process="@this"
 									onclick="PF('confirmDeleteDialog').hide();"
-									style="text-align:center; horizontal-align:center;width:80px"
+									style="text-align:center; horizontal-align:center;padding:4px;width:80px"
 									update="@form" />
 								<br />
 							</div>

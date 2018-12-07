@@ -19,14 +19,14 @@
 					<br />
 
 					<br />
-<!-- 					<f:facet name="header"> -->
-<!-- 						<h:commandLink id="ajuda" -->
-<!-- 							styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"> -->
-<!-- 							<h:outputText styleClass="ui-icon ui-icon-help" /> -->
-<!-- 							<p:tooltip id="toolTHelp" for="ajuda" value="Ajuda" /> -->
-<!-- 						</h:commandLink> -->
-<!-- 					</f:facet> -->
-<!-- 					<br /> -->
+					<!-- 					<f:facet name="header"> -->
+					<!-- 						<h:commandLink id="ajuda" -->
+					<!-- 							styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"> -->
+					<!-- 							<h:outputText styleClass="ui-icon ui-icon-help" /> -->
+					<!-- 							<p:tooltip id="toolTHelp" for="ajuda" value="Ajuda" /> -->
+					<!-- 						</h:commandLink> -->
+					<!-- 					</f:facet> -->
+					<!-- 					<br /> -->
 					<div style="max-height: 100%; max-width: 100%; text-align: center;">
 						<h:outputText style="font-size:21px;" value="OS DOCUMENTOS MACRO" />
 					</div>
@@ -36,11 +36,12 @@
 					<p:commandButton id="voltarButton" value="Voltar" update="@form"
 						process="@this" icon="ui-icon-arrowreturnthick-1-w"
 						action="#{controleDocumentoMacro.cancelar()}"
-						style="float:left;;widht:300px" />
+						style="float:left;;widht:300px; padding:4px" />
 					<p:commandButton id="novoButton" value="Novo"
-						style="float: right;widht:300px" label="Adicionar documento macro"
-						process="@this" update=":mainForm:edit-container"
-						icon="ui-icon-plus" action="#{controleDocumentoMacro.novoTcc()}" />
+						style="float: right;widht:300px;padding:4px"
+						label="Adicionar documento macro" process="@this"
+						update=":mainForm:edit-container" icon="ui-icon-plus"
+						action="#{controleDocumentoMacro.novoTcc()}" />
 					<!-- o grid principal   -->
 					<br />
 					<br />
@@ -51,7 +52,7 @@
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
 							value="#{controleDocumentoMacro.dao.listarTodos()}"
-							style="margin-top:5px"
+							style="margin-top:10px"
 							emptyMessage="Nenhum documento macro inserido.">
 							<p:column style="width:10%; text-align:center">
 								<f:facet name="header">
@@ -144,7 +145,7 @@
 							<h:panelGroup style="display: block; margin-left:25px;">
 								<p:outputLabel style="display: block;" for="codigo"
 									value="Código" />
-								<p:inputText id="codigo" style="cols:50"
+								<p:inputText id="codigo" style="cols:50; "
 									value="#{controleDocumentoMacro.objeto.idDocumentoFisico}" />
 							</h:panelGroup>
 							<br />
@@ -176,7 +177,7 @@
 									value="Local de Depósito" for="localDocumento" />
 								<p:selectOneMenu appendTo="@this" id="localDocumento"
 									style=" width:90%; margin-left:25px;" layout="responsive"
-									height="80" labelTemplate="ocalDocumento"
+									height="80"
 									value="#{controleDocumentoMacro.selectedLocalDeposito}">
 									<f:selectItem itemValue="null"
 										itemLabel="Sel. um local de depósito" />
@@ -268,7 +269,6 @@
 									style="text-align:center"
 									value="#{controleDocumentoMacro.objeto.profundidadeDocumento}" />
 							</h:panelGrid>
-							<!-- 							</p:panel> -->
 							<br />
 							<br />
 							<br />
@@ -336,7 +336,6 @@
 									</p:dataList>
 								</h:panelGroup>
 							</h:panelGrid>
-							<!-- 							</p:panel> -->
 							<br />
 							<br />
 							<br />
@@ -353,11 +352,12 @@
 							<br />
 							<br />
 							<div style="max-width: 100%; margin: auto; text-align: center;">
-								<p:commandButton style="margin:left-center; width:80px"
+								<p:commandButton
+									style="margin:left-center; width:80px; padding:4px"
 									value="Cancelar" icon="ui-icon-cancel" resetValues="true"
 									update="newDM" onclick="PF('novoDocMacroDialog').hide()" />
 								<p:commandButton value="Salvar"
-									style="text-align:center; horizontal-align:center;width:80px"
+									style="text-align:center; horizontal-align:center;width:80px; padding:4px"
 									process=":mainForm:edit-container"
 									action="#{controleDocumentoMacro.gravar()}" update="@form"
 									icon="ui-icon-disk" />
@@ -378,11 +378,11 @@
 								<p:commandButton value="NÃO" icon="ui-icon-circle-close"
 									action="#{controleDocumentoMacro.cancelar()}"
 									onclick="PF('confirmDeleteDialog').hide();" immediate="true"
-									style="margin:left-center; width:80px" />
+									style="margin:left-center; width:80px; padding:4px" />
 								<p:commandButton value="SIM" icon="ui-icon-circle-check"
 									action="#{controleDocumentoMacro.excluir()}" process="@this"
 									onclick="PF('confirmDeleteDialog').hide();" update="@form"
-									style="text-align:center; horizontal-align:center;width:80px" />
+									style="text-align:center; horizontal-align:center;width:80px; padding:4px" />
 							</div>
 						</f:facet>
 						<br />

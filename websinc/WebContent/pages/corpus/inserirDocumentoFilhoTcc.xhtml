@@ -24,7 +24,7 @@
 					</div>
 
 					<p:commandButton id="novoButton" value="Novo"
-						update=":mainForm:edit-container" style="float:right;widht:300px"
+						update=":mainForm:edit-container" style="float:right;widht:300px;padding:4px"
 						label="Adicionar arquivo ao documento macro" process="@this"
 						icon="ui-icon-plus" action="#{controleDocumentoMicro.novo(false)}" />
 					<br />
@@ -32,7 +32,7 @@
 					<div class="ui-fluid">
 						<p:dataTable id="documentoMicroTable" paginator="true"
 							paginatorPosition="bottom" var="documentoMicro"
-							style="margin-top:5px"
+							style="margin-top:10px"
 							value="#{controleDocumentoMicro.documentosMicro}" rowHover="true"
 							selectionMode="single"
 							rowKey="#{documentoMicro.idDocumentoOriginal}"
@@ -255,7 +255,7 @@
 									<em>Imagens do Documento</em>
 									<p:commandButton value="Adicionar Imagem" process="@this"
 										update=":mainForm:ImagemTableMacro"
-										style="margin-right:24px;float:right;"
+										style="margin-right:24px;float:right;padding:4px"
 										onclick="PF('selecaoImagemDialog').show()" icon="ui-icon-plus" />
 									<br />
 									<br />
@@ -360,7 +360,7 @@
 													</h:panelGroup>
 												</p:panelGrid>
 												<p:commandButton value="Adicionar Colaborador"
-													process="@this" style="margin-right:24px;float:right;"
+													process="@this" style="margin-right:24px;float:right;padding:4px"
 													update=":mainForm:colaboradorTranscricaoTable"
 													onclick="PF('selecaoColaboradorTranscricaoDialog').show()"
 													icon="ui-icon-plus">
@@ -435,7 +435,7 @@
 											</p:panelGrid>
 
 											<p:commandButton value="Adicionar Colaborador"
-												style="margin-right:24px;float:right;" process="@this"
+												style="margin-right:24px;float:right;padding:4px" process="@this"
 												update=":mainForm:colaboradorEdicaoTable"
 												onclick="PF('selecaoColaboradorEdicaoDialog').show()"
 												icon="ui-icon-plus" />
@@ -508,7 +508,7 @@
 												</h:panelGroup>
 											</p:panelGrid>
 											<p:commandButton value="Adicionar Colaborador"
-												style="margin-right:24px;float:right;" process="@this"
+												style="margin-right:24px;float:right;padding:4px" process="@this"
 												update=":mainForm:colaboradorRevisaoMTable"
 												onclick="PF('selecaoColaboradorRevisaoMDialog').show()"
 												icon="ui-icon-plus" />
@@ -584,7 +584,7 @@
 											</p:panelGrid>
 
 											<p:commandButton value="Adicionar Colaborador"
-												style="margin-right:24px;float:right;" process="@this"
+												style="margin-right:24px;float:right;padding:4px" process="@this"
 												update=":mainForm:colaboradorRevisaoSTable"
 												onclick="PF('selecaoColaboradorRevisaoSDialog').show()"
 												icon="ui-icon-plus" />
@@ -656,7 +656,7 @@
 												</h:panelGroup>
 											</p:panelGrid>
 											<p:commandButton value="Adicionar Colaborador"
-												process="@this" style="margin-right:24px;float:right;"
+												process="@this" style="margin-right:24px;float:right;padding:4px"
 												update=":mainForm:colaboradorCadastroWTable"
 												onclick="PF('selecaoColaboradorCadastroWDialog').show()"
 												icon="ui-icon-plus" />
@@ -709,11 +709,11 @@
 							<br />
 
 							<div style="max-width: 100%; margin: auto; text-align: center;">
-								<p:commandButton style="margin:left-center; width:80px"
-									value="Cancelar" icon="ui-icon-cancel" resetValues="true"
+								<p:commandButton style="text-align:center; width: 89px; padding:4px"
+									value="Cancelar" icon="ui-icon-cancel" resetValues="true" type="button"
 									update="modalFilho" onclick="PF('modalFilhoDialog').hide()" />
-								<p:commandButton value="Salvar"
-									style="text-align:center; horizontal-align:center;width:80px"
+								<p:commandButton value="Salvar" type="button"
+									style="text-align:center; width: 89px; padding:4px 4px 4px 10px"
 									process=":mainForm:edit-container"
 									action="#{controleDocumentoMicro.gravar}" update="@form"
 									icon="ui-icon-disk">
@@ -731,7 +731,7 @@
 					resizable="false" widgetVar="selecaoImagemDialog" modal="true"
 					width="75%">
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;"
+					<p:commandButton value="Adicionar" style="float:right;padding:4px"
 						actionListener="#{controleDocumentoMicro.adicionarImagens}"
 						onclick="PF('selecaoImagemDialog').hide()" icon="ui-icon-plus">
 						<f:ajax execute=":mainForm:ImagemTableMacro"
@@ -793,7 +793,7 @@
 						</p:column>
 					</p:dataTable>
 					<BR />
-					<p:commandButton value="Cancelar" type="button"
+					<p:commandButton value="Cancelar" type="button" style="padding:4px"
 						onclick="PF('selecaoImagemDialog').hide()" icon="ui-icon-cancel" />
 				</p:dialog>
 
@@ -805,7 +805,7 @@
 					widgetVar="selecaoColaboradorTranscricaoDialog" modal="true"
 					width="75%">
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+					<p:commandButton value="Adicionar" type="button" style="float:right;widht:300px; padding:4px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresTranscricao()}"
 						onclick="PF('selecaoColaboradorTranscricaoDialog').hide()"
 						icon="ui-icon-plus">
@@ -847,7 +847,7 @@
 					</p:dataTable>
 					<BR />
 					<h:panelGrid style="position: center; width:75%">
-						<p:commandButton value="Cancelar" type="button"
+						<p:commandButton value="Cancelar" type="button" style="padding:4px"
 							onclick="PF('selecaoColaboradorTranscricaoDialog').hide()"
 							icon="ui-icon-cancel" />
 					</h:panelGrid>
@@ -861,7 +861,7 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorEdicaoDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px; padding:4px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresEdicao()}"
 						onclick="PF('selecaoColaboradorEdicaoDialog').hide()"
 						icon="ui-icon-plus">
@@ -903,8 +903,8 @@
 					</p:dataTable>
 					<BR />
 					<h:panelGrid style="position: center; width:75%">
-						<p:commandButton value="Cancelar" type="button"
-							style="position: center; "
+						<p:commandButton value="Cancelar" type="button" 
+							style="position: center; padding:4px"
 							onclick="PF('selecaoColaboradorEdicaoDialog').hide()"
 							icon="ui-icon-cancel" />
 					</h:panelGrid>
@@ -918,7 +918,7 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorRevisaoMDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px;padding:4px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresRevisaoM()}"
 						onclick="PF('selecaoColaboradorRevisaoMDialog').hide()"
 						icon="ui-icon-plus">
@@ -959,7 +959,7 @@
 					</p:dataTable>
 					<BR />
 					<h:panelGrid style="position: relative; width:75%">
-						<p:commandButton value="Cancelar" type="button"
+						<p:commandButton value="Cancelar" type="button" style="padding:4px"
 							onclick="PF('selecaoColaboradorRevisaoMDialog').hide()"
 							icon="ui-icon-cancel" />
 					</h:panelGrid>
@@ -974,7 +974,7 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorRevisaoSDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px; padding:4px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresRevisaoS()}"
 						onclick="PF('selecaoColaboradorRevisaoSDialog').hide()"
 						icon="ui-icon-plus">
@@ -1016,7 +1016,7 @@
 					</p:dataTable>
 					<BR />
 					<h:panelGrid style="position: relative; width:75%">
-						<p:commandButton value="Cancelar" type="button"
+						<p:commandButton value="Cancelar" type="button" style="padding:4px"
 							onclick="PF('selecaoColaboradorRevisaoSDialog').hide()"
 							icon="ui-icon-cancel" />
 					</h:panelGrid>
@@ -1031,7 +1031,7 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorCadastroWDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px; padding:4px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresCadastroW()}"
 						onclick="PF('selecaoColaboradorCadastroWDialog').hide()"
 						icon="ui-icon-plus">
@@ -1073,7 +1073,7 @@
 					</p:dataTable>
 					<BR />
 					<h:panelGrid style="position: relative; width:75%">
-						<p:commandButton value="Cancelar" type="button"
+						<p:commandButton value="Cancelar" type="button" style="padding:4px"
 							onclick="PF('selecaoColaboradorCadastroWDialog').hide()"
 							icon="ui-icon-cancel" />
 					</h:panelGrid>
