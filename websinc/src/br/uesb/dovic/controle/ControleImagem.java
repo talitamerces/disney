@@ -152,7 +152,6 @@ public class ControleImagem implements Serializable {
 		arquivoImagem = null;
 		naoSalvar = true;
 		this.edicao = true;
-
 	}
 
 	public void ajaxCodigoImagem() {

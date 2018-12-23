@@ -10,14 +10,12 @@
 			<div class="ui-fluid">
 				<p:growl showDetail="true" sticky="true" id="messages"></p:growl>
 				<p:panel style="min-height: 500px">
-					<p:breadCrumb>
-						<p:menuitem value="Início" url="#" />
-						<p:menuitem value="Corpus" url="#" />
-						<p:menuitem value="Documentos" url="#" />
-						<p:menuitem value="Documentos Macro" url="#" />
-					</p:breadCrumb>
-					<br />
-
+					<!-- 				breadCrumb	 -->
+					<p:link value="Início" outcome="#{controleDocumentoMacro.inicio()}"
+						update="@form" process="@this" /> >
+				Corpus > 
+				Documentos > 
+				Os Documentos Macro<br />
 					<br />
 					<!-- 					<f:facet name="header"> -->
 					<!-- 						<h:commandLink id="ajuda" -->
@@ -35,7 +33,7 @@
 					<!-- botões voltar e novo -->
 					<p:commandButton id="voltarButton" value="Voltar" update="@form"
 						process="@this" icon="ui-icon-arrowreturnthick-1-w"
-						action="#{controleDocumentoMacro.cancelar()}"
+						action="#{controleDocumentoMacro.inicio()}"
 						style="float:left;;widht:300px; padding:4px" />
 					<p:commandButton id="novoButton" value="Novo"
 						style="float: right;widht:300px;padding:4px"
