@@ -6,42 +6,48 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
+
 	<ui:define name="body.content.center">
 		<h:form id="mainForm" enctype="multipart/form-data">
 			<p:growl showDetail="true" sticky="true"></p:growl>
 			<p:panel style="min-height: 500px">
 
-				<!-- 			breadCrumb -->
+<!-- 							breadCrumb -->
 				<p:link value="Início" outcome="#{controleDocumentoMacro.inicio()}"
-					update="@form" process="@this" /> >
-				Corpus > 
-				Documentos > 
+					update="@form" process="@this" /> > Corpus > Documentos > 
 				<p:link value="Os Documentos Macro"
 					outcome="#{controleDocumentoMacro.inserirTcc()}" update="@form"
-					process="@this" /> >
-				Imagens<br />
+					process="@this" /> > Imagens
+				<br />
+<!-- 					fim		breadCrumb -->
 
 
-				<div style="text-decoration: underline">
-					<br /> <br /> <i class="material-icons"> texture </i>
-					<h:outputText class="titulos" value="º Documento Macro: " />
+<!-- 				nome do documento macro selecionado -->
+				<div>
+					<br /><br /> <i class="material-icons"
+						style="font-size: 16px; color: lightblue;"> attachment </i>
+					<h:outputText class="titulos" value=" Documento Macro: " />
 					<h:outputText class="font"
 						value="#{controleImagem.selectedMacro.titulo}" />
-					<br /> <br /> <br />
+					<br /><br /><br />					
 				</div>
+
+				<!-- 	botões de funcionalidade voltar e salvar -->
 				<p:commandButton id="voltarButton" value="Voltar" update="@form"
 					process="@this" icon="ui-icon-arrowreturnthick-1-w"
 					action="#{controleDocumentoMacro.inserirTcc()}"
-					style="float:left;;widht:300px; padding:4px" />
+					style="float:left;widht:300px; padding:4px" />
 				<p:commandButton id="novoButton" value="Novo"
 					style="float:right;widht:300px; padding:4px "
 					label="Adicionar imagem ao documento macro"
 					update=":mainForm:edit-container" process="@this"
-					icon="ui-icon-plus" action="#{controleImagem.novo()}" />
+						icon="ui-icon-plus" action="#{controleImagem.novo()}" />
 				<br />
 				<br />
 
+				<!-- tabela de imagens do documento -->
 				<p:outputPanel id="list-container" layout="block">
+				
 					<p:dataTable id="ImagemTable" paginator="true"
 						paginatorPosition="bottom" var="imagem" style="margin-top:10px"
 						value="#{controleImagem.imagensMacro}" rowHover="true"
@@ -54,6 +60,7 @@
 							<h:outputText class="titTabela" title="Lista de imagens"
 								value="Lista de imagens do(a) #{controleImagem.selectedMacro.titulo}" />
 						</f:facet>
+						
 						<p:column style="text-align:center">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Imagem" />
@@ -63,18 +70,21 @@
 								value="#{controleImagem.getEnderecoImagem(imagem)}" width="35"
 								height="35" />
 						</p:column>
+						
 						<p:column style="width:10%; text-align:center">
 							<f:facet name="header">
 								<h:outputText value="Nº" />
 							</f:facet>
 							<h:outputText class="contTab" value="#{imagem.numeroSequencia}" />
 						</p:column>
+						
 						<p:column style="text-align:center">
 							<f:facet name="header">
 								<h:outputText value="Código" />
 							</f:facet>
 							<h:outputText class="contTab" value="#{imagem.codigoImagem}" />
 						</p:column>
+						
 						<p:column style="text-align:center">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Tipo" />
@@ -82,6 +92,7 @@
 							<h:outputText class="contTab"
 								value="#{imagem.tipoImagem.toString()}" />
 						</p:column>
+						
 						<p:column style="width:8%;text-align:center">
 							<f:facet name="header">
 								<h:outputText value="Lado" />
@@ -89,18 +100,21 @@
 							<h:outputText class="contTab"
 								value="#{imagem.ladoImagem.toString()}" />
 						</p:column>
+						
 						<p:column style="width:8%;text-align:center">
 							<f:facet name="header">
 								<h:outputText value="N° Folha" />
 							</f:facet>
 							<h:outputText class="contTab" value=" #{imagem.numeroFolha}" />
 						</p:column>
+						
 						<p:column style="width:8%;text-align:center">
 							<f:facet name="header">
 								<h:outputText value="N° Página" />
 							</f:facet>
 							<h:outputText class="contTab" value=" #{imagem.numeroPagina} " />
 						</p:column>
+						
 						<p:column style="width:7%; text-align:center">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Editar" />
@@ -113,6 +127,7 @@
 									value="#{imagem}" />
 							</p:commandLink>
 						</p:column>
+						
 						<p:column style="width:7%; text-align:center">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Excluir" />
@@ -127,115 +142,148 @@
 						</p:column>
 					</p:dataTable>
 				</p:outputPanel>
+				<p:outputPanel id="edit-container" layout="block">
+
+					<p:dialog id="modalImagem" header="Imagem" widgetVar="modalImagem"
+						modal="true" resizable="false" style="overflow-y:auto;width:60%"
+						visible="#{controleImagem.edicao}">
+						<p:hotkey bind="esc" handler="modalImagem.hide()" />
+						<p:ajax event="close" resetValues="true" update="modalImagem" />
+						
+						<em tabindex="1">Código da imagem</em>
+						<p:outputPanel id="formDataWrapper">
+							<h:panelGroup
+								style="margin-left:25px; display: block; width:50%;">
+								<p:outputLabel value="Código" for="codigoImagem"
+									styleClass="font" />
+								<p:panel
+									style=" margin-left:25px;background:Gainsboro;text-align:center;">
+									<h:outputText id="codigoImagem"
+										title="Código gerado automaticamente"
+										value="#{controleImagem.codigoImagem}" styleClass="font" />
+								</p:panel>
+							</h:panelGroup>
+							<br />
+							<br />
+							
+							<em>Características</em>
+							<h:panelGrid columns="4" style="margin-left:25px;">
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Nº da coleta"
+										for="nrColeta" />
+									<p:inputText id="nrColeta" size="10"
+										value="#{controleImagem.numeroColeta}">
+										<p:ajax listener="#{controleImagem.ajaxCodigoImagem}"
+											update="codigoImagem" event="blur" />
+									</p:inputText>
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Nº de sequência"
+										for="nrSequencia" />
+									<p:inputText id="nrSequencia" size="10"
+										value="#{controleImagem.numeroSequencia}">
+										<p:ajax listener="#{controleImagem.ajaxCodigoImagem}"
+											update="codigoImagem" event="blur" />
+									</p:inputText>
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Nº da página"
+										for="nrPagina" />
+									<p:inputText id="nrPagina" size="10"
+										value="#{controleImagem.numeroPagina}" />
+								</h:panelGroup>
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Nº da folha"
+										for="nrFolha" />
+									<p:inputText id="nrFolha" size="10"
+										value="#{controleImagem.numeroFolha}" />
+								</h:panelGroup>
+							</h:panelGrid>
+							<br />
+							<br />
+							<h:panelGrid columns="2" style="margin-left:25px;">
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Tipo de Imagem" />
+									<p:selectOneMenu appendTo="@this" id="listaTipoImagem"
+										value="#{controleImagem.selectedTipoImagem}">
+										<f:selectItem itemValue="null" itemLabel="Sel. um tipo" />
+										<f:selectItems value="#{controleImagem.listaTipoImagem}"
+											var="tipoImagem" itemLabel="#{tipoImagem.label}"
+											itemValue="#{tipoImagem}" />
+									</p:selectOneMenu>
+								</h:panelGroup>
+
+								<h:panelGroup>
+									<p:outputLabel style="display: block" value="Lado da Imagem"
+										for="listaLadoImagem" />
+									<p:selectOneMenu appendTo="@this" id="listaLadoImagem"
+										value="#{controleImagem.selectedLadoImagem}">
+										<f:selectItem itemValue="null" itemLabel="Sel. um lado" />
+										<f:selectItems value="#{controleImagem.listaLadoImagem}"
+											var="ladoImagem" itemLabel="#{ladoImagem.label}"
+											itemValue="#{ladoImagem}" />
+									</p:selectOneMenu>
+								</h:panelGroup>
+							</h:panelGrid>
+							<br />
+
+							
+							<em tabindex="2">Anexo da imagem</em>
+							<h:panelGroup id="panelArquivo" style="margin-left:25px;">
+								<p:fileUpload id="arquivoImagem" required="true"
+									style="margin-left:25px; width: 80%;" auto="true"
+									showButtons="false"
+									fileUploadListener="#{controleImagem.uploadArquivoImagem}"
+									allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
+									label="Selecionar arquivo do computador" mode="advanced"
+									update="panelArquivo botaoSalvar" />
+								<h:outputText style="margin-left:25px;"
+									value="#{controleImagem.caminhoImagem}" />
+							</h:panelGroup>
+							<br />
+							<br />
+							<div style="max-width: 100%; margin: auto; text-align: center;">
+								<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+									style="margin:left-center; width:90px; padding:4px"
+									action="#{controleImagem.cancelar()}"
+									onclick="PF('modalImagem').hide()" />
+								<p:commandButton id="botaoSalvar" value="Salvar"
+									style="text-align:center; horizontal-align:center;width:90px;padding:4px"
+									onclick="PF('modalImagem').hide()" icon="ui-icon-disk"
+									actionListener="#{controleImagem.gravar()}"
+									disabled="#{controleImagem.naoSalvar}" />
+							</div>
+						</p:outputPanel>
+					</p:dialog>
+				</p:outputPanel>
+
+				<!-- janela de confirmação de exclusão -->
+				<p:dialog id="confirmacao" header="Exclusão de imagem"
+					widgetVar="confirmDeleteDialog" modal="true" showEffect="fade"
+					hideEffect="fade" resizable="false" responsive="true">
+					<!-- 						<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" /> -->
+					<p:outputLabel style="font-size:13px; text-align:center"
+						value="Tem certeza de que deseja excluir esta imagem?" />
+					<br />
+					<br />
+					<f:facet name="footer">
+						<div style="max-width: 100%; margin: auto; text-align: center;">
+							<p:commandButton value="NÃO" action="#{controleImagem.cancelar}"
+								icon="ui-icon-circle-close"
+								style="margin:left-center;padding:4px; width:80px"
+								onclick="PF('confirmDeleteDialog').hide();" immediate="true" />
+							<p:commandButton value="SIM" icon="ui-icon-circle-check"
+								action="#{controleImagem.excluir}" process="@this"
+								onclick="PF('confirmDeleteDialog').hide();"
+								style="text-align:center; horizontal-align:center;padding:4px;width:80px"
+								update="@form" />
+							<br />
+						</div>
+					</f:facet>
+					<br />
+				</p:dialog>
 
 			</p:panel>
-			<!-- novo -->
-			<p:outputPanel id="edit-container" layout="block">
-				<p:dialog id="modalImagem" header="Imagem" widgetVar="modalImagem"
-					modal="true" resizable="false" style="overflow-y:auto;width:60%"
-					visible="#{controleImagem.edicao}">
-					<p:ajax event="close" resetValues="true" update="modalImagem" />
-					<em tabindex="1">Código da imagem</em>
-					<p:outputPanel id="formDataWrapper">
-						<h:panelGroup style="margin-left:25px; display: block; width:50%;">
-							<p:outputLabel value="Código" for="codigoImagem"
-								styleClass="font" />
-							<p:panel
-								style=" margin-left:25px;background:Gainsboro;text-align:center;">
-								<h:outputText id="codigoImagem"
-									title="Código gerado automaticamente"
-									value="#{controleImagem.codigoImagem}" styleClass="font" />
-							</p:panel>
-						</h:panelGroup>
-						<br />
-						<br />
-						<em tabindex="2">Anexo da imagem</em>
-						<h:panelGroup id="panelArquivo" style="margin-left:25px;">
-							<p:fileUpload id="arquivoImagem" required="true"
-								style="margin-left:25px; width: 80%;" auto="true"
-								showButtons="false"
-								fileUploadListener="#{controleImagem.uploadArquivoImagem}"
-								allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
-								label="Selecionar arquivo do computador" mode="advanced"
-								update="panelArquivo botaoSalvar" />
-							<h:outputText style="margin-left:25px;"
-								value="#{controleImagem.caminhoImagem}" />
-						</h:panelGroup>
-						<br />
-						<br />
-						<em>Características</em>
-						<h:panelGrid columns="2" style="margin-left:25px;">
-							<h:panelGroup>
-								<p:outputLabel style="display: block" value="Tipo de Imagem" />
-								<p:selectOneMenu appendTo="@this" id="listaTipoImagem"
-									value="#{controleImagem.selectedTipoImagem}">
-									<f:selectItem itemValue="null" itemLabel="Sel. um tipo" />
-									<f:selectItems value="#{controleImagem.listaTipoImagem}"
-										var="tipoImagem" itemLabel="#{tipoImagem.label}"
-										itemValue="#{tipoImagem}" />
-								</p:selectOneMenu>
-							</h:panelGroup>
-							<h:panelGroup>
-								<p:outputLabel style="display: block" value="Lado da Imagem"
-									for="listaLadoImagem" />
-								<p:selectOneMenu appendTo="@this" id="listaLadoImagem"
-									value="#{controleImagem.selectedLadoImagem}">
-									<f:selectItem itemValue="null" itemLabel="Sel. um lado" />
-									<f:selectItems value="#{controleImagem.listaLadoImagem}"
-										var="ladoImagem" itemLabel="#{ladoImagem.label}"
-										itemValue="#{ladoImagem}" />
-								</p:selectOneMenu>
-							</h:panelGroup>
-						</h:panelGrid>
-						<br />
-						<h:panelGrid columns="4" style="margin-left:25px;">
-							<h:panelGroup>
-								<p:outputLabel style="display: block" value="Nº da coleta"
-									for="nrColeta" />
-								<p:inputText id="nrColeta" size="10"
-									value="#{controleImagem.numeroColeta}">
-									<p:ajax listener="#{controleImagem.ajaxCodigoImagem}"
-										update="codigoImagem" event="blur" />
-								</p:inputText>
-							</h:panelGroup>
-							<h:panelGroup>
-								<p:outputLabel style="display: block" value="Nº de sequência"
-									for="nrSequencia" />
-								<p:inputText id="nrSequencia" size="10"
-									value="#{controleImagem.numeroSequencia}">
-									<p:ajax listener="#{controleImagem.ajaxCodigoImagem}"
-										update="codigoImagem" event="blur" />
-								</p:inputText>
-							</h:panelGroup>
-							<h:panelGroup>
-								<p:outputLabel style="display: block" value="Nº da página"
-									for="nrPagina" />
-								<p:inputText id="nrPagina" size="10"
-									value="#{controleImagem.numeroPagina}" />
-							</h:panelGroup>
-							<h:panelGroup>
-								<p:outputLabel style="display: block" value="Nº da folha"
-									for="nrFolha" />
-								<p:inputText id="nrFolha" size="10"
-									value="#{controleImagem.numeroFolha}" />
-							</h:panelGroup>
-						</h:panelGrid>
-						<br />
-						<br />
-						<div style="max-width: 100%; margin: auto; text-align: center;">
-							<p:commandButton value="Cancelar" icon="ui-icon-cancel"
-								style="margin:left-center; width:90px; padding:4px"
-								action="#{controleImagem.cancelar()}"
-								onclick="PF('modalImagem').hide()" />
-							<p:commandButton id="botaoSalvar" value="Salvar"
-								style="text-align:center; horizontal-align:center;width:90px;padding:4px"
-								onclick="PF('modalImagem').hide()" icon="ui-icon-disk"
-								actionListener="#{controleImagem.gravar()}"
-								disabled="#{controleImagem.naoSalvar}" />
-						</div>
-					</p:outputPanel>
-				</p:dialog>
-			</p:outputPanel>
 		</h:form>
 	</ui:define>
 </ui:composition>
