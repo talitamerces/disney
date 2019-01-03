@@ -117,7 +117,7 @@
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Excluir" />
 								</f:facet>
-								<p:commandLink onclick="PF('confirmDeleteDialog').show();"
+								<p:commandLink onclick="PF('confirmDeleteDialog').show();" process="@this"
 									title="Excluir">
 									<p:graphicImage value="/resources/images/trash.gif"
 										id="imagemExcluir" />

@@ -79,7 +79,6 @@
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Excluir" />
 								</f:facet>
-								<h:outputText value="" escape="false" />
 								<p:commandLink process="@this" title="Excluir"
 									onclick="PF('confirmDeleteDialog').show();">
 									<p:graphicImage value="/resources/images/trash.gif"
@@ -88,9 +87,14 @@
 										target="#{controleDocumentoMicro.objeto}"
 										value="#{documentoMicro}" />
 								</p:commandLink>
+
+
+
 							</p:column>
 						</p:dataTable>
 					</div>
+
+
 
 					<p:outputPanel id="edit-container" layout="block"
 						visible="#{controleDocumentoMicro.alterar(documentoMicro)}">
@@ -726,6 +730,34 @@
 
 					</p:outputPanel>
 				</p:panel>
+
+
+
+				<!-- janela de confirmação de exclusão -->
+				<p:dialog id="confirmacao" header="CONFIRMAÇÃO"
+					widgetVar="confirmDeleteDialog" modal="true" showEffect="fade"
+					hideEffect="fade" resizable="false" responsive="true">
+					<p:hotkey bind="esc" handler="PF('confirmDeleteDialog').hide();" />
+					<p:outputLabel style="font-size:13px; text-align:center"
+						value="Tem certeza de que deseja excluir este documento macro?" />
+					<br />
+
+					<f:facet name="footer">
+						<div style="max-width: 100%; margin: auto; text-align: center;">
+
+							<p:commandButton value="NÃO" icon="ui-icon-circle-close"
+								action="#{controleDocumentoMIcro.cancelar()}"
+								onclick="PF('confirmDeleteDialog').hide();" immediate="true"
+								style="margin:left-center; width:80px" />
+							<p:commandButton value="SIM" icon="ui-icon-circle-check"
+								action="#{controleDocumentoMicro.excluir()}" process="@this"
+								onclick="PF('confirmDeleteDialog').hide();" update="@form"
+								style="text-align:center; horizontal-align:center;width:80px" />
+						</div>
+					</f:facet>
+					<br />
+				</p:dialog>
+				<!-- div principal -->
 
 				<!-- 		dialog add imagens -->
 				<p:dialog id="selecaoImagem" header="Selecionar arquivo de imagem"
