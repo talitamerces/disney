@@ -46,7 +46,7 @@ public class GenericDAO<T> implements Serializable {
 				iniciarTransacao();
 				em.persist(objeto);
 				commitTransacao();
-				UtilMensagens.mensagemInformacao("Registro gravado com sucesso");
+				UtilMensagens.mensagemInformacao("Registro gravado com sucesso!");
 			
 				return true;
 			
@@ -64,7 +64,7 @@ public class GenericDAO<T> implements Serializable {
 			iniciarTransacao();
 			em.merge(objeto);
 			commitTransacao();
-			UtilMensagens.mensagemInformacao("Alteração gravada com sucesso");
+			UtilMensagens.mensagemInformacao("Alteração gravada com sucesso!");
 			return true;
 		} catch(Exception e){
 			e.printStackTrace();
@@ -80,7 +80,7 @@ public class GenericDAO<T> implements Serializable {
 			iniciarTransacao();
 			em.remove(objeto);
 			commitTransacao();
-			UtilMensagens.mensagemInformacao("Exclusão realizada com sucesso");
+			UtilMensagens.mensagemInformacao("Exclusão realizada com sucesso!");
 			return true;
 		} catch(Exception e){
 			e.printStackTrace();
