@@ -12,7 +12,7 @@
 				<p:panel style="min-height: 500px">
 
 					<!-- 							breadCrumb -->
-					<p:link value="Início" outcome="#{controleDocumentoMacro.inicio()}"
+				<p:link value="Início" outcome="#{controleDocumentoMacro.inicio()}"
 						update="@form" process="@this" /> > Corpus > Documentos TCC > 
 				<p:link value="Os Documentos Macro"
 						outcome="#{controleDocumentoMacro.inserirTcc()}" update="@form"
@@ -27,19 +27,23 @@
 						<h:outputText class="titulos" value=" Documento Macro: " />
 						<h:outputText class="font"
 							value="#{controleImagem.selectedMacro.titulo}" />
-						<br /> <br /> <br />
+						
 					</div>
-
+<br /> <br /> <br />
 					<!-- 	botões de funcionalidade voltar e salvar -->
 					<p:commandButton id="voltarButton" value="Voltar" update="@form"
 						process="@this" icon="ui-icon-arrowreturnthick-1-w"
 						action="#{controleDocumentoMacro.inserirTcc()}"
 						style="float:left;widht:300px; padding:4px" />
-
+					<p:commandButton id="novoButton" value="Novo"
+						style="float:right;widht:300px; padding:4px "
+						label="Adicionar imagem ao documento macro"
+						update=":mainForm:edit-container" process="@this"
+						icon="ui-icon-plus" action="#{controleImagem.novo()}" />
 					<br />
 					<br />
 
-					<p:outputPanel id="list-container" layout="block">
+					
 						<p:dataTable id="ImagemTable" rows="15" paginator="true"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
@@ -83,9 +87,93 @@
 									value="#{imagem.tipoImagem.toString()}" />
 							</p:column>
 
-						</p:dataTable>
-					</p:outputPanel>
+							<p:column style="width:8%;text-align:center">
+								<f:facet name="header">
+									<h:outputText value="Lado" />
+								</f:facet>
+								<h:outputText class="contTab"
+									value="#{imagem.ladoImagem.toString()}" />
+							</p:column>
 
+							<p:column style="width:8%;text-align:center">
+								<f:facet name="header">
+									<h:outputText value="N° Folha" />
+								</f:facet>
+								<h:outputText class="contTab" value=" #{imagem.numeroFolha}" />
+							</p:column>
+
+							<p:column style="width:8%;text-align:center">
+								<f:facet name="header">
+									<h:outputText value="N° Página" />
+								</f:facet>
+								<h:outputText class="contTab" value=" #{imagem.numeroPagina} " />
+							</p:column>
+
+							<p:column style="width:7%; text-align:center">
+								<f:facet name="header">
+									<h:outputText class="titTabela" value="Editar" />
+								</f:facet>
+								<p:commandLink process="@this" update=":mainForm:edit-container"
+									action="#{controleImagem.alterar(imagem)}" title="Editar">
+									<p:graphicImage value="/resources/images/editar.png"
+										id="imagemAlterar" />
+									<f:setPropertyActionListener target="#{controleImagem.objeto}"
+										value="#{imagem}" />
+								</p:commandLink>
+							</p:column>
+
+						</p:dataTable>
+
+
+					<p:dialog id="modalImagem" header="Imagem" widgetVar="modalImagem"
+						modal="true" resizable="false" style="overflow-y:auto;width:60%"
+						visible="#{controleImagem.edicao}">
+						<p:hotkey bind="esc" handler="modalImagem.hide()" />
+						<p:ajax event="close" resetValues="true" update="modalImagem" />
+						<em tabindex="1">Código da imagem</em>
+						<p:outputPanel id="formDataWrapper">
+							<h:panelGroup
+								style="margin-left:25px; display: block; width:50%;">
+								<p:outputLabel value="Código" for="codigoImagem"
+									styleClass="font" />
+								<p:panel
+									style=" margin-left:25px;background:Gainsboro;text-align:center;">
+									<h:outputText id="codigoImagem"
+										title="Código gerado automaticamente"
+										value="#{controleImagem.codigoImagem}" styleClass="font" />
+								</p:panel>
+							</h:panelGroup>
+							<br />
+							<br />
+							</p:outputPanel>
+					</p:dialog>
+					
+					
+							<!-- janela de confirmação de exclusão -->
+				<p:dialog id="confirmacao" header="Exclusão de imagem"
+					widgetVar="confirmDeleteDialog" modal="true" showEffect="fade"
+					hideEffect="fade" resizable="false" responsive="true">
+											<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+					<p:outputLabel style="font-size:13px; text-align:center"
+						value="Tem certeza de que deseja excluir esta imagem?" />
+					<br />
+					<br />
+					<f:facet name="footer">
+						<div style="max-width: 100%; margin: auto; text-align: center;">
+							<p:commandButton value="NÃO" action="#{controleImagem.cancelar}"
+								icon="ui-icon-circle-close"
+								style="margin:left-center;padding:4px; width:80px"
+								onclick="PF('confirmDeleteDialog').hide();" immediate="true" />
+							<p:commandButton value="SIM" icon="ui-icon-circle-check"
+								action="#{controleImagem.excluir}" process="@this"
+								onclick="PF('confirmDeleteDialog').hide();"
+								style="text-align:center; horizontal-align:center;padding:4px;width:80px"
+								update="@form" />
+							<br />
+						</div>
+					</f:facet>
+					<br />
+				</p:dialog>
 
 				</p:panel>
 			</div>
