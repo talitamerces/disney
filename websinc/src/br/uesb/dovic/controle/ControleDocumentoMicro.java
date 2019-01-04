@@ -893,7 +893,7 @@ public class ControleDocumentoMicro implements Serializable {
 
 	public void uploadArquivoPSD(FileUploadEvent event) {
 
-		FacesMessage msg = new FacesMessage("Successo no envio do arquivo ",
+		FacesMessage msg = new FacesMessage("Sucesso no envio do arquivo!",
 				event.getFile().getFileName());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		double time = System.currentTimeMillis();
