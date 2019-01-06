@@ -15,7 +15,7 @@
   </context-param>
   <context-param>
     <param-name>primefaces.THEME</param-name>
-    <param-value>start</param-value>
+    <param-value>hot-sneaks</param-value>
   </context-param>
   <filter>
     <filter-name>primeUploadFilter</filter-name>
