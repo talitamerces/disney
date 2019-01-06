@@ -12,7 +12,7 @@
 				<p:panel style="min-height: 500px">
 
 					<!-- 							breadCrumb -->
-				<p:link value="Início" outcome="#{controleDocumentoMacro.inicio()}"
+					<p:link value="Início" outcome="#{controleDocumentoMacro.inicio()}"
 						update="@form" process="@this" /> > Corpus > Documentos TCC > 
 				<p:link value="Os Documentos Macro"
 						outcome="#{controleDocumentoMacro.inserirTcc()}" update="@form"
@@ -27,9 +27,10 @@
 						<h:outputText class="titulos" value=" Documento Macro: " />
 						<h:outputText class="font"
 							value="#{controleImagem.selectedMacro.titulo}" />
-						
 					</div>
-<br /> <br /> <br />
+					<br />
+					<br />
+					<br />
 					<!-- 	botões de funcionalidade voltar e salvar -->
 					<p:commandButton id="voltarButton" value="Voltar" update="@form"
 						process="@this" icon="ui-icon-arrowreturnthick-1-w"
@@ -43,7 +44,7 @@
 					<br />
 					<br />
 
-					
+					<p:outputPanel id="list-container" layout="block">
 						<p:dataTable id="ImagemTable" rows="15" paginator="true"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
@@ -122,58 +123,167 @@
 								</p:commandLink>
 							</p:column>
 
+							<p:column style="width:7%; text-align:center">
+								<f:facet name="header">
+									<h:outputText class="titTabela" value="Excluir" />
+								</f:facet>
+								<p:commandLink process="@this" title="Excluir"
+									onclick="PF('confirmDeleteDialog').show();">
+									<p:graphicImage value="/resources/images/trash.gif"
+										id="imagemExcluir" />
+									<f:setPropertyActionListener target="#{controleImagem.objeto}"
+										value="#{imagem}" />
+								</p:commandLink>
+							</p:column>
+
 						</p:dataTable>
+					</p:outputPanel>
+
+					<p:outputPanel id="edit-container" layout="block">
+						<p:dialog id="modalImagem" header="Imagem" widgetVar="modalImagem"
+							modal="true" resizable="false" style="overflow-y:auto;width:60%"
+							visible="#{controleImagem.edicao}">
+							<p:hotkey bind="esc" handler="modalImagem.hide()" />
+							<p:ajax event="close" resetValues="true" update="modalImagem" />
+
+							<em tabindex="1">Código da imagem</em>
+							<p:outputPanel id="formDataWrapper">
+								<h:panelGroup
+									style="margin-left:25px; display: block; width:50%;">
+									<p:outputLabel value="Código" for="codigoImagem"
+										styleClass="font" />
+									<p:panel
+										style=" margin-left:25px;background:Gainsboro;text-align:center;">
+										<h:outputText id="codigoImagem"
+											title="Código gerado automaticamente"
+											value="#{controleImagem.codigoImagem}" styleClass="font" />
+									</p:panel>
+								</h:panelGroup>
+								<br />
+								<br />
+
+								<em>Características</em>
+								<h:panelGrid columns="4" style="margin-left:25px;">
+									<h:panelGroup>
+										<p:outputLabel style="display: block" value="Nº da coleta"
+											for="nrColeta" />
+										<p:inputText id="nrColeta" size="10"
+											value="#{controleImagem.numeroColeta}">
+											<p:ajax listener="#{controleImagem.ajaxCodigoImagem}"
+												update="codigoImagem" event="blur" />
+										</p:inputText>
+									</h:panelGroup>
 
 
-					<p:dialog id="modalImagem" header="Imagem" widgetVar="modalImagem"
-						modal="true" resizable="false" style="overflow-y:auto;width:60%"
-						visible="#{controleImagem.edicao}">
-						<p:hotkey bind="esc" handler="modalImagem.hide()" />
-						<p:ajax event="close" resetValues="true" update="modalImagem" />
-						<em tabindex="1">Código da imagem</em>
-						<p:outputPanel id="formDataWrapper">
-							<h:panelGroup
-								style="margin-left:25px; display: block; width:50%;">
-								<p:outputLabel value="Código" for="codigoImagem"
-									styleClass="font" />
-								<p:panel
-									style=" margin-left:25px;background:Gainsboro;text-align:center;">
-									<h:outputText id="codigoImagem"
-										title="Código gerado automaticamente"
-										value="#{controleImagem.codigoImagem}" styleClass="font" />
-								</p:panel>
-							</h:panelGroup>
-							<br />
-							<br />
+									<h:panelGroup>
+										<p:outputLabel style="display: block" value="Nº de sequência"
+											for="nrSequencia" />
+										<p:inputText id="nrSequencia" size="10"
+											value="#{controleImagem.numeroSequencia}">
+											<p:ajax listener="#{controleImagem.ajaxCodigoImagem}"
+												update="codigoImagem" event="blur" />
+										</p:inputText>
+									</h:panelGroup>
+
+									<h:panelGroup>
+										<p:outputLabel style="display: block" value="Nº da página"
+											for="nrPagina" />
+										<p:inputText id="nrPagina" size="10"
+											value="#{controleImagem.numeroPagina}" />
+									</h:panelGroup>
+
+									<h:panelGroup>
+										<p:outputLabel style="display: block" value="Nº da folha"
+											for="nrFolha" />
+										<p:inputText id="nrFolha" size="10"
+											value="#{controleImagem.numeroFolha}" />
+									</h:panelGroup>
+								</h:panelGrid>
+
+								<br />
+								<br />
+
+								<h:panelGrid columns="2" style="margin-left:25px;">
+									<h:panelGroup>
+										<p:outputLabel style="display: block" value="Tipo de Imagem" />
+										<p:selectOneMenu appendTo="@this" id="listaTipoImagem"
+											value="#{controleImagem.selectedTipoImagem}">
+											<f:selectItem itemValue="null" itemLabel="Sel. um tipo" />
+											<f:selectItems value="#{controleImagem.listaTipoImagem}"
+												var="tipoImagem" itemLabel="#{tipoImagem.label}"
+												itemValue="#{tipoImagem}" />
+										</p:selectOneMenu>
+									</h:panelGroup>
+
+									<h:panelGroup>
+										<p:outputLabel style="display: block" value="Lado da Imagem"
+											for="listaLadoImagem" />
+										<p:selectOneMenu appendTo="@this" id="listaLadoImagem"
+											value="#{controleImagem.selectedLadoImagem}">
+											<f:selectItem itemValue="null" itemLabel="Sel. um lado" />
+											<f:selectItems value="#{controleImagem.listaLadoImagem}"
+												var="ladoImagem" itemLabel="#{ladoImagem.label}"
+												itemValue="#{ladoImagem}" />
+										</p:selectOneMenu>
+									</h:panelGroup>
+								</h:panelGrid>
+								<br />
+								<em tabindex="2">Anexo da imagem</em>
+								<h:panelGroup id="panelArquivo" style="margin-left:25px;">
+									<p:fileUpload id="arquivoImagem"
+										style="margin-left:25px; width: 80%;" showButtons="false"
+										fileUploadListener="#{controleImagem.uploadArquivoImagem}"
+										allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
+										label="Selecionar" auto="true" mode="advanced"
+										update="panelArquivo botaoSalvar" />
+									<h:outputText style="margin-left:25px;"
+										value="#{controleImagem.caminhoImagem}" />
+								</h:panelGroup>
+								<br />
+								<br />
+								<div style="max-width: 100%; margin: auto; text-align: center;">
+									<p:commandButton value="Cancelar" icon="ui-icon-cancel"
+										style="margin:left-center; width:90px; padding:4px"
+										action="#{controleImagem.cancelar()}"
+										onclick="PF('modalImagem').hide()" />
+									<h:commandButton id="botaoSalvar" value="Salvar"
+										style="text-align:center; horizontal-align:center;width:90px;padding:4px !important;"
+										styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
+										onclick="PF('modalImagem').hide()" icon="ui-icon-disk"
+										actionListener="#{controleImagem.gravar()}"
+										disabled="#{controleImagem.naoSalvar}" />
+
+								</div>
+
 							</p:outputPanel>
+						</p:dialog>
+					</p:outputPanel>
+
+					<!-- janela de confirmação de exclusão -->
+					<p:dialog id="confirmacao" header="Exclusão de imagem"
+						widgetVar="confirmDeleteDialog" modal="true" showEffect="fade"
+						hideEffect="fade" resizable="false" responsive="true">
+						<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
+						<p:outputLabel style="font-size:13px; text-align:center"
+							value="Tem certeza de que deseja excluir esta imagem?" />
+						<br />
+						<br />
+						<f:facet name="footer">
+							<div style="max-width: 100%; margin: auto; text-align: center;">
+								<p:commandButton value="NÃO" action="#{controleImagem.cancelar}"
+									icon="ui-icon-circle-close"
+									style="margin:left-center;padding:4px; width:80px"
+									onclick="PF('confirmDeleteDialog').hide();" immediate="true" />
+								<p:commandButton value="SIM" icon="ui-icon-circle-check"
+									action="#{controleImagem.excluir}" process="@this"
+									onclick="PF('confirmDeleteDialog').hide();"
+									style="text-align:center; horizontal-align:center;padding:4px;width:80px"
+									update="@form" />
+								<br />
+							</div>
+						</f:facet>
+						<br />
 					</p:dialog>
-					
-					
-							<!-- janela de confirmação de exclusão -->
-				<p:dialog id="confirmacao" header="Exclusão de imagem"
-					widgetVar="confirmDeleteDialog" modal="true" showEffect="fade"
-					hideEffect="fade" resizable="false" responsive="true">
-											<p:hotkey bind="esc" handler="confirmDeleteDialog.hide();" />
-					<p:outputLabel style="font-size:13px; text-align:center"
-						value="Tem certeza de que deseja excluir esta imagem?" />
-					<br />
-					<br />
-					<f:facet name="footer">
-						<div style="max-width: 100%; margin: auto; text-align: center;">
-							<p:commandButton value="NÃO" action="#{controleImagem.cancelar}"
-								icon="ui-icon-circle-close"
-								style="margin:left-center;padding:4px; width:80px"
-								onclick="PF('confirmDeleteDialog').hide();" immediate="true" />
-							<p:commandButton value="SIM" icon="ui-icon-circle-check"
-								action="#{controleImagem.excluir}" process="@this"
-								onclick="PF('confirmDeleteDialog').hide();"
-								style="text-align:center; horizontal-align:center;padding:4px;width:80px"
-								update="@form" />
-							<br />
-						</div>
-					</f:facet>
-					<br />
-				</p:dialog>
 
 				</p:panel>
 			</div>
