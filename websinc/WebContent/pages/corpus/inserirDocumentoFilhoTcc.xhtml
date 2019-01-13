@@ -10,15 +10,21 @@
 		<h:form id="mainForm" enctype="multipart/form-data">
 
 			<div class="ui-fluid">
-				<p:panel style="min-height: 500px">
+				<p:panel header="Manuscritos" style="min-height: 550px">
 
 					<!-- 							breadCrumb -->
-					<p:link value="Início" outcome="#{controleDocumentoMacro.inicio()}"
-						update="@form" process="@this" /> > Corpus > Documentos TCC > 
-				<p:link value="Os Documentos Macro"
+					<p:link style="font-size:10px;font-style: oblique;" value="Início"
+						outcome="#{controleDocumentoMacro.inicio()}" update="@form"
+						process="@this" title="Início" />
+					<h:outputText style="font-size:10px;font-style: oblique;"
+						value="> Corpus > Documentos TCC >  " title="Corpus > Documentos TCC"/>
+					<p:link value="Os Documentos Macro"
+						style="font-size:10px;font-style: oblique;" title="Os Documentos Macro"
 						outcome="#{controleDocumentoMacro.inserirTcc()}" update="@form"
-						process="@this" /> > Manuscritos
-				<br />
+						process="@this" />
+					<h:outputText style="font-size:10px;font-style: oblique;" title="Manuscritos"
+						value=" > Manuscritos" />
+					<br />
 					<!-- 					fim		breadCrumb -->
 
 
@@ -50,21 +56,20 @@
 					<br />
 					<br />
 					<div class="ui-fluid">
-						<p:dataTable id="documentoMicroTable" paginator="true"
+						<p:dataTable id="documentoMicroTable" paginator="true" 
 							paginatorPosition="bottom" var="documentoMicro"
-							style="margin-top:10px"
+							style="margin-top:10px" 
 							value="#{controleDocumentoMicro.documentosMicro}" rowHover="true"
 							selectionMode="single"
 							rowKey="#{documentoMicro.idDocumentoOriginal}"
-							emptyMessage="Nenhum documento micro inserido." 
-							rows="15"
+							emptyMessage="Nenhum documento micro inserido." rows="15"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,15,30,50,100">
-							
+
 							<f:facet name="header">
 								<h:outputText class="titTabela" title="Registro de manuscritos" />
 							</f:facet>
-							
+
 							<p:column style="width:10%; text-align:center">
 								<f:facet name="header">
 									<h:outputText class="titTabela" style="text-align: center;"
@@ -73,14 +78,14 @@
 								<h:outputText class="contTab"
 									value="#{documentoMicro.idDocumentoOriginal}" />
 							</p:column>
-							
+
 							<p:column>
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Título do documento" />
 								</f:facet>
 								<h:outputText class="contTab" value="#{documentoMicro.titulo}" />
 							</p:column>
-							
+
 							<p:column style="width:20%; text-align:center">
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Tipo de documento" />
@@ -88,7 +93,7 @@
 								<h:outputText class="contTab"
 									value="#{documentoMicro.tipoMicro.descricaoTipoMicro}" />
 							</p:column>
-							
+
 							<p:column style="width:8%; text-align:center">
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Editar" />
@@ -102,7 +107,7 @@
 										value="#{documentoMicro}" />
 								</p:commandLink>
 							</p:column>
-							
+
 							<p:column style="width:8%; text-align:center">
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Excluir" />
@@ -1111,7 +1116,8 @@
 						rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom">
 						<p:column>
 							<f:facet name="header">
-								<h:outputText class="titTabela" value="Nome" />
+								<h:outputText class="titTabela" value="Nome" title="Nome" />
+
 							</f:facet>
 							<h:outputText class="contTab"
 								value="#{colaborador.nomeColaborador}" />

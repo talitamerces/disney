@@ -19,5 +19,7 @@
 	<classpathentry kind="lib" path="C:/Bibliotecas/primefaces-6.2.jar"/>
 	<classpathentry kind="lib" path="C:/Bibliotecas/JSF2/javax.faces-2.2.6.jar"/>
 	<classpathentry kind="lib" path="E:/Dados/Desktop/disney/websinc/WebContent/WEB-INF/lib/hot-sneaks-1.0.10.jar"/>
+	<classpathentry kind="lib" path="E:/Dados/Desktop/disney/websinc/WebContent/WEB-INF/lib/black-tie-1.0.10.jar"/>
+	<classpathentry kind="lib" path="E:/Dados/Desktop/disney/websinc/WebContent/WEB-INF/lib/rocket-1.0.10.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
