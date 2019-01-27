@@ -1,4 +1,3 @@
-
 <ui:composition template="/resources/templates/baseTemplate.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -17,30 +16,41 @@
 						outcome="#{controleDocumentoMacro.inicio()}" update="@form"
 						process="@this" title="Início" />
 					<h:outputText style="font-size:10px;font-style: oblique;"
-						value="> Corpus > Documentos TCC >  " title="Corpus > Documentos TCC"/>
+						value="> Corpus > Documentos TCC >  "
+						title="Corpus > Documentos TCC" />
 					<p:link value="Os Documentos Macro"
-						style="font-size:10px;font-style: oblique;" title="Os Documentos Macro"
+						style="font-size:10px;font-style: oblique;"
+						title="Os Documentos Macro"
 						outcome="#{controleDocumentoMacro.inserirTcc()}" update="@form"
 						process="@this" />
-					<h:outputText style="font-size:10px;font-style: oblique;" title="Manuscritos"
-						value=" > Manuscritos" />
+					<h:outputText style="font-size:10px;font-style: oblique;"
+						title="Manuscritos" value=" > Manuscritos" />
+					<br />
 					<br />
 					<!-- 					fim		breadCrumb -->
 
 
-					<div>
-						<br /> <i class="material-icons"
-							style="font-size: 16px; color: lightblue;"> attachment </i>
-						<h:outputText class="titulos" value=" Manuscritos do Documento: " />
-						<h:outputText class="font"
-							value="#{controleDocumentoMicro.selectedMacro.titulo}" />
-						<br /> <i class="material-icons"
-							style="font-size: 16px; color: grey;"> keyboard_arrow_right </i>
-						<h:outputText class="titulos" value=" Parâmetro: " />
-						<h:outputText class="font"
-							value="#{controleDocumentoMicro.selectedMacroId}" />
+					<!-- 					<div> -->
+					<!-- 						<br /> <i class="material-icons" -->
+					<!-- 							style="font-size: 16px; color: lightblue;"> attachment </i> -->
+					<!-- 						<h:outputText class="titulos" value=" Manuscritos do Documento: " /> -->
+					<!-- 						<h:outputText class="font" -->
+					<!-- 							value="#{controleDocumentoMicro.selectedMacro.titulo}" /> -->
+					<!-- 						<br /> <i class="material-icons" -->
+					<!-- 							style="font-size: 16px; color: grey;"> keyboard_arrow_right </i> -->
+					<!-- 						<h:outputText class="titulos" value=" Parâmetro: " /> -->
+					<!-- 						<h:outputText class="font" -->
+					<!-- 							value="#{controleDocumentoMicro.selectedMacroId}" /> -->
 
-					</div>
+					<!-- 					</div> -->
+					<p:panel>
+						<h:outputText style=" font-weight: bold;"
+							value="Manuscritos do Documento " />
+						<h:outputText
+							value="#{controleDocumentoMicro.selectedMacro.titulo}" />
+						<h:outputText style=" font-weight: bold;" value=" PARÂMETRO " />
+						<h:outputText value="#{controleDocumentoMicro.selectedMacroId}" />
+					</p:panel>
 					<br />
 					<br />
 					<br />
@@ -56,9 +66,9 @@
 					<br />
 					<br />
 					<div class="ui-fluid">
-						<p:dataTable id="documentoMicroTable" paginator="true" 
+						<p:dataTable id="documentoMicroTable" paginator="true"
 							paginatorPosition="bottom" var="documentoMicro"
-							style="margin-top:10px" 
+							style="margin-top:10px"
 							value="#{controleDocumentoMicro.documentosMicro}" rowHover="true"
 							selectionMode="single"
 							rowKey="#{documentoMicro.idDocumentoOriginal}"
@@ -157,12 +167,11 @@
 									<h:panelGroup>
 										<p:outputLabel style=" margin-left:25px; display: block"
 											value="Título" for="titulo" />
-										<p:inputText id="titulo" required="true" size="30"
+										<p:inputTextarea id="titulo" required="true" 
 											value="#{controleDocumentoMicro.objeto.titulo}"
-											style=" overflow:scroll; resize:false; height:20px;margin-left:25px; width:90%" />
+											style="overflow-y: auto; resize:false; margin-left:25px; height:28px; width:90%" />
 										<p:message for="titulo" />
 									</h:panelGroup>
-									<br />
 									<br />
 									<h:panelGroup>
 										<p:outputLabel style=" margin-left:25px;display: block"
@@ -170,7 +179,7 @@
 										<p:selectOneMenu id="tipo"
 											style=" margin-left:25px;width: 145px;" required="true"
 											value="#{controleDocumentoMicro.selectedTipoMicro}">
-											<f:selectItem itemValue="c" itemLabel="Sel. tipo" />
+											<f:selectItem itemValue="null" itemLabel="Sel. tipo" />
 											<f:selectItems value="#{controleDocumentoMicro.listaTipos}"
 												var="tipos" itemLabel="#{tipos.descricaoTipoMicro}"
 												itemValue="#{tipos}" />
@@ -178,7 +187,7 @@
 										<p:message for="tipo" />
 									</h:panelGroup>
 									<br />
-									<br />
+								
 									<br />
 									<em tabindex="2">Período</em>
 									<h:panelGrid columns="4" layout="grid" width="85%"
@@ -227,8 +236,8 @@
 										<h:panelGroup>
 											<p:outputLabel style=" margin-left:25px; display: block"
 												for="observacoes" value="Observações" />
-											<p:inputTextarea id="observacoes" rows="3" width="85%"
-												style=" overflow-y:auto; resize:false; margin-left:25px; "
+											<p:inputTextarea id="observacoes" 
+												style="overflow-y: auto; resize:false; height:30px;margin-left:25px; width:90"
 												value="#{controleDocumentoMicro.objeto.observacoes}" />
 										</h:panelGroup>
 									</h:panelGrid>
@@ -752,7 +761,7 @@
 									update="modalFilho" onclick="PF('modalFilhoDialog').hide()" />
 								<p:commandButton value="Salvar"
 									style="text-align:center; horizontal-align:center;width:80px"
-									process=":mainForm:edit-container"
+									 process="@this" 
 									action="#{controleDocumentoMicro.gravar}" update="@form"
 									icon="ui-icon-disk">
 									<f:ajax execute="@form" render="@form" />

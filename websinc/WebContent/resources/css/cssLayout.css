@@ -1,5 +1,5 @@
 .btnVincImage {
-		background-image: url("resources/images/addimagem.png");
+	background-image: url("resources/images/addimagem.png");
 }
 
 }
@@ -20,9 +20,8 @@
 }
 
 .star {
-background-image: url("resources/images/Genealogy.png");
+	background-image: url("resources/images/Genealogy.png");
 }
-
 
 .font {
 	font-size: 14px;
