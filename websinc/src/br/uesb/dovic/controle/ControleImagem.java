@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.event.FileUploadEvent;
+
 import br.uesb.dovic.entidades.Colaborador;
 import br.uesb.dovic.entidades.DocumentoMacro;
 import br.uesb.dovic.entidades.Imagem;
@@ -138,6 +139,9 @@ public class ControleImagem implements Serializable {
 		return ImagemServlet.getURL(img.getEnderecoImagem());
 	}
 
+	
+	
+	
 	public void novo() {
 		objeto = new Imagem();
 		objeto.setDocumentoMacro(selectedMacro);

@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import br.uesb.dovic.conversores.ConverterOrdem;
-import br.uesb.dovic.entidades.DocumentoMicro;
 import br.uesb.dovic.entidades.Imagem;
 import br.uesb.dovic.enums.TipoImagem;
 import br.uesb.dovic.jpa.EntityManagerUtil;

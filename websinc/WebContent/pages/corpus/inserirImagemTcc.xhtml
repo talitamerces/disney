@@ -8,7 +8,7 @@
 	<ui:define name="body.content.center">
 		<h:form id="mainForm" enctype="multipart/form-data">
 			<div class="ui-fluid">
-				<p:growl showDetail="true" sticky="true" id="messages"></p:growl>
+				<p:growl showDetail="true" sticky="true" id="messages" autoUpdate="true"/>
 				<p:panel header="Imagens" style="min-height: 550px">
 
 					<!-- 							breadCrumb -->
@@ -37,7 +37,7 @@
 					<br />
 					<br />
 					<br />
-					<!-- 	botões de funcionalidade voltar e salvar -->
+					<!-- 	botões de funcionalidade -->
 					<p:commandButton id="voltarButton" value="Voltar" update="@form"
 						process="@this" icon="ui-icon-arrowreturnthick-1-w"
 						action="#{controleDocumentoMacro.inserirTcc()}"

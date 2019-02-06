@@ -217,7 +217,7 @@ public class ControleDocumentoMicro implements Serializable {
 		List<Imagem> lista = new ArrayList<Imagem>();
 		for (Imagem i : imagensMacro)
 			if (!imagens.contains(i)) {
-				// i.setSelecionada(false);
+				i.setSelecionada(false);
 				lista.add(i);
 			}
 		return lista;
