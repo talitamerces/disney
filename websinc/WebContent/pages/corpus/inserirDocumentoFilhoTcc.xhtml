@@ -130,23 +130,20 @@
 										target="#{controleDocumentoMicro.objeto}"
 										value="#{documentoMicro}" />
 								</p:commandLink>
-
-
-
 							</p:column>
 						</p:dataTable>
 					</div>
 
 
 
-					<p:outputPanel id="edit-container" layout="block"
+					<p:outputPanel id="edit-container" layout="block" 
 						visible="#{controleDocumentoMicro.alterar(documentoMicro)}">
 
 						<p:dialog id="modalFilho" header="Arquivo filho" resizable="false"
 							widgetVar="modalFilhoDialog" modal="true" width="85%"
 							style="overflow-y:auto; max-height:85%; "
 							visible="#{controleDocumentoMicro.edicao}">
-							<p:messages id="messagesModal" showDetail="true" closable="true" />
+							<p:messages id="messagesModal" showDetail="true" closable="true" autoUpdate="true"/>
 							<p:ajax event="close" resetValues="true" update="modalFilho" />
 
 
@@ -167,7 +164,7 @@
 									<h:panelGroup>
 										<p:outputLabel style=" margin-left:25px; display: block"
 											value="Título" for="titulo" />
-										<p:inputTextarea id="titulo" required="true" 
+										<p:inputTextarea id="titulo" required="true"
 											value="#{controleDocumentoMicro.objeto.titulo}"
 											style="overflow-y: auto; resize:false; margin-left:25px; height:28px; width:90%" />
 										<p:message for="titulo" />
@@ -187,7 +184,7 @@
 										<p:message for="tipo" />
 									</h:panelGroup>
 									<br />
-								
+
 									<br />
 									<em tabindex="2">Período</em>
 									<h:panelGrid columns="4" layout="grid" width="85%"
@@ -236,8 +233,9 @@
 										<h:panelGroup>
 											<p:outputLabel style=" margin-left:25px; display: block"
 												for="observacoes" value="Observações" />
-											<p:inputTextarea id="observacoes" 
-												style="overflow-y: auto; resize:false; height:30px;margin-left:25px; width:90"
+											<p:inputTextarea id="observacoes"
+												style="overflow-y: auto; resize:false; height:30px;
+												margin-left:25px; max-width:85%;"
 												value="#{controleDocumentoMicro.objeto.observacoes}" />
 										</h:panelGroup>
 									</h:panelGrid>
@@ -321,9 +319,9 @@
 											<f:facet style="text-align:center" name="header">
 												<h:outputText class="titTabela" value="Imagem" />
 											</f:facet>
-											<p:graphicImage id="img"
-												value="#{controleDocumentoMicro.getEnderecoImagem(imagem)}"
-												width="35" height="35" />
+<!-- 											<p:graphicImage id="img" -->
+<!-- 												value="#{controleDocumentoMicro.getEnderecoImagem(imagem)}" -->
+<!-- 												width="35" height="35" /> -->
 										</p:column>
 										<p:column style="width:7%; text-align:center"
 											sortBy="#{imagem.numeroSequencia}">
@@ -761,7 +759,7 @@
 									update="modalFilho" onclick="PF('modalFilhoDialog').hide()" />
 								<p:commandButton value="Salvar"
 									style="text-align:center; horizontal-align:center;width:80px"
-									 process="@this" 
+									process="@this" 
 									action="#{controleDocumentoMicro.gravar}" update="@form"
 									icon="ui-icon-disk">
 									<f:ajax execute="@form" render="@form" />
@@ -807,7 +805,8 @@
 					width="75%">
 					<br />
 					<p:commandButton value="Adicionar" style="float:right;"
-						actionListener="#{controleDocumentoMicro.adicionarImagens}"
+						process="@parent"  action="#{controleDocumentoMicro.adicionarImagens}"
+						label="Adicionar imagem ao documento micro" 
 						onclick="PF('selecaoImagemDialog').hide()" icon="ui-icon-plus">
 						<f:ajax execute=":mainForm:ImagemTableMacro"
 							render=":#{imagensComponente.clientId}" />
@@ -856,15 +855,12 @@
 							</f:facet>
 
 							<h:outputText class="contTab" value="#{imagem.numeroPagina}" />
-
 						</p:column>
-
 						<p:column style="width:60px; text-align:center">
 							<f:facet name="header">
 								<h:outputText value="Selecionar" />
 							</f:facet>
 							<p:selectBooleanCheckbox value="#{imagem.selecionada}" />
-
 						</p:column>
 					</p:dataTable>
 					<BR />
@@ -882,7 +878,7 @@
 					<br />
 					<p:commandButton value="Adicionar" style="float:right;widht:300px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresTranscricao()}"
-						onclick="PF('selecaoColaboradorTranscricaoDialog').hide()"
+						onclick="PF('selecaoColaboradorTranscricaoDialog').hide()" process="@parent"
 						icon="ui-icon-plus">
 						<f:ajax execute=":mainForm:colaboradorTranscricaoTable"
 							render=":#{transcricaoComponente.clientId}" />
@@ -936,7 +932,7 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorEdicaoDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px" process="@parent"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresEdicao()}"
 						onclick="PF('selecaoColaboradorEdicaoDialog').hide()"
 						icon="ui-icon-plus">
@@ -987,7 +983,7 @@
 
 				<!-- 	add colaborador morfologia -->
 				<p:dialog id="selecaoColaboradorRevisaoM"
-					header="Selecionar colaborador para a revisão da morfoogia"
+					header="Selecionar colaborador para a revisão da morfologia"
 					widgetVar="selecaoColaboradorRevisaoMDialog" modal="true"
 					resizable="false" width="75%">
 					<p:hotkey bind="esc"
@@ -995,7 +991,7 @@
 					<br />
 					<p:commandButton value="Adicionar" style="float:right;widht:300px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresRevisaoM()}"
-						onclick="PF('selecaoColaboradorRevisaoMDialog').hide()"
+						onclick="PF('selecaoColaboradorRevisaoMDialog').hide()" process="@parent"
 						icon="ui-icon-plus">
 						<f:ajax execute=":mainForm:colaboradorRevisaoMTable"
 							render=":#{revisaoMComponente.clientId}" />
@@ -1049,7 +1045,7 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorRevisaoSDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px" process="@parent"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresRevisaoS()}"
 						onclick="PF('selecaoColaboradorRevisaoSDialog').hide()"
 						icon="ui-icon-plus">
@@ -1106,7 +1102,7 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorCadastroWDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px" process="@parent"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresCadastroW()}"
 						onclick="PF('selecaoColaboradorCadastroWDialog').hide()"
 						icon="ui-icon-plus">

@@ -40,6 +40,7 @@ import br.uesb.dovic.util.ImagemServlet;
 @SessionScoped
 public class ControleDocumentoMacro implements Serializable {
 	private DAODocumentoMacro<DocumentoMacro> dao;
+	private DAODocumentoMacro<DocumentoMacro> daoFiltro;
 	private DAODocumentoMicro<DocumentoMicro> daoMicro;
 	private DAOTipoMacro<TipoDocumentoMacro> daoTipoMacro;
 	private DAOMaterialCapaForro<MaterialCapaForro> daoMaterial;
@@ -95,13 +96,17 @@ public class ControleDocumentoMacro implements Serializable {
 			+ SEPARATOR + "imagens" + SEPARATOR;
 	private String caminho;
 
+	String teste;
+
 	public String getImagensCatalogo(TipoImagem tipoImagem, LadoImagem lado) {
 
 		List<Imagem> catalogo = daoImagem.getByDocumentoMacro(objeto.getId());
 		for (Imagem img : catalogo) {
 			if (img.getTipoImagem() == tipoImagem
-					&& img.getLadoImagem() == lado)
+					&& img.getLadoImagem() == lado) {
+				teste = ImagemServlet.getURL(img.getEnderecoImagem());
 				return ImagemServlet.getURL(img.getEnderecoImagem());
+			}
 		}
 		return null;
 	}
@@ -110,8 +115,11 @@ public class ControleDocumentoMacro implements Serializable {
 
 		List<Imagem> catalogo = daoImagem.getByDocumentoMacro(objeto.getId());
 		for (Imagem img : catalogo) {
-			if (img.getTipoImagem() == tipoImagem)
+			if (img.getTipoImagem() == tipoImagem){
+				teste = ImagemServlet.getURL(img.getEnderecoImagem());
 				return ImagemServlet.getURL(img.getEnderecoImagem());
+			}
+				
 
 		}
 		return null;
@@ -140,7 +148,6 @@ public class ControleDocumentoMacro implements Serializable {
 	public void ajaxAnoInicio() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(objeto.getDataInicioDocumento());
-
 		anoInicio = calendar.get(Calendar.YEAR);
 
 	}
@@ -148,9 +155,7 @@ public class ControleDocumentoMacro implements Serializable {
 	public void ajaxAnoFim() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(objeto.getDataFimDocumento());
-
 		anoFim = calendar.get(Calendar.YEAR);
-
 	}
 
 	public String getText() {
@@ -176,7 +181,6 @@ public class ControleDocumentoMacro implements Serializable {
 		listaTipoData = viewService.getSelectItensFromArray(TipoData.values(),
 				"toString");
 		caminho = IMAGENS_FOLDER;
-
 	}
 
 	public ControleDocumentoMacro() {
@@ -325,15 +329,14 @@ public class ControleDocumentoMacro implements Serializable {
 		// forroList.addAll(listaMateriais);
 		return null;
 	}
-	
+
 	public String cancelarTcc() {
 		edicao = false;
 		objeto = null;
-	
-	return "/pages/corpus/inserirDocumentoMacroTcc?faces-redirect=true";
+
+		return "/pages/corpus/inserirDocumentoMacroTcc?faces-redirect=true";
 	}
-	
-	
+
 	public String inicio() {
 		return "/index?faces-redirect=true";
 	}
@@ -568,6 +571,14 @@ public class ControleDocumentoMacro implements Serializable {
 
 	public void setDao(DAODocumentoMacro<DocumentoMacro> dao) {
 		this.dao = dao;
+	}
+
+	public DAODocumentoMacro<DocumentoMacro> getDaoFiltro() {
+		return daoFiltro;
+	}
+
+	public void setDaoFiltro(DAODocumentoMacro<DocumentoMacro> daoFiltro) {
+		this.daoFiltro = daoFiltro;
 	}
 
 	public DocumentoMacro getObjeto() {

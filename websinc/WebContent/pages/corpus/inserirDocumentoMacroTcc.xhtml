@@ -9,15 +9,16 @@
 		<h:form id="mainForm" enctype="multipart/form-data">
 			<div class="ui-fluid">
 				<p:growl showDetail="true" sticky="true" id="messages"></p:growl>
-				<p:panel  header="Os Documentos Macro"  style="min-height: 550px">
+				<p:panel header="Os Documentos Macro" style="min-height: 550px">
 					<!-- 				breadCrumb	 -->
-					
-						<p:link value="Início" style="font-size:10px;font-style: oblique;"
-							outcome="#{controleDocumentoMacro.inicio()}" update="@form" title="Início"
-							process="@this" />
-						<h:outputText style="font-size:10px;font-style: oblique;" value =" > Corpus > Documentos TCC > Os Documentos Macro"  
-						title="Corpus > Documentos TCC > Os Documentos Macro"/>
-					
+
+					<p:link value="Início" style="font-size:10px;font-style: oblique;"
+						outcome="#{controleDocumentoMacro.inicio()}" update="@form"
+						title="Início" process="@this" />
+					<h:outputText style="font-size:10px;font-style: oblique;"
+						value=" > Corpus > Documentos TCC > Os Documentos Macro"
+						title="Corpus > Documentos TCC > Os Documentos Macro" />
+
 					<br />
 					<br />
 					<!-- 					<f:facet name="header"> -->
@@ -47,30 +48,59 @@
 					<br />
 					<br />
 					<div class="ui-fluid">
+						<!-- 						<div id="j_idt714" -->
+						<!-- 							style="width: 64px; height: 64px; position: fixed; right: 5px; bottom: 5px"> -->
+						<!-- 							<div id="j_idt714_start" style="display: none;"> -->
+						<!-- 								<i class="pi pi-spin pi-spinner ajax-loader"></i> -->
+						<!-- 							</div> -->
+						<!-- 							<div id="j_idt714_complete" style=""></div> -->
+						<!-- 						</div> -->
+
 						<p:dataTable id="documentoMacroTable" paginator="true" rows="15"
-							var="documentoMacro" selectionMode="single" 
+							var="documentoMacro" selectionMode="single" widgetVar="docMacro"
 							rowKey="#{documentoMacro.idDocumentoFisico}"
+							filteredValue="#{controleDocumentoMacro.daoFiltro.listarTodos()}"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
 							value="#{controleDocumentoMacro.dao.listarTodos()}"
 							style="margin-top:10px"
 							emptyMessage="Nenhum documento macro inserido.">
-							<p:column style="width:10%; text-align:center">
+							<f:facet name="header">
+								<p:outputPanel style="text-align:right">
+									<h:outputText value="Pesquisar: " />
+									<p:inputText id="filtroGlobal"
+										onkeyup="PF('docMacro').filter()"
+										style="width:250px; text-align:right"
+										placeholder="digite aqui..." />
+								</p:outputPanel>
+							</f:facet>
+
+							<p:column style="width:10%; text-align:center"
+								sortBy="#{documentoMacro.idDocumentoFisico}"
+								filterStyle="display:none"
+								filterBy="#{documentoMacro.idDocumentoFisico}"
+								filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Código" />
 								</f:facet>
 								<h:outputText class="contTab" style="text-align: center;"
-									value="#{documentoMacro.idDocumentoFisico}" title="Código"/>
+									value="#{documentoMacro.idDocumentoFisico}" title="Código" />
 							</p:column>
-							<p:column>
+							<p:column sortBy="#{documentoMacro.titulo}"
+								filterStyle="display:none" filterBy="#{documentoMacro.titulo}"
+								filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Título do documento" />
 								</f:facet>
-								<h:outputText class="contTab" value="#{documentoMacro.titulo}" title="Título do documento"/>
+								<h:outputText class="contTab" value="#{documentoMacro.titulo}"
+									title="Título do documento" />
 							</p:column>
-							<p:column style="width:20%; text-align:center">
+							<p:column sortBy="#{documentoMacro.tipoMacro.descricaoTipoMacro}"
+								style="width:20%; text-align:center" filterStyle="display:none"
+								filterBy="#{documentoMacro.tipoMacro.descricaoTipoMacro}"
+								filterMatchMode="contains">
 								<f:facet name="header">
-									<h:outputText class="titTabela" value="Tipo de documento"  />
+									<h:outputText class="titTabela" value="Tipo de documento" />
 								</f:facet>
 								<h:outputText class="contTab" title="Tipo de documento"
 									value="#{documentoMacro.tipoMacro.descricaoTipoMacro}" />
@@ -426,6 +456,7 @@
 						</p:column>
 					</p:dialog>
 				</p:panel>
+			
 			</div>
 		</h:form>
 	</ui:define>
