@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -133,6 +132,8 @@ public class ControleDocumentoMicro implements Serializable {
 	private static String IMAGENS_FOLDER = HOME_FOLDER + SEPARATOR + "websinc"
 			+ SEPARATOR + "imagens" + SEPARATOR;
 
+
+	
 	public ControleDocumentoMicro() {
 		dao = new DAODocumentoMicro<DocumentoMicro>();
 		daoMacro = new DAODocumentoMacro<DocumentoMacro>();
@@ -147,6 +148,8 @@ public class ControleDocumentoMicro implements Serializable {
 		tipoTrabalho = TipoTrabalhoCorpus.EDICAO;
 		edicao = false;
 	}
+	
+	
 
 	@PostConstruct
 	public void init() {
@@ -1322,5 +1325,7 @@ public class ControleDocumentoMicro implements Serializable {
 	public void setTipoTrabalho(TipoTrabalhoCorpus tipoTrabalho) {
 		this.tipoTrabalho = tipoTrabalho;
 	}
-
+	
+	
+	
 }

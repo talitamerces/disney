@@ -20,48 +20,42 @@ import org.hibernate.validator.constraints.NotEmpty;
 import br.uesb.dovic.enums.CategoriaColaborador;
 
 @Entity
-@Table(name="colaborador")
-
-@NamedQueries({
-	@NamedQuery(name="findByCategoria", 
-			query = "SELECT c FROM Colaborador c "
-					+ "WHERE c.categoriaColaborador=:categoria ")})
-
-@SequenceGenerator(name="SEQ_COLABORADOR", sequenceName="SEQ_COLABORADOR_ID", allocationSize=1)
+@Table(name = "colaborador")
+@NamedQueries({ @NamedQuery(name = "findByCategoria", query = "SELECT c FROM Colaborador c "
+		+ "WHERE c.categoriaColaborador=:categoria order by c.nomeColaborador asc") })
+@SequenceGenerator(name = "SEQ_COLABORADOR", sequenceName = "SEQ_COLABORADOR_ID", allocationSize = 1)
 public class Colaborador implements Serializable {
 	@Id
-	@Column(name="idcolaborador")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_COLABORADOR")
+	@Column(name = "idcolaborador")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_COLABORADOR")
 	private Integer id;
-	
-	@NotEmpty(message="O nome do colaborador deve ser informado")
-	@Length(max=100, message="O nome não pode ultrapassar {max} caracteres")
-	@Column(name="nome", length=100, nullable=false)
+
+	@NotEmpty(message = "O nome do colaborador deve ser informado")
+	@Length(max = 100, message = "O nome não pode ultrapassar {max} caracteres")
+	@Column(name = "nome", length = 100, nullable = false)
 	private String nomeColaborador;
-	
-	@Column(name="biografia")
+
+	@Column(name = "biografia")
 	private String biografia;
-	
-	@Column(name="linkLattes")
+
+	@Column(name = "linkLattes")
 	private String linkLattes;
-	
-	@Column(name="enderecoFoto")
+
+	@Column(name = "enderecoFoto")
 	private String enderecoFoto;
-	
-	@Column(name="linkHomePage")
+
+	@Column(name = "linkHomePage")
 	private String linkHomePage;
-	
+
 	@Enumerated
-	@Column(name="categoria")
+	@Column(name = "categoria")
 	private CategoriaColaborador categoriaColaborador;
-	
+
 	@Transient
 	private boolean selecionado;
-	
-	
 
-	public Colaborador(){
-		
+	public Colaborador() {
+
 	}
 
 	public Integer getId() {
@@ -71,14 +65,13 @@ public class Colaborador implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	
-	
+
 	public CategoriaColaborador getCategoriaColaborador() {
 		return categoriaColaborador;
 	}
 
-	public void setCategoriaColaborador(CategoriaColaborador categoriaColaborador) {
+	public void setCategoriaColaborador(
+			CategoriaColaborador categoriaColaborador) {
 		this.categoriaColaborador = categoriaColaborador;
 	}
 
@@ -105,8 +98,6 @@ public class Colaborador implements Serializable {
 	public void setEnderecoFoto(String enderecoFoto) {
 		this.enderecoFoto = enderecoFoto;
 	}
-	
-	
 
 	public String getNomeColaborador() {
 		return nomeColaborador;
@@ -123,8 +114,6 @@ public class Colaborador implements Serializable {
 	public void setLinkHomePage(String linkHomePage) {
 		this.linkHomePage = linkHomePage;
 	}
-	
-	
 
 	public boolean isSelecionado() {
 		return selecionado;
@@ -133,8 +122,6 @@ public class Colaborador implements Serializable {
 	public void setSelecionado(boolean selecionado) {
 		this.selecionado = selecionado;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
@@ -188,11 +175,5 @@ public class Colaborador implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
+
 }
-	
-	

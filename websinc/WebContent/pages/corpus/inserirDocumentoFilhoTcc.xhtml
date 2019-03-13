@@ -136,14 +136,15 @@
 
 
 
-					<p:outputPanel id="edit-container" layout="block" 
+					<p:outputPanel id="edit-container" layout="block"
 						visible="#{controleDocumentoMicro.alterar(documentoMicro)}">
 
 						<p:dialog id="modalFilho" header="Arquivo filho" resizable="false"
 							widgetVar="modalFilhoDialog" modal="true" width="85%"
 							style="overflow-y:auto; max-height:85%; "
 							visible="#{controleDocumentoMicro.edicao}">
-							<p:messages id="messagesModal" showDetail="true" closable="true" autoUpdate="true"/>
+							<p:messages id="messagesModal" showDetail="true" closable="true"
+								autoUpdate="true" />
 							<p:ajax event="close" resetValues="true" update="modalFilho" />
 
 
@@ -228,14 +229,14 @@
 									</h:panelGrid>
 									<br />
 									<br />
-									<em>Informações adicionais</em>
+									<em>Observações</em>
 									<h:panelGrid columns="1">
 										<h:panelGroup>
 											<p:outputLabel style=" margin-left:25px; display: block"
 												for="observacoes" value="Observações" />
 											<p:inputTextarea id="observacoes"
 												style="overflow-y: auto; resize:false; height:30px;
-												margin-left:25px; max-width:85%;"
+												margin-left:25px; min-width:55%; max-width:85%;"
 												value="#{controleDocumentoMicro.objeto.observacoes}" />
 										</h:panelGroup>
 									</h:panelGrid>
@@ -295,6 +296,82 @@
 									</h:panelGroup>
 								</p:tab>
 
+								<!-- 								<p:tab id="arqVinculadosTab" title="Arquivos Vinculados" -->
+								<!-- 									titletip="Arquivos Vinculados"> -->
+								<!-- 									<em>Arquivos de anotação</em> -->
+								<!-- 									<br /> -->
+
+								<!-- 									<h:panelGroup> -->
+								<!-- 										<p:outputLabel style=" margin-left:25px;display: block" -->
+								<!-- 											value="Tipo de arquivo vinculado" /> -->
+								<!-- 										<p:selectOneMenu id="comboXml" value="#{combo.comboXml}" -->
+								<!-- 											style=" margin-left:25px;display: block"> -->
+								<!-- 											<f:selectItem itemValue="" -->
+								<!-- 												itemLabel="Sel. tipo de arquivo vinculado" /> -->
+								<!-- 											<f:selectItems value="#{combo.comboDM.entrySet}" -->
+								<!-- 												var="entry" itemValue="#{entry.key}" -->
+								<!-- 												itemLabel="#{entry.value}"> -->
+
+								<!-- 												<f:ajax event="change" -->
+								<!-- 													listener="#{controleDocumentoMicro.combo}" update="panelOD" -->
+								<!-- 													process="@form" /> -->
+								<!-- 										</p:selectOneMenu> -->
+
+								<!-- 									</h:panelGroup> -->
+
+
+
+
+								<!-- 									<h:panelGroup id="cmbArq"> -->
+								<!-- 										<h:panelGroup id="pos"> -->
+								<!-- 											<p:outputLabel value="Arquivo XML - Anotação POS" -->
+								<!-- 												style=" margin-left:25px;display: block" /> -->
+								<!-- 											<p:outputLabel -->
+								<!-- 												value="Válido apenas arquivo com extensão .xml):" -->
+								<!-- 												style=" margin-left:25px;display: block; font-size:9px;" /> -->
+								<!-- 											<p:fileUpload id="arquivoXML" showButtons="false" -->
+								<!-- 												style=" margin-left:25px;width: 180px;" -->
+								<!-- 												fileUploadListener="#{controleDocumentoMicro.uploadArquivoXML}" -->
+								<!-- 												allowTypes="/(\.|\/)(xml|XML)$/" label="Selecionar" -->
+								<!-- 												auto="true" mode="advanced" update="caminhoXML" /> -->
+								<!-- 											<h:outputText id="caminhoXML" style=" margin-left:25px;" -->
+								<!-- 												value="Arquivo no servidor: #{controleDocumentoMicro.caminhoArquivoXML}" /> -->
+								<!-- 										</h:panelGroup> -->
+								<!-- 										<br /> -->
+								<!-- 										<br /> -->
+								<!-- 										<h:panelGroup id="psd"> -->
+								<!-- 											<p:outputLabel style=" margin-left:25px;display: block" -->
+								<!-- 												value="Arquivo PSD - Anotação sintática" /> -->
+								<!-- 											<p:outputLabel -->
+								<!-- 												value="Válido apenas arquivo com extensão .txt):" -->
+								<!-- 												style="margin-left:25px;display: block; font-size:9px;" /> -->
+								<!-- 											<p:fileUpload id="arquivoPSD" -->
+								<!-- 												style="margin-left:25px;width: 180px;" -->
+								<!-- 												fileUploadListener="#{controleDocumentoMicro.uploadArquivoPSD}" -->
+								<!-- 												allowTypes="/(\.|\/)(txt|TXT)$/" label="Selecionar" -->
+								<!-- 												auto="true" mode="advanced" update="caminhoPSD" /> -->
+								<!-- 											<h:outputText id="caminhoPSD" style="margin-left:25px;" -->
+								<!-- 												value="Arquivo no servidor: #{controleDocumentoMicro.caminhoArquivoPSD}" /> -->
+								<!-- 																				</h:panelGroup> -->
+									
+									<	<br />
+
+								<!-- 									<h:panelGroup style="margin-left:25px; margin-left:25px;"> -->
+								<p:outputLabel style="display: block; font-weight:bold;"
+									id="arquivoXMLSin"
+									header="Arquivo XML de Anotação sintática gerado:" />
+								<h:outputText id="caminhoXMLSintatico" style="margin-left:25px;"
+									value="#{controleDocumentoMicro.caminhoArquivoPSD}" />
+								<br />
+								<br />
+								<p:selectBooleanCheckbox id="gerarXML" style="margin-left:25px;"
+									itemLabel="Gerar Arquivo com anotação sintática XML "
+									value="#{controleDocumentoMicro.checkGerarXML}">
+								</p:selectBooleanCheckbox>
+								<br />
+								</h:panelGroup>
+								</p:tab>
+
 
 								<p:tab id="img" title="Imagens">
 									<em>Imagens do Documento</em>
@@ -319,9 +396,9 @@
 											<f:facet style="text-align:center" name="header">
 												<h:outputText class="titTabela" value="Imagem" />
 											</f:facet>
-<!-- 											<p:graphicImage id="img" -->
-<!-- 												value="#{controleDocumentoMicro.getEnderecoImagem(imagem)}" -->
-<!-- 												width="35" height="35" /> -->
+											<!-- 											<p:graphicImage id="img" -->
+											<!-- 												value="#{controleDocumentoMicro.getEnderecoImagem(imagem)}" -->
+											<!-- 												width="35" height="35" /> -->
 										</p:column>
 										<p:column style="width:7%; text-align:center"
 											sortBy="#{imagem.numeroSequencia}">
@@ -742,7 +819,7 @@
 														actionListener="#{controleDocumentoMicro.removerCadastroW(colaborador)}"
 														update="cadastroWTable">
 														<p:graphicImage value="/resources/images/trash.gif"
-															id="imagemExcluir" />
+															id="imagemExcluirColaborador5" />
 													</p:commandLink>
 												</p:column>
 											</p:dataTable>
@@ -759,9 +836,8 @@
 									update="modalFilho" onclick="PF('modalFilhoDialog').hide()" />
 								<p:commandButton value="Salvar"
 									style="text-align:center; horizontal-align:center;width:80px"
-									process="@this" 
-									action="#{controleDocumentoMicro.gravar}" update="@form"
-									icon="ui-icon-disk">
+									process="@this" action="#{controleDocumentoMicro.gravar}"
+									update="@form" icon="ui-icon-disk">
 									<f:ajax execute="@form" render="@form" />
 
 								</p:commandButton>
@@ -805,8 +881,9 @@
 					width="75%">
 					<br />
 					<p:commandButton value="Adicionar" style="float:right;"
-						process="@parent"  action="#{controleDocumentoMicro.adicionarImagens}"
-						label="Adicionar imagem ao documento micro" 
+						process="@parent"
+						action="#{controleDocumentoMicro.adicionarImagens}"
+						label="Adicionar imagem ao documento micro"
 						onclick="PF('selecaoImagemDialog').hide()" icon="ui-icon-plus">
 						<f:ajax execute=":mainForm:ImagemTableMacro"
 							render=":#{imagensComponente.clientId}" />
@@ -878,8 +955,8 @@
 					<br />
 					<p:commandButton value="Adicionar" style="float:right;widht:300px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresTranscricao()}"
-						onclick="PF('selecaoColaboradorTranscricaoDialog').hide()" process="@parent"
-						icon="ui-icon-plus">
+						onclick="PF('selecaoColaboradorTranscricaoDialog').hide()"
+						process="@parent" icon="ui-icon-plus">
 						<f:ajax execute=":mainForm:colaboradorTranscricaoTable"
 							render=":#{transcricaoComponente.clientId}" />
 					</p:commandButton>
@@ -932,7 +1009,8 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorEdicaoDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px" process="@parent"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+						process="@parent"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresEdicao()}"
 						onclick="PF('selecaoColaboradorEdicaoDialog').hide()"
 						icon="ui-icon-plus">
@@ -991,8 +1069,8 @@
 					<br />
 					<p:commandButton value="Adicionar" style="float:right;widht:300px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresRevisaoM()}"
-						onclick="PF('selecaoColaboradorRevisaoMDialog').hide()" process="@parent"
-						icon="ui-icon-plus">
+						onclick="PF('selecaoColaboradorRevisaoMDialog').hide()"
+						process="@parent" icon="ui-icon-plus">
 						<f:ajax execute=":mainForm:colaboradorRevisaoMTable"
 							render=":#{revisaoMComponente.clientId}" />
 					</p:commandButton>
@@ -1045,7 +1123,8 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorRevisaoSDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px" process="@parent"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+						process="@parent"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresRevisaoS()}"
 						onclick="PF('selecaoColaboradorRevisaoSDialog').hide()"
 						icon="ui-icon-plus">
@@ -1102,7 +1181,8 @@
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorCadastroWDialog.hide();" />
 					<br />
-					<p:commandButton value="Adicionar" style="float:right;widht:300px" process="@parent"
+					<p:commandButton value="Adicionar" style="float:right;widht:300px"
+						process="@parent"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresCadastroW()}"
 						onclick="PF('selecaoColaboradorCadastroWDialog').hide()"
 						icon="ui-icon-plus">
@@ -1140,7 +1220,6 @@
 								<h:outputText class="titTabela" value="Selecionar" />
 							</f:facet>
 							<p:selectBooleanCheckbox value="#{colaborador.selecionado}" />
-
 						</p:column>
 					</p:dataTable>
 					<BR />

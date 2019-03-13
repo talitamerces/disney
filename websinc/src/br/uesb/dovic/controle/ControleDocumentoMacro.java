@@ -13,6 +13,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
 import br.uesb.dovic.entidades.Cor;
@@ -38,9 +39,12 @@ import br.uesb.dovic.util.ImagemServlet;
 @SuppressWarnings("serial")
 @ManagedBean(name = "controleDocumentoMacro")
 @SessionScoped
+@ViewScoped
 public class ControleDocumentoMacro implements Serializable {
+
 	private DAODocumentoMacro<DocumentoMacro> dao;
-	private DAODocumentoMacro<DocumentoMacro> daoFiltro;
+	private List<DocumentoMacro> filteredDocs;
+
 	private DAODocumentoMicro<DocumentoMicro> daoMicro;
 	private DAOTipoMacro<TipoDocumentoMacro> daoTipoMacro;
 	private DAOMaterialCapaForro<MaterialCapaForro> daoMaterial;
@@ -115,11 +119,10 @@ public class ControleDocumentoMacro implements Serializable {
 
 		List<Imagem> catalogo = daoImagem.getByDocumentoMacro(objeto.getId());
 		for (Imagem img : catalogo) {
-			if (img.getTipoImagem() == tipoImagem){
+			if (img.getTipoImagem() == tipoImagem) {
 				teste = ImagemServlet.getURL(img.getEnderecoImagem());
 				return ImagemServlet.getURL(img.getEnderecoImagem());
 			}
-				
 
 		}
 		return null;
@@ -573,14 +576,6 @@ public class ControleDocumentoMacro implements Serializable {
 		this.dao = dao;
 	}
 
-	public DAODocumentoMacro<DocumentoMacro> getDaoFiltro() {
-		return daoFiltro;
-	}
-
-	public void setDaoFiltro(DAODocumentoMacro<DocumentoMacro> daoFiltro) {
-		this.daoFiltro = daoFiltro;
-	}
-
 	public DocumentoMacro getObjeto() {
 		return objeto;
 	}
@@ -798,4 +793,11 @@ public class ControleDocumentoMacro implements Serializable {
 		this.listaCores = listaCores;
 	}
 
+	public List<DocumentoMacro> getFilteredDocs() {
+		return filteredDocs;
+	}
+
+	public void setFilteredDocs(List<DocumentoMacro> filteredDocs) {
+		this.filteredDocs = filteredDocs;
+	}
 }
