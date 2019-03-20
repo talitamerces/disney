@@ -6,9 +6,11 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="body.content.center">
-		<h:form id="mainForm" enctype="multipart/form-data">
+		<h:form id="mainForm" enctype="multipart/form-data"
+			onkeypress="return event.keyCode != 13">
 			<div class="ui-fluid">
-				<p:growl showDetail="true" sticky="true" id="messages" autoUpdate="true"/>
+				<p:growl showDetail="true" sticky="true" id="messages"
+					autoUpdate="true" />
 				<p:panel header="Imagens" style="min-height: 550px">
 
 					<!-- 							breadCrumb -->
@@ -52,14 +54,21 @@
 
 					<p:outputPanel id="list-container" layout="block">
 						<p:dataTable id="ImagemTable" rows="15" paginator="true"
+							widgetVar="imgF"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
 							var="imagem" value="#{controleImagem.imagensMacro}"
+							filteredValue="#{controleImagem.filteredImgs}"
 							emptyMessage="Nenhuma imagem inserida." rowHover="true"
-							rowKey="#{controleImagem.selectedMacro.titulo}"
-							selectionMode="single" style="margin-top:10px">
-							<f:facet name="header" class="titTabela"
-								title="Registro de imagens" />
+							style="margin-top:10px">
+							<f:facet name="header" class="titTabela">
+								<p:outputPanel style="text-align:right">
+									<h:outputText value="Pesquisar:  " />
+									<p:inputText id="globalFilter"
+										style="width:180px; text-align:right"
+										placeholder="digite aqui... " onkeyup="PF('imgF').filter()" />
+								</p:outputPanel>
+							</f:facet>
 
 
 							<!-- 	<p:column style="text-align:center"> -->
@@ -72,16 +81,17 @@
 							<!-- 								height="35" /> -->
 							<!-- 						</p:column> -->
 
-							<p:column style="width:10%; text-align:center">
+							<p:column style="text-align:center" filterStyle="display: none;"
+								filterBy="#{imagem.numeroSequencia}" filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText value="Nº" />
-
 								</f:facet>
 								<h:outputText class="contTab" value="#{imagem.numeroSequencia}"
-									title="Número" />
+									title="Número sequência" />
 							</p:column>
 
-							<p:column style="text-align:center">
+							<p:column style="text-align:center" filterStyle="display: none;"
+								filterBy="#{imagem.codigoImagem}" filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText value="Código" />
 								</f:facet>
@@ -89,23 +99,26 @@
 									title="Código" />
 							</p:column>
 
-							<p:column style="text-align:center">
-								<f:facet name="header">
-									<h:outputText class="titTabela" value="Tipo" />
-								</f:facet>
+							<p:column style="vertical-align:top;text-align:center"
+								filterStyle="display: none;"
+								filterBy="#{imagem.tipoImagem.toString()}"
+								filterMatchMode="contains" headerText="Tipo">
+
 								<h:outputText class="contTab"
 									value="#{imagem.tipoImagem.toString()}" title="Tipo" />
 							</p:column>
 
-							<p:column style="width:10%;text-align:center">
-								<f:facet name="header">
-									<h:outputText value="Lado" />
-								</f:facet>
+							<p:column style="width:10%;text-align:center"
+								filterStyle="display: none;"
+								filterBy="#{imagem.ladoImagem.toString()}" headerText="Lado"
+								filterMatchMode="exact">
 								<h:outputText class="contTab"
 									value="#{imagem.ladoImagem.toString()}" title="Lado" />
 							</p:column>
 
-							<p:column style="width:9%;text-align:center">
+							<p:column style="width:10%;text-align:center"
+								filterStyle="display: none;" filterBy="#{imagem.numeroFolha}"
+								filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText value="N° Folha" />
 								</f:facet>
@@ -113,7 +126,9 @@
 									title="Número da folha" />
 							</p:column>
 
-							<p:column style="width:9%;text-align:center">
+							<p:column style="width:10%;text-align:center"
+								filterStyle="display: none;" filterBy="#{imagem.numeroPagina}"
+								filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText value="N° Página" />
 								</f:facet>
@@ -245,7 +260,8 @@
 										allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
 										label="Selecionar" auto="true" mode="advanced"
 										update="panelArquivo botaoSalvar" />
-									<h:outputText style="font-size:10px;font-style: oblique; margin-left:25px;"
+									<h:outputText
+										style="font-size:10px;font-style: oblique; margin-left:25px;"
 										value="#{controleImagem.caminhoImagem}" />
 								</h:panelGroup>
 								<br />
@@ -259,8 +275,8 @@
 										style="text-align:center; horizontal-align:center;width:90px;padding:4px !important;"
 										styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
 										onclick="PF('modalImagem').hide()" icon="ui-icon-disk"
-										action="#{controleImagem.gravar()}" process="@this" update="@form"
-										disabled="#{controleImagem.naoSalvar}" />
+										action="#{controleImagem.gravar()}" process="@this"
+										update="@form" disabled="#{controleImagem.naoSalvar}" />
 								</div>
 							</p:outputPanel>
 						</p:dialog>

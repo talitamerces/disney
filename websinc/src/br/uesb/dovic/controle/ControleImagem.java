@@ -35,7 +35,7 @@ public class ControleImagem implements Serializable {
 
 	private Integer selectedMacroId;
 	private DocumentoMacro selectedMacro;
-
+	private List<Imagem> filteredImgs;
 	private DAOImagem<Imagem> dao;
 	private DAODocumentoMacro<DocumentoMacro> daoMacro;
 	private List<Imagem> imagensMacro;
@@ -139,9 +139,6 @@ public class ControleImagem implements Serializable {
 		return ImagemServlet.getURL(img.getEnderecoImagem());
 	}
 
-	
-	
-	
 	public void novo() {
 		objeto = new Imagem();
 		objeto.setDocumentoMacro(selectedMacro);
@@ -352,5 +349,14 @@ public class ControleImagem implements Serializable {
 	public void setSelectedImagem(Imagem selectedImagem) {
 		this.selectedImagem = selectedImagem;
 	}
+
+	public List<Imagem> getFilteredImgs() {
+		return filteredImgs;
+	}
+
+	public void setFilteredImgs(List<Imagem> filteredImgs) {
+		this.filteredImgs = filteredImgs;
+	}
+
 
 }
