@@ -56,6 +56,20 @@ import br.uesb.dovic.util.UtilMensagens;
 @ViewScoped
 public class ControleDocumentoMicro implements Serializable {
 
+	// filtros para as telas
+	private List<DocumentoMicro> filteredDocs;
+	private List<Imagem> filteredImagens;
+	private List<Imagem> filteredAddImagens;
+	private List<Colaborador> filteredAbaTrans;
+	private List<Colaborador> filteredAbaEdic;
+	private List<Colaborador> filteredAbaSint;
+	private List<Colaborador> filteredAbaMorf;
+	private List<Colaborador> filteredAbaCad;
+	private List<Colaborador> filteredColTrans;
+	private List<Colaborador> filteredColEdic;
+	private List<Colaborador> filteredColSint;
+	private List<Colaborador> filteredColMorf;
+	private List<Colaborador> filteredColCad;
 	// @ManagedProperty(value="#{param.idMacroSelected}")
 	private Integer selectedMacroId;
 	private Integer selectedMicroId;
@@ -132,8 +146,6 @@ public class ControleDocumentoMicro implements Serializable {
 	private static String IMAGENS_FOLDER = HOME_FOLDER + SEPARATOR + "websinc"
 			+ SEPARATOR + "imagens" + SEPARATOR;
 
-
-	
 	public ControleDocumentoMicro() {
 		dao = new DAODocumentoMicro<DocumentoMicro>();
 		daoMacro = new DAODocumentoMacro<DocumentoMacro>();
@@ -148,12 +160,11 @@ public class ControleDocumentoMicro implements Serializable {
 		tipoTrabalho = TipoTrabalhoCorpus.EDICAO;
 		edicao = false;
 	}
-	
-	
 
 	@PostConstruct
 	public void init() {
 		// objeto=new DocumentoMicro();
+
 		selectedTipoMicro = new TipoDocumentoMicro();
 		listaTipos = daoTipoMicro.listarTodos();
 		viewService = new ViewService();
@@ -1325,6 +1336,123 @@ public class ControleDocumentoMicro implements Serializable {
 	public void setTipoTrabalho(TipoTrabalhoCorpus tipoTrabalho) {
 		this.tipoTrabalho = tipoTrabalho;
 	}
+
+	// getters e setters dos filtros
+	// tabela principal
+	public List<DocumentoMicro> getFilteredDocs() {
+		return filteredDocs;
+	}
+
+	public void setFilteredDocs(List<DocumentoMicro> filteredDocs) {
+		this.filteredDocs = filteredDocs;
+	}
+
+	// tabela de imagens do cadastro do docMicro
+	public List<Imagem> getFilteredImagens() {
+		return filteredImagens;
+	}
+
+	public void setFilteredImagens(List<Imagem> filteredImagens) {
+		this.filteredImagens = filteredImagens;
+	}
+	
+	//filtro para tabela de adição de imagens para o arquivo
+	public List<Imagem> getFilteredAddImagens() {
+		return filteredAddImagens;
+	}
+
+	public void setFilteredAddImagens(List<Imagem> filteredAddImagens) {
+		this.filteredAddImagens = filteredAddImagens;
+	}
+	
+	//filtro para as tabelas de adição de colaboradores
+	public List<Colaborador> getFilteredColTrans() {
+		return filteredColTrans;
+	}
+
+	
+
+	public void setFilteredColTrans(List<Colaborador> filteredColTrans) {
+		this.filteredColTrans = filteredColTrans;
+	}
+
+	public List<Colaborador> getFilteredColEdic() {
+		return filteredColEdic;
+	}
+
+	public void setFilteredColEdic(List<Colaborador> filteredColEdic) {
+		this.filteredColEdic = filteredColEdic;
+	}
+
+	public List<Colaborador> getFilteredColSint() {
+		return filteredColSint;
+	}
+
+	public void setFilteredColSint(List<Colaborador> filteredColSint) {
+		this.filteredColSint = filteredColSint;
+	}
+
+	public List<Colaborador> getFilteredColMorf() {
+		return filteredColMorf;
+	}
+
+	public void setFilteredColMorf(List<Colaborador> filteredColMorf) {
+		this.filteredColMorf = filteredColMorf;
+	}
+
+	public List<Colaborador> getFilteredColCad() {
+		return filteredColCad;
+	}
+
+	public void setFilteredColCad(List<Colaborador> filteredColCad) {
+		this.filteredColCad = filteredColCad;
+	}
+	
+	
+
+	//filtros para abas dos colaboradores
+	public List<Colaborador> getFilteredAbaTrans() {
+		return filteredAbaTrans;
+	}
+
+	public void setFilteredAbaTrans(List<Colaborador> filteredAbaTrans) {
+		this.filteredAbaTrans = filteredAbaTrans;
+	}
+
+	public List<Colaborador> getFilteredAbaEdic() {
+		return filteredAbaEdic;
+	}
+
+	public void setFilteredAbaEdic(List<Colaborador> filteredAbaEdic) {
+		this.filteredAbaEdic = filteredAbaEdic;
+	}
+
+	public List<Colaborador> getFilteredAbaSint() {
+		return filteredAbaSint;
+	}
+
+	public void setFilteredAbaSint(List<Colaborador> filteredAbaSint) {
+		this.filteredAbaSint = filteredAbaSint;
+	}
+
+	public List<Colaborador> getFilteredAbaMorf() {
+		return filteredAbaMorf;
+	}
+
+	public void setFilteredAbaMorf(List<Colaborador> filteredAbaMorf) {
+		this.filteredAbaMorf = filteredAbaMorf;
+	}
+
+	public List<Colaborador> getFilteredAbaCad() {
+		return filteredAbaCad;
+	}
+
+	public void setFilteredAbaCad(List<Colaborador> filteredAbaCad) {
+		this.filteredAbaCad = filteredAbaCad;
+	}
+
+	
+	
 	
 	
 	

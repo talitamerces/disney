@@ -6,7 +6,8 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="body.content.center">
 
-		<h:form id="mainForm" enctype="multipart/form-data">
+		<h:form id="mainForm" enctype="multipart/form-data"
+			onkeypress="return event.keyCode != 13">
 
 			<div class="ui-fluid">
 				<p:panel header="Manuscritos" style="min-height: 550px">
@@ -68,19 +69,26 @@
 					<div class="ui-fluid">
 						<p:dataTable id="documentoMicroTable" paginator="true"
 							paginatorPosition="bottom" var="documentoMicro"
-							style="margin-top:10px"
-							value="#{controleDocumentoMicro.documentosMicro}" rowHover="true"
-							selectionMode="single"
-							rowKey="#{documentoMicro.idDocumentoOriginal}"
+							style="margin-top:10px" widgetVar="docsF"
+							filteredValue="#{controleDocumentoMicro.filteredDocs}"
+							value="#{controleDocumentoMicro.documentosMicro}"
 							emptyMessage="Nenhum documento micro inserido." rows="15"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							rowsPerPageTemplate="5,15,30,50,100">
 
-							<f:facet name="header">
-								<h:outputText class="titTabela" title="Registro de manuscritos" />
+							<f:facet name="header" class="titTabela">
+								<p:outputPanel style="text-align:right">
+									<h:outputText value="Pesquisar:  " />
+									<p:inputText id="globalFilter"
+										style="width:180px; text-align:right"
+										placeholder="digite aqui... " onkeyup="PF('docsF').filter()" />
+								</p:outputPanel>
 							</f:facet>
 
-							<p:column style="width:10%; text-align:center">
+							<p:column style="width:10%; text-align:center"
+								filterStyle="display: none;"
+								filterBy="#{documentoMicro.idDocumentoOriginal}"
+								filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText class="titTabela" style="text-align: center;"
 										value="Código" />
@@ -89,14 +97,18 @@
 									value="#{documentoMicro.idDocumentoOriginal}" />
 							</p:column>
 
-							<p:column>
+							<p:column filterStyle="display: none;"
+								filterBy="#{documentoMicro.titulo}" filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Título do documento" />
 								</f:facet>
 								<h:outputText class="contTab" value="#{documentoMicro.titulo}" />
 							</p:column>
 
-							<p:column style="width:20%; text-align:center">
+							<p:column style="width:20%; text-align:center"
+								filterStyle="display: none;"
+								filterBy="#{documentoMicro.tipoMicro.descricaoTipoMicro}"
+								filterMatchMode="contains">
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Tipo de documento" />
 								</f:facet>
@@ -150,6 +162,7 @@
 
 							<p:tabView orientation="left"
 								activeIndex="#{controleDocumentoMicro.tabAtiva}">
+
 								<p:tab id="dados" title="Dados Gerais" titletip="Dados Gerais"
 									style="overflow-x:auto; max-width:85%; ">
 
@@ -353,24 +366,24 @@
 								<!-- 											<h:outputText id="caminhoPSD" style="margin-left:25px;" -->
 								<!-- 												value="Arquivo no servidor: #{controleDocumentoMicro.caminhoArquivoPSD}" /> -->
 								<!-- 																				</h:panelGroup> -->
-									
-									<	<br />
+
+								<br />
 
 								<!-- 									<h:panelGroup style="margin-left:25px; margin-left:25px;"> -->
-								<p:outputLabel style="display: block; font-weight:bold;"
-									id="arquivoXMLSin"
-									header="Arquivo XML de Anotação sintática gerado:" />
-								<h:outputText id="caminhoXMLSintatico" style="margin-left:25px;"
-									value="#{controleDocumentoMicro.caminhoArquivoPSD}" />
-								<br />
-								<br />
-								<p:selectBooleanCheckbox id="gerarXML" style="margin-left:25px;"
-									itemLabel="Gerar Arquivo com anotação sintática XML "
-									value="#{controleDocumentoMicro.checkGerarXML}">
-								</p:selectBooleanCheckbox>
-								<br />
-								</h:panelGroup>
-								</p:tab>
+								<!-- 								<p:outputLabel style="display: block; font-weight:bold;" -->
+								<!-- 									id="arquivoXMLSin" -->
+								<!-- 									header="Arquivo XML de Anotação sintática gerado:" /> -->
+								<!-- 								<h:outputText id="caminhoXMLSintatico" style="margin-left:25px;" -->
+								<!-- 									value="#{controleDocumentoMicro.caminhoArquivoPSD}" /> -->
+								<!-- 								<br /> -->
+								<!-- 								<br /> -->
+								<!-- 								<p:selectBooleanCheckbox id="gerarXML" style="margin-left:25px;" -->
+								<!-- 									itemLabel="Gerar Arquivo com anotação sintática XML " -->
+								<!-- 									value="#{controleDocumentoMicro.checkGerarXML}"> -->
+								<!-- 								</p:selectBooleanCheckbox> -->
+								<!-- 								<br /> -->
+								<!-- 								</h:panelGroup> -->
+								<!-- 								</p:tab> -->
 
 
 								<p:tab id="img" title="Imagens">
@@ -382,53 +395,72 @@
 									<br />
 									<br />
 									<br />
+
 									<p:dataTable id="imagemTable" paginator="true" rows="15"
-										style="margin-left:25px;margin-right:25px;"
-										binding="#{imagensComponente}" var="imagem"
-										rowKey="#{imagem.codigoImagem}"
-										value="#{controleDocumentoMicro.imagens}"
-										selectionMode="single"
+										binding="#{imagensComponente}"
+										style="margin-left:25px;margin-right:25px;" var="imagem"
+										widgetVar="tabImgF" value="#{controleDocumentoMicro.imagens}"
+										filteredValue="#{controleDocumentoMicro.filteredImagens}"
 										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 										rowsPerPageTemplate="5,15,30,50,100"
 										paginatorPosition="bottom"
 										emptyMessage="Nenhuma imagem inserida.">
+										<f:facet name="header" class="titTabela">
+											<p:outputPanel style="text-align:right">
+												<h:outputText value="Pesquisar:  " />
+												<p:inputText id="globalFilter"
+													style="width:180px; text-align:right"
+													placeholder="digite aqui... "
+													onkeyup="PF('tabImgF').filter()" />
+											</p:outputPanel>
+										</f:facet>
+
 										<p:column>
-											<f:facet style="text-align:center" name="header">
-												<h:outputText class="titTabela" value="Imagem" />
+											<f:facet name="header">
+												<h:outputText value="Imagem" />
 											</f:facet>
-											<!-- 											<p:graphicImage id="img" -->
-											<!-- 												value="#{controleDocumentoMicro.getEnderecoImagem(imagem)}" -->
-											<!-- 												width="35" height="35" /> -->
+											<p:graphicImage id="img"
+												value="#{controleDocumentoMicro.getEnderecoImagem(imagem)}"
+												width="35" height="35" />
 										</p:column>
 										<p:column style="width:7%; text-align:center"
-											sortBy="#{imagem.numeroSequencia}">
+											filterStyle="display: none;"
+											filterBy="#{imagem.numeroSequencia}"
+											filterMatchMode="contains">
 											<f:facet name="header">
 												<h:outputText value="Nº" />
 											</f:facet>
 											<h:outputText class="contTab"
 												value="#{imagem.numeroSequencia}" />
 										</p:column>
-										<p:column>
+										<p:column filterStyle="display: none;"
+											filterBy="#{imagem.codigoImagem}" filterMatchMode="contains">
 											<f:facet style="width:12%" name="header">
 												<h:outputText value="Código" />
 											</f:facet>
 											<h:outputText class="contTab" value="#{imagem.codigoImagem}" />
 										</p:column>
 
-										<p:column>
+										<p:column filterStyle="display: none;"
+											filterBy="#{imagem.tipoImagem.toString()}"
+											filterMatchMode="contains">
 											<f:facet style="width:10%; text-align:center" name="header">
 												<h:outputText class="titTabela" value="Tipo" />
 											</f:facet>
 											<h:outputText class="contTab"
 												value="#{imagem.tipoImagem.toString()}" />
 										</p:column>
-										<p:column style="width:10%; text-align:center">
+										<p:column filterStyle="display: none;"
+											filterBy="#{imagem.numeroFolha}" filterMatchMode="contains"
+											style="width:10%; text-align:center">
 											<f:facet name="header">
 												<h:outputText value="Nº Folha" />
 											</f:facet>
 											<h:outputText class="contTab" value="#{imagem.numeroFolha}" />
 										</p:column>
-										<p:column style="width:10%; text-align:center">
+										<p:column filterStyle="display: none;"
+											filterBy="#{imagem.numeroPagina}" filterMatchMode="contains"
+											style="width:10%; text-align:center">
 											<f:facet name="header">
 												<h:outputText value="Nº Página" />
 											</f:facet>
@@ -445,7 +477,6 @@
 												update="imagemTable">
 												<p:graphicImage value="/resources/images/trash.gif"
 													id="imagemExcluir" />
-
 											</p:commandLink>
 										</p:column>
 									</p:dataTable>
@@ -481,6 +512,7 @@
 														</p:calendar>
 													</h:panelGroup>
 												</p:panelGrid>
+												<br />
 												<p:commandButton value="Adicionar Colaborador"
 													process="@this" style="margin-right:24px;float:right;"
 													update=":mainForm:colaboradorTranscricaoTable"
@@ -500,16 +532,31 @@
 												rows="15"
 												paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 												rowsPerPageTemplate="5,15,30,50,100"
-												paginatorPosition="bottom">
-												<p:column>
+												paginatorPosition="bottom" widgetVar="abaTransc"
+												filteredValue="#{controleDocumentoMicro.filteredAbaTrans}">
+												<f:facet name="header" class="titTabela">
+													<p:outputPanel style="text-align:right">
+														<h:outputText value="Pesquisar:  " />
+														<p:inputText id="globalFilter"
+															style="width:180px; text-align:right"
+															placeholder="digite aqui... "
+															onkeyup="PF('abaTransc').filter()" />
+													</p:outputPanel>
+												</f:facet>
+												<p:column filterStyle="display: none;"
+													filterBy="#{colaborador.nomeColaborador}"
+													filterMatchMode="contains">
 													<f:facet name="header">
 														<h:outputText class="titTabela"
 															value="Nome do Colaborador" />
 													</f:facet>
-													<h:outputText class="contTab"
+													<h:outputText class="contTab" title="Nome do Colaborador"
 														value="#{colaborador.nomeColaborador}" />
 												</p:column>
-												<p:column style="width:35%; text-align:center">
+												<p:column filterStyle="display: none;"
+													filterBy="#{colaborador.categoriaColaborador.toString()}"
+													filterMatchMode="contains"
+													style="width:35%; text-align:center">
 													<f:facet name="header">
 														<h:outputText class="titTabela" value="Perfil" />
 													</f:facet>
@@ -555,7 +602,7 @@
 													</p:calendar>
 												</h:panelGroup>
 											</p:panelGrid>
-
+											<br />
 											<p:commandButton value="Adicionar Colaborador"
 												style="margin-right:24px;float:right;" process="@this"
 												update=":mainForm:colaboradorEdicaoTable"
@@ -605,8 +652,7 @@
 
 										<!-- créditos morfologia -->
 										<p:tab title="Morfologia"
-											titletip="Créditos da Revisão da Anotação Morfológica do
-														Documento">
+											titletip="Créditos da Revisão da Anotação Morfológica do Documento">
 											<em>Créditos da Revisão da Anotação Morfológica do
 												Documento</em>
 											<strong style="margin-left: 25px;">Período</strong>
@@ -629,6 +675,7 @@
 													</p:calendar>
 												</h:panelGroup>
 											</p:panelGrid>
+											<br />
 											<p:commandButton value="Adicionar Colaborador"
 												style="margin-right:24px;float:right;" process="@this"
 												update=":mainForm:colaboradorRevisaoMTable"
@@ -680,8 +727,7 @@
 
 										<!-- créditos sintaxe -->
 										<p:tab title="Sintaxe"
-											titletip="Créditos da Revisão da Anotação Sintática do
-																		Documento">
+											titletip="Créditos da Revisão da Anotação Sintática do Documento">
 											<em>Créditos da Revisão da Anotação Sintática do
 												Documento</em>
 											<strong style="margin-left: 25px;">Período</strong>
@@ -704,7 +750,7 @@
 													</p:calendar>
 												</h:panelGroup>
 											</p:panelGrid>
-
+											<br />
 											<p:commandButton value="Adicionar Colaborador"
 												style="margin-right:24px;float:right;" process="@this"
 												update=":mainForm:colaboradorRevisaoSTable"
@@ -777,6 +823,7 @@
 													</p:calendar>
 												</h:panelGroup>
 											</p:panelGrid>
+											<br />
 											<p:commandButton value="Adicionar Colaborador"
 												process="@this" style="margin-right:24px;float:right;"
 												update=":mainForm:colaboradorCadastroWTable"
@@ -852,25 +899,24 @@
 				<!-- janela de confirmação de exclusão -->
 				<p:dialog id="confirmacao" header="CONFIRMAÇÃO"
 					widgetVar="confirmDeleteDialog" modal="true" showEffect="fade"
-					hideEffect="fade" resizable="false" responsive="true">
+					resizable="false" responsive="true" hideEffect="fade">
 					<p:hotkey bind="esc" handler="PF('confirmDeleteDialog').hide();" />
 					<p:outputLabel style="font-size:13px; text-align:center"
 						value="Tem certeza de que deseja excluir este documento macro?" />
 					<br />
 
-					<f:facet name="footer">
-						<div style="max-width: 100%; margin: auto; text-align: center;">
 
-							<p:commandButton value="NÃO" icon="ui-icon-circle-close"
-								action="#{controleDocumentoMIcro.cancelar()}"
-								onclick="PF('confirmDeleteDialog').hide();" immediate="true"
-								style="margin:left-center; width:80px" />
-							<p:commandButton value="SIM" icon="ui-icon-circle-check"
-								action="#{controleDocumentoMicro.excluir()}" process="@this"
-								onclick="PF('confirmDeleteDialog').hide();" update="@form"
-								style="text-align:center; horizontal-align:center;width:80px" />
-						</div>
-					</f:facet>
+					<div style="max-width: 100%; margin: auto; text-align: center;">
+
+						<p:commandButton value="NÃO" icon="ui-icon-circle-close"
+							action="#{controleDocumentoMIcro.cancelar()}"
+							onclick="PF('confirmDeleteDialog').hide();" immediate="true"
+							style="margin:left-center; width:80px" />
+						<p:commandButton value="SIM" icon="ui-icon-circle-check"
+							action="#{controleDocumentoMicro.excluir()}" process="@this"
+							onclick="PF('confirmDeleteDialog').hide();" update="@form"
+							style="text-align:center; horizontal-align:center;width:80px" />
+					</div>
 					<br />
 				</p:dialog>
 				<!-- div principal -->
@@ -878,7 +924,8 @@
 				<!-- 		dialog add imagens -->
 				<p:dialog id="selecaoImagem" header="Selecionar arquivo de imagem"
 					resizable="false" widgetVar="selecaoImagemDialog" modal="true"
-					width="75%">
+					width="75%" hideEffect="fade">
+					<p:hotkey bind="esc" handler="PF('selecaoImagemDialog').hide();" />
 					<br />
 					<p:commandButton value="Adicionar" style="float:right;"
 						process="@parent"
@@ -892,33 +939,51 @@
 					<br />
 					<br />
 					<p:dataTable id="ImagemTableMacro" paginator="true" var="imagem"
-						selectionMode="single" rows="15" rowKey="#{imagem.codigoImagem}"
-						scrollable="true" scrollHeight="200"
+						rows="15" scrollable="true" scrollHeight="200"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
 						value="#{controleDocumentoMicro.getImagensSelecao()}"
-						emptyMessage="Nenhuma imagem do documento macro.">
-						<p:column style="width:8%; text-align:center">
+						emptyMessage="Nenhuma imagem do documento macro."
+						widgetVar="imagemAdd"
+						filteredValue="#{controleDocumentoMicro.filteredAddImagens}">
+						<f:facet name="header" class="titTabela">
+							<p:outputPanel style="text-align:right">
+								<h:outputText value="Pesquisar:  " />
+								<p:inputText id="globalFilter"
+									style="width:180px; text-align:right"
+									placeholder="digite aqui... "
+									onkeyup="PF('imagemAdd').filter()" />
+							</p:outputPanel>
+						</f:facet>
+						<p:column filterStyle="display: none;"
+							filterBy="#{imagem.numeroSequencia}" filterMatchMode="contains"
+							style="width:8%; text-align:center">
 							<f:facet name="header">
 								<h:outputText value="Nº" />
 							</f:facet>
 							<h:outputText class="contTab" value="#{imagem.numeroSequencia}" />
 						</p:column>
-						<p:column style="width:12%; text-align:center">
+						<p:column filterStyle="display: none;"
+							filterBy="#{imagem.codigoImagem}" filterMatchMode="contains"
+							style="width:12%; text-align:center">
 							<f:facet name="header">
 								<h:outputText value="Código" />
 							</f:facet>
 							<h:outputText class="contTab" value="#{imagem.codigoImagem}" />
 						</p:column>
 
-						<p:column style="width:14%; text-align:center">
+						<p:column filterStyle="display: none;"
+							filterBy="#{imagem.tipoImagem.toString()}"
+							filterMatchMode="contains" style="width:14%; text-align:center">
 							<f:facet name="header">
 								<h:outputText value="Tipo" />
 							</f:facet>
 							<h:outputText class="contTab"
 								value="#{imagem.tipoImagem.toString()}" />
 						</p:column>
-						<p:column style="width:9%; text-align:center">
+						<p:column filterStyle="display: none;"
+							filterBy="#{imagem.numeroFolha}" filterMatchMode="contains"
+							style="width:9%; text-align:center">
 							<f:facet name="header">
 								<h:outputText value="Nº Folha" />
 							</f:facet>
@@ -926,7 +991,9 @@
 							<h:outputText class="contTab" value="#{imagem.numeroFolha}" />
 
 						</p:column>
-						<p:column style="width:9%; text-align:center">
+						<p:column filterStyle="display: none;"
+							filterBy="#{imagem.numeroPagina}" filterMatchMode="contains"
+							style="width:9%; text-align:center">
 							<f:facet name="header">
 								<h:outputText value="Nº Página" />
 							</f:facet>
@@ -941,8 +1008,12 @@
 						</p:column>
 					</p:dataTable>
 					<BR />
-					<p:commandButton value="Cancelar" type="button"
-						onclick="PF('selecaoImagemDialog').hide()" icon="ui-icon-cancel" />
+
+					<div style="max-width: 100%; margin: auto; text-align: center;">
+
+						<p:commandButton value="Cancelar" type="button"
+							onclick="PF('selecaoImagemDialog').hide()" icon="ui-icon-cancel" />
+					</div>
 				</p:dialog>
 
 
@@ -964,20 +1035,35 @@
 					<br />
 					<br />
 					<p:dataTable id="colaboradorTranscricaoTable" scrollable="true"
-						rowKey="#{colaborador.nomeColaborador}" scrollHeight="200"
-						var="colaborador" paginator="true" rows="15"
+						scrollHeight="200" var="colaborador" paginator="true" rows="15"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
 						value="#{controleDocumentoMicro.getTableTranscricao()}"
-						emptyMessage="Nenhum colaborador cadastrado.">
-						<p:column>
+						emptyMessage="Nenhum colaborador cadastrado."
+						widgetVar="colabTranscF"
+						filteredValue="#{controleDocumentoMicro.filteredColTrans}">
+						<f:facet name="header" class="titTabela">
+							<p:outputPanel style="text-align:right">
+								<h:outputText value="Pesquisar:  " />
+								<p:inputText id="globalFilter"
+									style="width:180px; text-align:right"
+									placeholder="digite aqui... "
+									onkeyup="PF('colabTranscF').filter()" />
+							</p:outputPanel>
+						</f:facet>
+						<p:column filterStyle="display: none;"
+							filterBy="#{colaborador.nomeColaborador}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Nome" />
 							</f:facet>
 							<h:outputText class="contTab"
 								value="#{colaborador.nomeColaborador}" />
 						</p:column>
-						<p:column style="width:35%; text-align:center">
+						<p:column style="width:35%; text-align:center"
+							filterStyle="display: none;"
+							filterBy="#{colaborador.categoriaColaborador.toString()}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Perfil" />
 							</f:facet>
@@ -994,11 +1080,13 @@
 						</p:column>
 					</p:dataTable>
 					<BR />
-					<h:panelGrid style="position: center; width:75%">
+
+					<div style="max-width: 100%; margin: auto; text-align: center;">
+
 						<p:commandButton value="Cancelar" type="button"
 							onclick="PF('selecaoColaboradorTranscricaoDialog').hide()"
 							icon="ui-icon-cancel" />
-					</h:panelGrid>
+					</div>
 				</p:dialog>
 
 
@@ -1022,20 +1110,35 @@
 					<br />
 					<p:dataTable id="colaboradorEdicaoTable" scrollable="true"
 						scrollHeight="200" var="colaborador"
-						rowKey="#{colaborador.nomeColaborador}"
 						value="#{controleDocumentoMicro.getTableEdicao()}"
 						emptyMessage="Nenhum colaborador cadastrado." paginator="true"
 						rows="15"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom">
-						<p:column>
+						rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
+						widgetVar="colabEdiF"
+						filteredValue="#{controleDocumentoMicro.filteredColEdic}">
+						<f:facet name="header" class="titTabela">
+							<p:outputPanel style="text-align:right">
+								<h:outputText value="Pesquisar:  " />
+								<p:inputText id="globalFilter"
+									style="width:180px; text-align:right"
+									placeholder="digite aqui... "
+									onkeyup="PF('colabEdiF').filter()" />
+							</p:outputPanel>
+						</f:facet>
+						<p:column filterStyle="display: none;"
+							filterBy="#{colaborador.nomeColaborador}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Nome" />
 							</f:facet>
 							<h:outputText class="contTab"
 								value="#{colaborador.nomeColaborador}" />
 						</p:column>
-						<p:column style="width:35%; text-align:center">
+						<p:column style="width:35%; text-align:center"
+							filterStyle="display: none;"
+							filterBy="#{colaborador.categoriaColaborador.toString()}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Perfil" />
 							</f:facet>
@@ -1051,12 +1154,15 @@
 						</p:column>
 					</p:dataTable>
 					<BR />
-					<h:panelGrid style="position: center; width:75%">
+
+					<div style="max-width: 100%; margin: auto; text-align: center;">
+
 						<p:commandButton value="Cancelar" type="button"
 							style="position: center; "
 							onclick="PF('selecaoColaboradorEdicaoDialog').hide()"
 							icon="ui-icon-cancel" />
-					</h:panelGrid>
+					</div>
+
 				</p:dialog>
 
 				<!-- 	add colaborador morfologia -->
@@ -1066,6 +1172,7 @@
 					resizable="false" width="75%">
 					<p:hotkey bind="esc"
 						handler="selecaoColaboradorRevisaoMDialog.hide();" />
+
 					<br />
 					<p:commandButton value="Adicionar" style="float:right;widht:300px"
 						actionListener="#{controleDocumentoMicro.adicionarColaboradoresRevisaoM()}"
@@ -1079,19 +1186,35 @@
 					<br />
 					<p:dataTable id="colaboradorRevisaoMTable" scrollable="true"
 						scrollHeight="200" var="colaborador"
-						value="#{controleDocumentoMicro.getTableRevisaoM()}"
-						rowKey="#{colaborador.nomeColaborador}" rows="15" paginator="true"
+						value="#{controleDocumentoMicro.getTableRevisaoM()}" rows="15"
+						paginator="true"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
-						emptyMessage="Nenhum colaborador cadastrado.">
-						<p:column>
+						emptyMessage="Nenhum colaborador cadastrado."
+						widgetVar="colabRevF"
+						filteredValue="#{controleDocumentoMicro.filteredColMorf}">
+						<f:facet name="header" class="titTabela">
+							<p:outputPanel style="text-align:right">
+								<h:outputText value="Pesquisar:  " />
+								<p:inputText id="globalFilter"
+									style="width:180px; text-align:right"
+									placeholder="digite aqui... "
+									onkeyup="PF('colabRevF').filter()" />
+							</p:outputPanel>
+						</f:facet>
+						<p:column filterStyle="display: none;"
+							filterBy="#{colaborador.nomeColaborador}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Nome" />
 							</f:facet>
 							<h:outputText class="contTab"
 								value="#{colaborador.nomeColaborador}" />
 						</p:column>
-						<p:column style="width:35%; text-align:center">
+						<p:column style="width:35%; text-align:center"
+							filterStyle="display: none;"
+							filterBy="#{colaborador.categoriaColaborador.toString()}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Perfil" />
 							</f:facet>
@@ -1107,11 +1230,14 @@
 						</p:column>
 					</p:dataTable>
 					<BR />
-					<h:panelGrid style="position: relative; width:75%">
+
+					<div style="max-width: 100%; margin: auto; text-align: center;">
+
 						<p:commandButton value="Cancelar" type="button"
 							onclick="PF('selecaoColaboradorRevisaoMDialog').hide()"
 							icon="ui-icon-cancel" />
-					</h:panelGrid>
+					</div>
+
 				</p:dialog>
 
 
@@ -1136,19 +1262,35 @@
 					<br />
 					<p:dataTable id="colaboradorRevisaoSTable" scrollable="true"
 						scrollHeight="200" var="colaborador"
-						value="#{controleDocumentoMicro.getTableRevisaoS()}"
-						rowKey="#{colaborador.nomeColaborador}" rows="15" paginator="true"
+						value="#{controleDocumentoMicro.getTableRevisaoS()}" rows="15"
+						paginator="true"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
-						emptyMessage="Nenhum colaborador cadastrado.">
-						<p:column>
+						emptyMessage="Nenhum colaborador cadastrado."
+						widgetVar="colabRevsF"
+						filteredValue="#{controleDocumentoMicro.filteredColSint}">
+						<f:facet name="header" class="titTabela">
+							<p:outputPanel style="text-align:right">
+								<h:outputText value="Pesquisar:  " />
+								<p:inputText id="globalFilter"
+									style="width:180px; text-align:right"
+									placeholder="digite aqui... "
+									onkeyup="PF('colabRevsF').filter()" />
+							</p:outputPanel>
+						</f:facet>
+						<p:column filterStyle="display: none;"
+							filterBy="#{colaborador.nomeColaborador}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Nome" />
 							</f:facet>
 							<h:outputText class="contTab"
 								value="#{colaborador.nomeColaborador}" />
 						</p:column>
-						<p:column style="width:35%; text-align:center">
+						<p:column style="width:35%; text-align:center"
+							filterStyle="display: none;"
+							filterBy="#{colaborador.categoriaColaborador.toString()}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Perfil" />
 							</f:facet>
@@ -1165,11 +1307,11 @@
 						</p:column>
 					</p:dataTable>
 					<BR />
-					<h:panelGrid style="position: relative; width:75%">
+					<div style="max-width: 100%; margin: auto; text-align: center;">
 						<p:commandButton value="Cancelar" type="button"
 							onclick="PF('selecaoColaboradorRevisaoSDialog').hide()"
 							icon="ui-icon-cancel" />
-					</h:panelGrid>
+					</div>
 
 				</p:dialog>
 
@@ -1195,11 +1337,24 @@
 					<p:dataTable id="colaboradorCadastroWTable" scrollable="true"
 						scrollHeight="200" var="colaborador"
 						value="#{controleDocumentoMicro.getTableCadastroW()}"
-						emptyMessage="Nenhum colaborador cadastrado."
-						rowKey="#{colaborador.nomeColaborador}" rows="15" paginator="true"
+						emptyMessage="Nenhum colaborador cadastrado." rows="15"
+						paginator="true"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom">
-						<p:column>
+						rowsPerPageTemplate="5,15,30,50,100" paginatorPosition="bottom"
+						widgetVar="colabRevsF"
+						filteredValue="#{controleDocumentoMicro.filteredColCad}">
+						<f:facet name="header" class="titTabela">
+							<p:outputPanel style="text-align:right">
+								<h:outputText value="Pesquisar:  " />
+								<p:inputText id="globalFilter"
+									style="width:180px; text-align:right"
+									placeholder="digite aqui... "
+									onkeyup="PF('colabRevsF').filter()" />
+							</p:outputPanel>
+						</f:facet>
+						<p:column filterStyle="display: none;"
+							filterBy="#{colaborador.nomeColaborador}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Nome" title="Nome" />
 
@@ -1207,7 +1362,10 @@
 							<h:outputText class="contTab"
 								value="#{colaborador.nomeColaborador}" />
 						</p:column>
-						<p:column style="width:35%; text-align:center">
+						<p:column style="width:35%; text-align:center"
+							filterStyle="display: none;"
+							filterBy="#{colaborador.categoriaColaborador.toString()}"
+							filterMatchMode="contains">
 							<f:facet name="header">
 								<h:outputText class="titTabela" value="Perfil" />
 							</f:facet>
@@ -1223,11 +1381,11 @@
 						</p:column>
 					</p:dataTable>
 					<BR />
-					<h:panelGrid style="position: relative; width:75%">
+					<div style="max-width: 100%; margin: auto; text-align: center;">
 						<p:commandButton value="Cancelar" type="button"
 							onclick="PF('selecaoColaboradorCadastroWDialog').hide()"
 							icon="ui-icon-cancel" />
-					</h:panelGrid>
+					</div>
 				</p:dialog>
 			</div>
 		</h:form>

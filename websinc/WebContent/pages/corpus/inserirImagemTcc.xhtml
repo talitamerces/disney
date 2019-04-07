@@ -26,16 +26,13 @@
 					<h:outputText style="font-size:10px;font-style: oblique;"
 						value=" > Imagens" title="Imagens" />
 					<br />
-					<!-- 					fim		breadCrumb -->
-
-					<!-- 				nome do documento macro selecionado -->
-					<div>
-						<br /> <br /> <i class="material-icons"
-							style="font-size: 16px; color: lightblue;"> attachment </i>
-						<h:outputText class="titulos" value=" Documento Macro: " />
+					<br />
+					<p:panel>
+						<h:outputText style=" font-weight: bold;"
+							value=" Documento Macro: " />
 						<h:outputText class="font"
 							value="#{controleImagem.selectedMacro.titulo}" />
-					</div>
+					</p:panel>
 					<br />
 					<br />
 					<br />
@@ -71,15 +68,15 @@
 							</f:facet>
 
 
-							<!-- 	<p:column style="text-align:center"> -->
-							<!-- 							<f:facet name="header"> -->
-							<!-- 								<h:outputText class="titTabela" value="Imagem" /> -->
-							<!-- 							</f:facet> -->
+							<p:column style="text-align:center">
+								<f:facet name="header">
+									<h:outputText class="titTabela" value="Imagem" />
+								</f:facet>
 
-							<!-- 							<p:graphicImage -->
-							<!-- 								value="#{controleImagem.getEnderecoImagem(imagem)}" width="35" -->
-							<!-- 								height="35" /> -->
-							<!-- 						</p:column> -->
+								<p:graphicImage
+									value="#{controleImagem.getEnderecoImagem(imagem)}" width="35"
+									height="35" />
+							</p:column>
 
 							<p:column style="text-align:center" filterStyle="display: none;"
 								filterBy="#{imagem.numeroSequencia}" filterMatchMode="contains">
