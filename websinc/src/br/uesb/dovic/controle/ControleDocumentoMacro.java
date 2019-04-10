@@ -287,7 +287,7 @@ public class ControleDocumentoMacro implements Serializable {
 		return "/pages/corpus/inserirDocumentoMacro?faces-redirect=true";
 	}
 
-	public String novoTcc() {
+	public void novoTcc() {
 		objeto = new DocumentoMacro();
 		selectedTipoMacro = new TipoDocumentoMacro();
 		selectedMaterialForro = new MaterialCapaForro();
@@ -311,7 +311,7 @@ public class ControleDocumentoMacro implements Serializable {
 		forroList.clear();
 		copiarElementos(listaMateriais, forroList);
 		this.edicao = true;
-		return "/pages/corpus/inserirDocumentoMacroTcc?faces-redirect=true";
+//		return "/pages/corpus/inserirDocumentoMacroTcc?faces-redirect=true";
 	}
 
 	private void copiarElementos(List<MaterialCapaForro> origem,

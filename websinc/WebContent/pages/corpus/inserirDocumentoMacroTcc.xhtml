@@ -159,12 +159,13 @@
 						</p:dataTable>
 					</div>
 
-					<p:messages id="msgs" />
+<!-- 					<p:messages id="msgs" /> -->
 					<p:outputPanel id="edit-container" layout="block">
 						<p:dialog id="newDM" header="Documento macro"
 							widgetVar="novoDocMacroDialog" modal="true" resizable="false"
 							visible="#{controleDocumentoMacro.edicao}"
 							style="overflow-y:auto;max-height:85%; min-width:75%; max-width:90%">
+							<p:hotkey bind="esc" handler="newDM.hide()" />
 							<p:ajax event="close" resetValues="true" update="newDM" />
 							<br />
 							<!-- 							<p:panel header="Sobre" style="display: block;" styleClass="font"> -->
