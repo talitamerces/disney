@@ -9,17 +9,13 @@
 		<h:form id="mainForm" enctype="multipart/form-data"
 			onkeypress="return event.keyCode != 13">
 			<div class="ui-fluid">
-				<p:growl showDetail="true" sticky="true" id="messages"></p:growl>
 				<p:panel header="Os Documentos Macro" style="min-height: 550px">
-					<!-- 				breadCrumb	 -->
-
 					<p:link value="Início" style="font-size:10px;font-style: oblique;"
 						outcome="#{controleDocumentoMacro.inicio()}" update="@form"
 						title="Início" process="@this" />
 					<h:outputText style="font-size:10px;font-style: oblique;"
 						value=" > Corpus > Documentos TCC > Os Documentos Macro"
 						title="Corpus > Documentos TCC > Os Documentos Macro" />
-
 					<br />
 					<br />
 					<!-- 					<f:facet name="header"> -->
@@ -33,30 +29,29 @@
 					<div style="max-height: 100%; max-width: 100%; text-align: center;">
 						<h:outputText style="font-size:21px;" value="OS DOCUMENTOS MACRO" />
 					</div>
+
 					<br />
 					<br />
-					<!-- botões voltar e novo -->
+
+					<p:growl id="growl" sticky="true" showDetail="true"
+						closable="true"
+						style="position:fixed;top:50%;right:50%;width:301px;" />
+					<!-- 					<p:messages id="5s" globalOnly="true" autoUpdate="true" -->
+					<!-- 						showDetail="true" closable="true" /> -->
+					<!-- 					botões voltar e novo -->
 					<p:commandButton id="voltarButton" value="Voltar" update="@form"
 						process="@this" icon="ui-icon-arrowreturnthick-1-w"
 						action="#{controleDocumentoMacro.inicio()}"
-						style="float:left;;widht:300px; padding:4px" />
+						style="float:left;widht:300px; padding:4px" />
 					<p:commandButton id="novoButton" value="Novo"
+						update=":mainForm:edit-container"
 						style="float: right;widht:300px;padding:4px"
 						label="Adicionar documento macro" process="@this"
-						update=":mainForm:edit-container" icon="ui-icon-plus"
-						action="#{controleDocumentoMacro.novoTcc()}" />
+						icon="ui-icon-plus" action="#{controleDocumentoMacro.novoTcc()}" />
 					<!-- o grid principal   -->
 					<br />
 					<br />
 					<div class="ui-fluid">
-						<!-- 						<div id="j_idt714" -->
-						<!-- 							style="width: 64px; height: 64px; position: fixed; right: 5px; bottom: 5px"> -->
-						<!-- 							<div id="j_idt714_start" style="display: none;"> -->
-						<!-- 								<i class="pi pi-spin pi-spinner ajax-loader"></i> -->
-						<!-- 							</div> -->
-						<!-- 							<div id="j_idt714_complete" style=""></div> -->
-						<!-- 						</div> -->
-
 						<p:dataTable id="documentoMacroTable" paginator="true" rows="15"
 							var="documentoMacro" widgetVar="docsF"
 							filteredValue="#{controleDocumentoMacro.filteredDocs}"
@@ -73,7 +68,6 @@
 										placeholder="digite aqui... " onkeyup="PF('docsF').filter()" />
 								</p:outputPanel>
 							</f:facet>
-
 							<p:column style="width:10%; text-align:center"
 								filterStyle="display: none;"
 								filterBy="#{documentoMacro.idDocumentoFisico}"
@@ -106,14 +100,6 @@
 								<f:facet name="header">
 									<h:outputText class="titTabela" value="Vincular" />
 								</f:facet>
-								<!-- 								<p:commandLink process="@this" -->
-								<!-- 									title="Vincular imagem ou manuscrito ao documento macro" -->
-								<!-- 									onclick="PF('vinculadosDialog').show()"> -->
-								<!-- 									<p:graphicImage value="/resources/images/link.png" -->
-								<!-- 										id="imagemVincular" /> -->
-								<!-- 									<f:param id="idMacroSelected1" name="idMacroSelected" -->
-								<!-- 										value="#{documentoMacro.id}" /> -->
-								<!-- 								</p:commandLink> -->
 
 								<p:button title="Vincular uma Imagem" value="Imagem"
 									style="font-size:9px;  text-align-last: center; width:55px"
@@ -159,16 +145,18 @@
 						</p:dataTable>
 					</div>
 
-<!-- 					<p:messages id="msgs" /> -->
+
 					<p:outputPanel id="edit-container" layout="block">
 						<p:dialog id="newDM" header="Documento macro"
 							widgetVar="novoDocMacroDialog" modal="true" resizable="false"
 							visible="#{controleDocumentoMacro.edicao}"
 							style="overflow-y:auto;max-height:85%; min-width:75%; max-width:90%">
-							<p:hotkey bind="esc" handler="newDM.hide()" />
+							<p:hotkey bind="esc" handler="novoDocMacroDialog.hide();" />
+							<p:messages id="messagesModal" showDetail="true" closable="true"
+								autoUpdate="true" />
 							<p:ajax event="close" resetValues="true" update="newDM" />
 							<br />
-							<!-- 							<p:panel header="Sobre" style="display: block;" styleClass="font"> -->
+
 							<em tabindex="1">Sobre</em>
 							<br />
 							<h:panelGroup style="display: block; margin-left:25px;">
@@ -183,12 +171,10 @@
 								<p:outputLabel style="margin-left:25px;display: block"
 									for="titulo" value="Título" />
 								<p:inputTextarea id="titulo" required="true"
-									requiredMessage="* Campo obrigatório! *"
+									requiredMessage="O título do documento é obrigatório!"
 									style="overflow-y: auto; resize:false; height:30px;margin-left:25px; width:90%"
 									value="#{controleDocumentoMacro.objeto.titulo}">
-									<!-- 											<f:validateLength minimum="1" for="titulo" /> -->
 								</p:inputTextarea>
-								<!-- <p:message for="titulo" display="icon" /> -->
 							</h:panelGroup>
 							<br />
 							<br />
@@ -220,7 +206,7 @@
 							<h:panelGroup>
 								<p:outputLabel style=" margin-left:25px;display: block"
 									value="Tipo de Documento" for="tipo" />
-								<p:selectOneMenu appendTo="@this" id="tipo" required="true"
+								<p:selectOneMenu appendTo="@this" id="tipo" required="true" requiredMessage="O tipo do documento é obrigatório!"
 									style=" margin-left:25px;" height="80"
 									value="#{controleDocumentoMacro.selectedTipoMacro}">
 									<f:selectItem itemValue="null" itemLabel="Sel. um tipo" />
@@ -229,12 +215,10 @@
 										itemValue="#{tipos}" />
 								</p:selectOneMenu>
 							</h:panelGroup>
-							<!-- 							</p:panel> -->
 							<br />
 							<br />
 							<br />
 							<em tabindex="2">Período</em>
-							<!-- 							<p:panel header="Período" style="overflow:auto;"> -->
 							<h:panelGrid columns="5" layout="grid" width="60%"
 								style=" margin-left:25px;"
 								columnClasses="ui-grid-col-4,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
@@ -244,7 +228,6 @@
 								<p:outputLabel for="dataFim" value="Data Final" />
 								<p:outputLabel for="anoInicio" value="Ano Inicial" />
 								<p:outputLabel for="anoFim" value="Ano Final" />
-
 								<p:selectOneMenu appendTo="@this" id="tipoData" height="80"
 									effect="fade"
 									value="#{controleDocumentoMacro.selectedTipoData}">
@@ -252,7 +235,6 @@
 										itemDescription="true" var="tiposData"
 										itemLabel="#{tiposData.label}" itemValue="#{tiposData}" />
 								</p:selectOneMenu>
-
 								<p:calendar appendTo="@this" id="dataInicio" size="9"
 									style="text-align:center"
 									value="#{controleDocumentoMacro.objeto.dataInicioDocumento}"
@@ -260,7 +242,6 @@
 									<p:ajax listener="#{controleDocumentoMacro.ajaxAnoInicio()}"
 										update="anoInicio" event="dateSelect" />
 								</p:calendar>
-
 								<p:calendar appendTo="@this" id="dataFim" size="9"
 									style="text-align:center"
 									value="#{controleDocumentoMacro.objeto.dataFimDocumento}"
@@ -268,19 +249,15 @@
 									<p:ajax listener="#{controleDocumentoMacro.ajaxAnoFim()}"
 										update="anoFim" event="dateSelect" />
 								</p:calendar>
-
 								<p:inputText id="anoInicio" size="9" style="text-align:center"
 									value="#{controleDocumentoMacro.anoInicio}" />
-
 								<p:inputText style="text-align:center" id="anoFim" size="9"
 									value="#{controleDocumentoMacro.anoFim}" />
 							</h:panelGrid>
-							<!-- 							</p:panel> -->
 							<br />
 							<br />
 							<br />
 							<em tabindex="3">Dimensões</em>
-							<!-- 							<p:panel header="Dimensões" style="overflow:auto;"> -->
 							<h:panelGrid layout="grid" columns="3" width="40%"
 								style=" margin-left:25px;"
 								columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4">
@@ -302,7 +279,6 @@
 							<br />
 							<br />
 							<em tabindex="4">Materiais</em>
-							<!-- 							<p:panel header="Materiais" style="overflow:auto;"> -->
 							<h:panelGrid id="dadosCapa" columns="4" width="60%"
 								style=" margin-left:25px;"
 								columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3">
@@ -409,52 +385,14 @@
 									onclick="PF('confirmDeleteDialog').hide();" immediate="true"
 									style="margin:left-center; width:80px; padding:4px" />
 								<p:commandButton value="SIM" icon="ui-icon-circle-check"
-									action="#{controleDocumentoMacro.excluir()}" process="@this"
+									action="#{controleDocumentoMacro.excluirTcc()}" process="@this"
 									onclick="PF('confirmDeleteDialog').hide();" update="@form"
 									style="text-align:center; horizontal-align:center;width:80px; padding:4px" />
 							</div>
 						</f:facet>
 						<br />
 					</p:dialog>
-					<p:dialog id="vinculados" header="Vincular"
-						widgetVar="vinculadosDialog" modal="true" showEffect="fade"
-						hideEffect="fade" resizable="false" responsive="true">
-						<p:hotkey bind="esc" handler="PF('vinculadosDialog').hide();" />
-						<br />
-						<f:param id="idMacroSelected1" name="idMacroSelected"
-							value="#{documentoMacro.id}" />
-						<h:outputText style="font-size:13px; text-align:center"
-							value="Clique em um dos ícones para vincular uma imagem ou manuscrito ao documento macro" />
-						<br />
-						<!-- 												<p:column style="align-content:center"> -->
-						<!-- 													<p:button title="Adicionar Imagem" image="btnVincImage" -->
-						<!-- 														outcome="#{controleDocumentoMacro.inserirImagemTcc()}"> -->
-						<!-- 														<f:param id="idMacroSelected1" name="idMacroSelected" -->
-						<!-- 															value="#{documentoMacro.id}" /> -->
-						<!-- 													</p:button> -->
-						<!-- 													<h:link value="Imagens" -->
-						<!-- 														outcome="#{controleDocumentoMacro.inserirImagemTcc()}"> -->
-						<!-- 														<p:graphicImage value="/resources/images/addimagem.png" -->
-						<!-- 															id="addImagem" /> -->
-						<!-- 														<f:param id="idMacroSelected1" name="idMacroSelected" -->
-						<!-- 															value="#{documentoMacro.id}" /> -->
-						<!-- 																						<f:setPropertyActionListener id="idMacroSelected1" -->
-						<!-- 																							name="idMacroSelected" value="#{documentoMacro.id}" /> -->
-						<!-- 													</h:link> -->
-						<!-- 												</p:column> -->
-						<p:column style="align-itens:center">
-							<p:commandLink process="@this" title="Adicionar manuscrito"
-								action="#{controleDocumentoMacro.inserirFilhoTcc()}">
-								<p:graphicImage value="/resources/images/addmanuscrito.png"
-									id="addManuscrito" />
-								<f:setPropertyActionListener
-									value="#{controleDocumentoMacro.objeto}"
-									target="#{documentoMacro.id}" />
-							</p:commandLink>
-						</p:column>
-					</p:dialog>
 				</p:panel>
-
 			</div>
 		</h:form>
 	</ui:define>

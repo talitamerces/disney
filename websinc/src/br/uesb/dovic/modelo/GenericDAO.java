@@ -3,9 +3,7 @@ package br.uesb.dovic.modelo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
-
 import br.uesb.dovic.conversores.ConverterOrdem;
 import br.uesb.dovic.util.UtilErros;
 import br.uesb.dovic.util.UtilMensagens;
@@ -46,7 +44,6 @@ public class GenericDAO<T> implements Serializable {
 			em.persist(objeto);
 			commitTransacao();
 			UtilMensagens.mensagemInformacao("Registro gravado com sucesso!");
-
 			return true;
 
 		} catch (Exception e) {
@@ -68,7 +65,7 @@ public class GenericDAO<T> implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 			rollbackTransacao();
-			UtilMensagens.mensagemErro("Erro ao gravar alteração no registro1"
+			UtilMensagens.mensagemErro("Erro ao gravar alteração no registro!"
 					+ UtilErros.getMensagemErro(e));
 			return false;
 		}
@@ -84,8 +81,8 @@ public class GenericDAO<T> implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 			rollbackTransacao();
-			UtilMensagens.mensagemErro("Erro ao excluir registro!"
-					+ UtilErros.getMensagemErro(e));
+			UtilMensagens.mensagemErro("Erro ao excluir registro!"				+ 
+								UtilErros.getMensagemErro(e));
 			return false;
 		}
 	}

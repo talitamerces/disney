@@ -35,6 +35,7 @@ import br.uesb.dovic.modelo.DAOMaterialCapaForro;
 import br.uesb.dovic.modelo.DAOTipoMacro;
 import br.uesb.dovic.servicos.ViewService;
 import br.uesb.dovic.util.ImagemServlet;
+import br.uesb.dovic.util.UtilMensagens;
 
 @SuppressWarnings("serial")
 @ManagedBean(name = "controleDocumentoMacro")
@@ -434,7 +435,7 @@ public class ControleDocumentoMacro implements Serializable {
 	}
 
 	// tcc
-	public String alterarTcc(DocumentoMacro obj) {
+	public void alterarTcc(DocumentoMacro obj) {
 		tabAtiva = 0;
 		objeto = obj;
 		selectedTipoMacro = objeto.getTipoMacro();
@@ -446,9 +447,7 @@ public class ControleDocumentoMacro implements Serializable {
 		// Lista de materiais salvar para o documento:
 		List<MaterialCapaForro> listaForro = objeto.getMateriaisForro();
 		MaterialCapaForro mcf;
-
 		forroList.clear();
-
 		for (MaterialCapaForro mf : listaMateriais) {
 			mcf = new MaterialCapaForro();
 			mcf.setId(mf.getId());
@@ -459,7 +458,6 @@ public class ControleDocumentoMacro implements Serializable {
 				mcf.setSelecionado(false);
 			forroList.add(mcf);
 		}
-
 		edicao = true;
 		anoInicio = objeto.getAnoInicioDocumento();
 		anoFim = objeto.getAnoFimDocumento();
@@ -468,13 +466,19 @@ public class ControleDocumentoMacro implements Serializable {
 			comForro = false;
 		else
 			comForro = true;
-		return "/pages/corpus/inserirDocumentoMacroTcc?faces-redirect=true";
+//		return "/pages/corpus/inserirDocumentoMacroTcc?faces-redirect=true";
 	}
 
 	public String excluir() {
-
+    	dao.remove(objeto);
+		edicao = false;
+		return null;
+	}
+	
+	public String excluirTcc() {
 		dao.remove(objeto);
 		edicao = false;
+		
 		return null;
 	}
 
@@ -483,9 +487,7 @@ public class ControleDocumentoMacro implements Serializable {
 	}
 
 	public void setSelectedTipoMacro(TipoDocumentoMacro selectedTipoMacro) {
-
 		this.selectedTipoMacro = selectedTipoMacro;
-
 	}
 
 	public void copyFile(String fileName, InputStream in) {
