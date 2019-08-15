@@ -102,15 +102,13 @@
 								</f:facet>
 
 								<p:button title="Vincular uma Imagem" value="Imagem"
-									style="font-size:9px;  text-align-last: center; width:55px"
 									outcome="#{controleDocumentoMacro.inserirImagemTcc()}">
 									<f:param id="idMacroSelected1" name="idMacroSelected"
 										value="#{documentoMacro.id}" />
 								</p:button>
 
-								<p:button title="Vincular um Manuscrito" value="Texto"
-									style="font-size:9px; text-align-last: center; width:55px "
-									outcome="#{controleDocumentoMacro.inserirFilhoTcc()}">
+								<p:button title="Vincular um Manuscrito" value="Manuscrito"
+															outcome="#{controleDocumentoMacro.inserirFilhoTcc()}">
 									<f:param id="idMacroSelected2" name="idMacroSelected"
 										value="#{documentoMacro.id}" />
 								</p:button>

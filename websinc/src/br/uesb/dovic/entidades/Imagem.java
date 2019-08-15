@@ -29,10 +29,10 @@ import br.uesb.dovic.enums.TipoImagem;
 @Table(name = "imagem")
 @NamedQueries({
 
-		// @NamedQuery(name="findImagensSelecao", query =
-		// "SELECT i FROM Imagem i WHERE i.documentoMacro.id=:idMacro and i not in (:lista)"),
-		@NamedQuery(name = "findImagemByMacro", query = "SELECT i FROM Imagem i WHERE i.documentoMacro.id=:idMacro order by numeroSequencia"),
-		@NamedQuery(name = "getImagensCatalogo", query = "SELECT i FROM Imagem i WHERE i.documentoMacro.id=:idMacro and i.tipoImagem IN (:tipos)")
+	//@NamedQuery(name="findImagensSelecao", query = "SELECT i FROM Imagem i WHERE i.documentoMacro.id=:idMacro and i not in (:lista)"),
+		@NamedQuery(name="findImagemByMacro", query = "SELECT i FROM Imagem i WHERE i.documentoMacro.id=:idMacro order by numeroSequencia"),
+		@NamedQuery(name="getImagensCatalogo", query = "SELECT i FROM Imagem i WHERE i.documentoMacro.id=:idMacro and i.tipoImagem IN (:tipos)")
+		
 
 })
 public class Imagem implements Serializable {

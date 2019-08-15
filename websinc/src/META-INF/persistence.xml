@@ -16,6 +16,8 @@
 		<class>br.uesb.dovic.entidades.TipoEnvolvido</class>
 		<class>br.uesb.dovic.entidades.TrabalhoCorpus</class>
 		<class>br.uesb.dovic.entidades.Usuario</class>
+		<class>br.uesb.dovic.entidades.Cor</class>
+		<class>br.uesb.dovic.entidades.Portal</class>
 		<properties>
 
 <!-- 		    <property name="hibernate.connection.url" value="jdbc:postgresql://memoriaconquistense.uesb.br:5432/websinc"/> -->
